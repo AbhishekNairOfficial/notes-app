@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { View, Text } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const SignIn = props => {
   AsyncStorage.setItem('userId', 'abhishek');
