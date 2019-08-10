@@ -1,0 +1,42 @@
+{
+	"name": "notes-app",
+	"version": "0.0.2",
+	"private": true,
+	"scripts": {
+		"start": "react-native start",
+		"test": "jest",
+		"lint": "eslint . --fix"
+	},
+	"dependencies": {
+		"react": "16.8.6",
+		"react-native": "0.60.4"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.5.5",
+		"@babel/runtime": "^7.5.5",
+		"@react-native-community/eslint-config": "^0.0.5",
+		"babel-jest": "^24.8.0",
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb": "^17.1.1",
+		"eslint-config-prettier": "^6.0.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-prettier": "^3.1.0",
+		"eslint-plugin-react": "^7.14.3",
+		"husky": "^3.0.3",
+		"jest": "^24.8.0",
+		"lint-staged": "^9.2.1",
+		"metro-react-native-babel-preset": "^0.55.0",
+		"prettier": "^1.18.2",
+		"react-native-testing-library": "^1.11.1",
+		"react-test-renderer": "16.8.6"
+	},
+	"jest": {
+		"preset": "react-native"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "yarn lint && yarn test && git add ."
+		}
+	}
+}
