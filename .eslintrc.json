@@ -15,6 +15,9 @@
                 "extensions": [".js", ".jsx"]
             }
         ],
+        "rules": {
+            "indent": [1,"tab"]
+        },
         "prettier/prettier": ["error"]
     },
     "plugins": ["prettier"]
