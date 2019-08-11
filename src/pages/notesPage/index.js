@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Button, TextInput, StyleSheet } from 'react-native';
 import useGlobal from '../../store';
 import { primaryColor, secondaryColor } from '../../config';
-import { NavigationEvents } from 'react-navigation';
 
 const NotesPage = props => {
   const [, globalActions] = useGlobal();
@@ -18,6 +17,7 @@ const NotesPage = props => {
   const debounce = (func, wait) => {
     let timeout;
     return (...args) => {
+      // eslint-disable-next-line consistent-this
       const context = this;
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(context, args), wait);
@@ -67,6 +67,17 @@ const NotesPage = props => {
           title="Save"
           color={primaryColor}
         />
+        {id && (
+          <Button
+            onPress={() => {
+              globalActions.deleteNote(id);
+              navigation.goBack();
+            }}
+            style={styles.deleteButton}
+            title="Delete"
+            color="red"
+          />
+        )}
       </View>
     </View>
   );
@@ -100,6 +111,9 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     bottom: 0,
+  },
+  deleteButton: {
+    margin: 10,
   },
 });
 
