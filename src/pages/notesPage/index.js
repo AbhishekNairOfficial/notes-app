@@ -7,6 +7,7 @@ import { NavigationEvents } from 'react-navigation';
 const NotesPage = props => {
   const [, globalActions] = useGlobal();
   const { navigation } = props;
+  const id = navigation.getParam('id');
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
 
@@ -14,30 +15,38 @@ const NotesPage = props => {
     return title || body;
   };
 
-  const callAddNoteAction = callback => {
+  const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  };
+
+  const callAddNoteAction = () => {
     if (!inputValidation()) {
       return;
     }
     const newNote = {
-      id: 100,
+      id: id,
       title: title,
       body: body,
     };
-    globalActions.addNote(newNote);
-    if (callback) {
-      callback.goBack();
+    if (!id) {
+      globalActions.addNote(newNote);
+    } else {
+      globalActions.editNote(newNote);
     }
+    navigation.goBack();
   };
   return (
     <View style={styles.container}>
-      <NavigationEvents
-        onWillBlur={payload => (inputValidation() ? callAddNoteAction() : {})}
-      />
       <TextInput
         style={styles.title}
         autoCapitalize="sentences"
         maxLength={25}
-        onChangeText={value => setTitle(value)}
+        onChangeText={value => debounce(setTitle(value), 300)}
         value={title}
       />
       <TextInput
@@ -46,7 +55,7 @@ const NotesPage = props => {
         autoCapitalize="sentences"
         maxLength={200}
         style={styles.body}
-        onChangeText={value => setBody(value)}
+        onChangeText={value => debounce(setBody(value), 300)}
         value={body}
       />
       <View style={styles.buttonHolder}>
