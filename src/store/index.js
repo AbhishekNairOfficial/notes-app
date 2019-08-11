@@ -4,13 +4,7 @@ import useGlobalHook from 'use-global-hook';
 import * as actions from '../actions';
 
 const initialState = {
-  list: [
-    {
-      title: 'Title',
-      body: 'lorem ipsum',
-      id: '1234567890',
-    },
-  ],
+  list: [],
 };
 // Notes Structure
 // const note = {

@@ -2,26 +2,37 @@ import React, { useState } from 'react';
 import { View, Button, TextInput, StyleSheet } from 'react-native';
 import useGlobal from '../../store';
 import { primaryColor, secondaryColor } from '../../config';
-import { ScrollView } from 'react-native-gesture-handler';
-import { addNote } from '../../actions';
+import { NavigationEvents } from 'react-navigation';
 
 const NotesPage = props => {
-  const [globalState, globalActions] = useGlobal();
+  const [, globalActions] = useGlobal();
   const { navigation } = props;
-
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
-  const callAddNoteAction = () => {
+
+  const inputValidation = () => {
+    return title || body;
+  };
+
+  const callAddNoteAction = callback => {
+    if (!inputValidation()) {
+      return;
+    }
     const newNote = {
       id: 100,
       title: title,
       body: body,
     };
     globalActions.addNote(newNote);
-    navigation.navigate('Listing');
+    if (callback) {
+      callback.goBack();
+    }
   };
   return (
     <View style={styles.container}>
+      <NavigationEvents
+        onWillBlur={payload => (inputValidation() ? callAddNoteAction() : {})}
+      />
       <TextInput
         style={styles.title}
         autoCapitalize="sentences"
@@ -40,7 +51,9 @@ const NotesPage = props => {
       />
       <View style={styles.buttonHolder}>
         <Button
-          onPress={() => callAddNoteAction()}
+          onPress={() => {
+            callAddNoteAction(navigation);
+          }}
           style={styles.button}
           title="Save"
           color={primaryColor}
