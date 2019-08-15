@@ -1,3 +1,10 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { debounce } from '../functions';
+
+const updateAsyncStorage = list => {
+  debounce(AsyncStorage.setItem('list', JSON.stringify(list)), 500);
+};
+
 export const addNote = (store, note) => {
   function dec2hex(dec) {
     return ('0' + dec.toString(16)).substr(-2);
@@ -10,6 +17,7 @@ export const addNote = (store, note) => {
   note.id = generateId(20);
   const list = store.state.list.concat(note);
   store.setState({ list });
+  updateAsyncStorage(list);
 };
 
 export const editNote = (store, note) => {
@@ -17,6 +25,7 @@ export const editNote = (store, note) => {
   const index = list.findIndex(i => i.id === note.id);
   list[index] = note;
   store.setState({ list });
+  updateAsyncStorage(list);
 };
 
 export const deleteNote = (store, noteId) => {
@@ -24,4 +33,5 @@ export const deleteNote = (store, noteId) => {
   const index = list.findIndex(i => i.id === noteId);
   list.splice(index, 1);
   store.setState({ list });
+  updateAsyncStorage(list);
 };

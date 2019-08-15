@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Button, TextInput, StyleSheet } from 'react-native';
 import useGlobal from '../../store';
 import { primaryColor, secondaryColor } from '../../config';
+import { debounce } from '../../functions';
 
 const NotesPage = props => {
   const [, globalActions] = useGlobal();
@@ -12,16 +13,6 @@ const NotesPage = props => {
 
   const inputValidation = () => {
     return title || body;
-  };
-
-  const debounce = (func, wait) => {
-    let timeout;
-    return (...args) => {
-      // eslint-disable-next-line consistent-this
-      const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), wait);
-    };
   };
 
   const callAddNoteAction = () => {
