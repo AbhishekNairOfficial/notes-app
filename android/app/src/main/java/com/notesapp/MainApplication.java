@@ -1,4 +1,4 @@
-package com.boilerplate;
+package com.notesappapp;
 
 import android.app.Application;
 import android.util.Log;
