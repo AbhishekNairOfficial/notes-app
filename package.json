@@ -45,10 +45,5 @@
 		"hooks": {
 			"pre-commit": "yarn lint && git add ."
 		}
-	},
-	"rnpm": {
-		"assets": [
-			"./assets/fonts/"
-		]
 	}
 }
