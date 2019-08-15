@@ -1,16 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {View, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ListItem = props => {
-  const { id, title, body, navigation } = props;
+  const {id, title, body, navigation} = props;
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('Note', {
-          title: title,
-          body: body,
-          id: id,
+          title,
+          body,
+          id,
         })
       }
     >

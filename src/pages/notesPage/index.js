@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Button, TextInput, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, Button, TextInput, StyleSheet} from 'react-native';
 import useGlobal from '../../store';
-import { primaryColor, secondaryColor } from '../../config';
-import { debounce } from '../../functions';
+import {primaryColor, secondaryColor} from '../../config';
+import debounce from '../../functions';
 
 const NotesPage = props => {
   const [, globalActions] = useGlobal();
-  const { navigation } = props;
+  const {navigation} = props;
   const id = navigation.getParam('id');
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
@@ -20,9 +20,9 @@ const NotesPage = props => {
       return;
     }
     const newNote = {
-      id: id,
-      title: title,
-      body: body,
+      id,
+      title,
+      body,
     };
     if (!id) {
       globalActions.addNote(newNote);

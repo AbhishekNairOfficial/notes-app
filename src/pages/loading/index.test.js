@@ -2,7 +2,7 @@ import 'react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import renderer from 'react-test-renderer';
-import AuthLoadingScreen from './';
+import AuthLoadingScreen from '.';
 
 it('renders correctly', () => {
   renderer.create(<AuthLoadingScreen />);

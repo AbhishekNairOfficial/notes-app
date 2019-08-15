@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,12 +7,12 @@ import {
   Text,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { SafeAreaView } from 'react-navigation';
-import { secondaryColor, primaryColor } from '../../config';
+import {SafeAreaView} from 'react-navigation';
+import {secondaryColor, primaryColor} from '../../config';
 import useGlobal from '../../store';
 
 const AuthLoadingScreen = props => {
-  const { navigation } = props;
+  const {navigation} = props;
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('Searching for Token!');
   const [data, setData] = useState();
