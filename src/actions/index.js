@@ -5,6 +5,11 @@ const updateAsyncStorage = list => {
   debounce(AsyncStorage.setItem('list', JSON.stringify(list)), 500);
 };
 
+export const addAllNotes = (store, list) => {
+  store.setState({ list });
+  updateAsyncStorage(list);
+};
+
 export const addNote = (store, note) => {
   function dec2hex(dec) {
     return ('0' + dec.toString(16)).substr(-2);
