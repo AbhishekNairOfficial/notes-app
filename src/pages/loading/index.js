@@ -14,7 +14,6 @@ import useGlobal from '../../store';
 const AuthLoadingScreen = props => {
   const {navigation} = props;
   const [token, setToken] = useState('');
-  const [message, setMessage] = useState('Searching for Token!');
   const [data, setData] = useState();
   const [, globalActions] = useGlobal();
 
@@ -26,7 +25,6 @@ const AuthLoadingScreen = props => {
       }
       if (value) {
         setToken(value);
-        setMessage('Found token,\nchecking for data!');
       } else {
         navigation.navigate('Auth');
       }
@@ -44,7 +42,6 @@ const AuthLoadingScreen = props => {
       if (!data) {
         if (value) {
           setData(value);
-          setMessage('Found data, Opening App now!');
           globalActions.addAllNotes(JSON.parse(value));
           navigation.navigate('App');
         } else {
@@ -69,7 +66,7 @@ const AuthLoadingScreen = props => {
       <StatusBar barStyle="default" />
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={primaryColor} />
-        <Text style={styles.text}>{message}</Text>
+        <Text style={styles.text}>Loading</Text>
       </SafeAreaView>
     </View>
   );

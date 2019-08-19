@@ -7,18 +7,20 @@
  */
 
 import React from 'react';
-import {Button} from 'react-native';
+import {Image} from 'react-native';
 import {
   createSwitchNavigator,
   createStackNavigator,
   createAppContainer,
 } from 'react-navigation';
-
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import AuthLoadingScreen from './src/pages/loading';
 import SignIn from './src/pages/signIn';
 import NotesListing from './src/pages/notesListing';
 import NotesPage from './src/pages/notesPage';
 import {primaryColor, secondaryColor} from './src/config';
+
+const addButton = require('./assets/add_btn.png');
 
 const AuthStack = createStackNavigator({SignIn});
 const AppStack = createStackNavigator(
@@ -28,11 +30,11 @@ const AppStack = createStackNavigator(
       navigationOptions: navigation => ({
         title: 'NotesApp',
         headerRight: (
-          <Button
+          <TouchableOpacity
             onPress={() => navigation.navigation.navigate('Note')}
-            title="Add"
-            color={secondaryColor}
-          />
+          >
+            <Image source={addButton} />
+          </TouchableOpacity>
         ),
       }),
     },

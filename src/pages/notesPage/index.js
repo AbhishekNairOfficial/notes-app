@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Button, TextInput, StyleSheet} from 'react-native';
+import {
+  View,
+  Button,
+  TextInput,
+  StyleSheet,
+  Alert,
+  ToastAndroid,
+  Platform,
+} from 'react-native';
 import useGlobal from '../../store';
 import {primaryColor, secondaryColor} from '../../config';
 import debounce from '../../functions';
@@ -28,6 +36,9 @@ const NotesPage = props => {
       globalActions.addNote(newNote);
     } else {
       globalActions.editNote(newNote);
+    }
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Note Saved!', ToastAndroid.SHORT);
     }
     navigation.goBack();
   };
@@ -63,8 +74,26 @@ const NotesPage = props => {
         {id && (
           <Button
             onPress={() => {
-              globalActions.deleteNote(id);
-              navigation.goBack();
+              Alert.alert(
+                'Are you sure?',
+                '',
+                [
+                  {
+                    text: 'Delete',
+                    onPress: () => {
+                      globalActions.deleteNote(id);
+                      navigation.goBack();
+                    },
+                    style: 'destructive',
+                  },
+                  {
+                    text: 'Cancel',
+                    onPress: () => {},
+                    style: 'cancel',
+                  },
+                ],
+                {cancelable: false},
+              );
             }}
             style={styles.deleteButton}
             title="Delete"
