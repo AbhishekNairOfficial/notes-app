@@ -39,6 +39,7 @@ const NotesPage = props => {
         maxLength={25}
         onChangeText={value => debounce(setTitle(value), 300)}
         value={title}
+        placeholder="Title"
       />
       <TextInput
         multiline
@@ -48,6 +49,7 @@ const NotesPage = props => {
         style={styles.body}
         onChangeText={value => debounce(setBody(value), 300)}
         value={body}
+        placeholder="Type something Here"
       />
       <View style={styles.buttonHolder}>
         <Button
