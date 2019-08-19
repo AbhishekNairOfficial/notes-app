@@ -11,16 +11,24 @@ export const addAllNotes = (store, list) => {
 };
 
 export const addNote = (store, note) => {
-  function dec2hex(dec) {
-    return `0${dec.toString(16)}`.substr(-2);
-  }
-  function generateId(len) {
-    const arr = new Uint8Array((len || 20) / 2);
-    window.crypto.getRandomValues(arr);
-    return Array.from(arr, dec2hex).join('');
-  }
+  const times = x => f => {
+    if (x > 0) {
+      f();
+      times(x - 1)(f);
+    }
+  };
+  const makeId = length => {
+    let result = '';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    times(length)(() => {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    });
+    return result;
+  };
   const newNote = note;
-  newNote.id = generateId(20);
+  newNote.id = makeId(20);
   const list = store.state.list.concat(note);
   store.setState({list});
   updateAsyncStorage(list);
