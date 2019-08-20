@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Button,
@@ -7,9 +7,12 @@ import {
   Alert,
   ToastAndroid,
   Platform,
+  Text,
 } from 'react-native';
+import {NavigationEvents} from 'react-navigation';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import useGlobal from '../../store';
-import {primaryColor, secondaryColor} from '../../config';
+import {secondaryColor} from '../../config';
 import debounce from '../../functions';
 
 const NotesPage = props => {
@@ -19,6 +22,12 @@ const NotesPage = props => {
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
 
+  useEffect(() => {
+    navigation.setParams({
+      handleSave: callAddNoteAction,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, body]);
   const inputValidation = () => {
     return title || body;
   };
@@ -44,6 +53,7 @@ const NotesPage = props => {
   };
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillBlur={() => callAddNoteAction()} />
       <TextInput
         style={styles.title}
         autoCapitalize="sentences"
@@ -63,14 +73,6 @@ const NotesPage = props => {
         placeholder="Type something Here"
       />
       <View style={styles.buttonHolder}>
-        <Button
-          onPress={() => {
-            callAddNoteAction(navigation);
-          }}
-          style={styles.button}
-          title="Save"
-          color={primaryColor}
-        />
         {id && (
           <Button
             onPress={() => {
@@ -105,6 +107,22 @@ const NotesPage = props => {
   );
 };
 
+NotesPage.navigationOptions = ({navigation}) => {
+  const {params = {}} = navigation.state;
+  console.log(navigation);
+  return {
+    headerRight: (
+      <TouchableOpacity
+        onPress={() => {
+          params.handleSave();
+        }}
+      >
+        <Text style={styles.saveButton}>Save</Text>
+      </TouchableOpacity>
+    ),
+  };
+};
+
 const styles = StyleSheet.create({
   container: {
     padding: 15,
@@ -136,6 +154,11 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     margin: 10,
+  },
+  saveButton: {
+    fontSize: 20,
+    marginRight: 10,
+    color: '#fff',
   },
 });
 

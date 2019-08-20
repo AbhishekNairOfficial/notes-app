@@ -21,6 +21,7 @@
 		"@babel/plugin-transform-modules-commonjs": "^7.5.0",
 		"@babel/runtime": "^7.5.5",
 		"@react-native-community/eslint-config": "^0.0.5",
+		"@types/react-native": "0.57.36",
 		"babel-jest": "^24.8.0",
 		"eslint": "^5.16.0",
 		"eslint-config-airbnb": "^17.1.1",
@@ -29,15 +30,14 @@
 		"eslint-plugin-jsx-a11y": "^6.2.3",
 		"eslint-plugin-prettier": "^3.1.0",
 		"eslint-plugin-react": "^7.14.3",
+		"eslint-plugin-react-hooks": "^1.7.0",
 		"husky": "^3.0.3",
 		"jest": "^24.8.0",
 		"lint-staged": "^9.2.1",
 		"metro-react-native-babel-preset": "^0.55.0",
 		"prettier": "^1.18.2",
 		"react-native-testing-library": "^1.11.1",
-		"react-test-renderer": "16.8.6",
-		"@types/react-native": "0.57.36",
-		"eslint-plugin-react-hooks": "^1.7.0"
+		"react-test-renderer": "16.8.6"
 	},
 	"jest": {
 		"preset": "react-native",
