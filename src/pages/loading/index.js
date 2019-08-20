@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -14,23 +14,19 @@ import useGlobal from '../../store';
 const AuthLoadingScreen = props => {
   const {navigation} = props;
   const [token, setToken] = useState('');
-  const [message, setMessage] = useState('Searching for Token!');
   const [data, setData] = useState();
   const [, globalActions] = useGlobal();
 
   const CheckForToken = async () => {
     try {
       const value = await AsyncStorage.getItem('userId');
-      setToken(value);
+      if (token) {
+        return;
+      }
       if (value) {
-        setTimeout(() => {
-          setMessage('Found token,\nchecking for data!');
-        }, 1000);
+        setToken(value);
       } else {
-        setMessage('No token found!,\nRedirecting to Sign up!');
-        setTimeout(() => {
-          navigation.navigate('Auth');
-        }, 500);
+        navigation.navigate('Auth');
       }
     } catch (e) {
       // error reading value
@@ -40,39 +36,37 @@ const AuthLoadingScreen = props => {
   const CheckForList = async () => {
     try {
       const value = await AsyncStorage.getItem('list');
+      if (!token) {
+        return;
+      }
       if (!data) {
-        setData(value);
         if (value) {
-          setMessage('Found data, Opening App now!');
+          setData(value);
           globalActions.addAllNotes(JSON.parse(value));
-          setTimeout(() => {
-            navigation.navigate('App');
-          }, 1000);
           navigation.navigate('App');
         } else {
-          setMessage('No Data found, redirecting to App!');
-          setTimeout(() => {
-            navigation.navigate('App');
-          }, 1000);
+          navigation.navigate('App');
         }
       }
     } catch (e) {
       // error reading value
     }
   };
-  if (!token) {
-    CheckForToken();
-  }
-  if (!data) {
-    CheckForList();
-  }
+  useEffect(() => {
+    if (!token) {
+      CheckForToken();
+    }
+    if (!data) {
+      CheckForList();
+    }
+  });
 
   return (
     <View>
       <StatusBar barStyle="default" />
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={primaryColor} />
-        <Text style={styles.text}>{message}</Text>
+        <Text style={styles.text}>Loading</Text>
       </SafeAreaView>
     </View>
   );
