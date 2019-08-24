@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  Button,
   TextInput,
   StyleSheet,
-  Alert,
   ToastAndroid,
   Platform,
   Text,
@@ -72,37 +70,6 @@ const NotesPage = props => {
         value={body}
         placeholder="Type something Here"
       />
-      <View style={styles.buttonHolder}>
-        {id && (
-          <Button
-            onPress={() => {
-              Alert.alert(
-                'Are you sure?',
-                '',
-                [
-                  {
-                    text: 'Delete',
-                    onPress: () => {
-                      globalActions.deleteNote(id);
-                      navigation.goBack();
-                    },
-                    style: 'destructive',
-                  },
-                  {
-                    text: 'Cancel',
-                    onPress: () => {},
-                    style: 'cancel',
-                  },
-                ],
-                {cancelable: false},
-              );
-            }}
-            style={styles.deleteButton}
-            title="Delete"
-            color="red"
-          />
-        )}
-      </View>
     </View>
   );
 };
@@ -141,19 +108,7 @@ const styles = StyleSheet.create({
   body: {
     fontFamily: 'Product Sans',
     fontSize: 20,
-    height: '80%',
-  },
-  buttonHolder: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36,
-  },
-  button: {
-    position: 'absolute',
-    bottom: 0,
-  },
-  deleteButton: {
-    margin: 10,
+    height: '100%',
   },
   saveButton: {
     fontSize: 20,
