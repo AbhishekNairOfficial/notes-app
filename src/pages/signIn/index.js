@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {secondaryColor} from '../../config';
 
 const SignIn = ({navigation}) => {
   // ;
   const [userId, setUserId] = useState('');
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hi, Welcome to NotesApp!</Text>
+      <Text style={styles.text}>Hi there!</Text>
+      <Text style={styles.text}>Welcome to NotesApp!</Text>
       <TextInput
         style={styles.input}
         onChangeText={text => setUserId(text)}
@@ -33,15 +35,16 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    color: secondaryColor,
   },
   text: {
     fontSize: 28,
-    fontWeight: 'bold',
     marginBottom: 30,
+    fontFamily: 'Product Sans',
   },
   input: {
     margin: 30,
-    height: 40,
+    fontFamily: 'Product Sans',
     borderColor: 'gray',
     borderBottomWidth: 1,
     width: '80%',
@@ -51,5 +54,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
 });
+
+SignIn.navigationOptions = () => {
+  return {
+    header: null,
+  };
+};
 
 export default SignIn;
