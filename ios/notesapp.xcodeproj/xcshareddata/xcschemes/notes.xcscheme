@@ -71,16 +71,16 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "notes.app"
-            BlueprintName = "notes"
-            ReferencedContainer = "container:notes.xcodeproj">
+            BuildableName = "notesapp.app"
+            BlueprintName = "notesapp"
+            ReferencedContainer = "container:notesapp.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "notes.app"
-            BlueprintName = "notes"
-            ReferencedContainer = "container:notes.xcodeproj">
+            BuildableName = "notesapp.app"
+            BlueprintName = "notesapp"
+            ReferencedContainer = "container:notesapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>

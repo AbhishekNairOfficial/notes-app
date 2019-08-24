@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {Image} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import {
   createSwitchNavigator,
   createStackNavigator,
@@ -33,7 +33,7 @@ const AppStack = createStackNavigator(
           <TouchableOpacity
             onPress={() => navigation.navigation.navigate('Note')}
           >
-            <Image source={addButton} />
+            <Image style={styles.icon} source={addButton} />
           </TouchableOpacity>
         ),
       }),
@@ -57,6 +57,13 @@ const AppStack = createStackNavigator(
     },
   },
 );
+
+const styles = StyleSheet.create({
+  icon: {
+    height: 40,
+    width: 40,
+  },
+});
 
 export default createAppContainer(
   createSwitchNavigator(

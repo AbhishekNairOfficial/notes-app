@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>notes.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>AB9F8E01CE81181A8EC85793365ECCED4564139C</string>
+				<key>dateExpires</key>
+				<string>14/05/20</string>
+				<key>type</key>
+				<string>iOS Development</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>6DB2L525PC.org.reactjs.native.example.notesapp</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>6DB2L525PC</string>
+				<key>get-task-allow</key>
+				<true/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>6DB2L525PC.org.reactjs.native.example.notesapp</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>notesapp.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>89f60e72-2ad1-4c54-8bcd-25d01101e40d</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: *</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>6DB2L525PC</string>
+				<key>name</key>
+				<string>Abhishek Panthalingal</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
