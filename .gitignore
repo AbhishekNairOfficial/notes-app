@@ -121,3 +121,6 @@ buck-out/
 
 # APK files
 **/*.apk
+
+#Editor
+/.vscode
