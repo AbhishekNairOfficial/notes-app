@@ -5,13 +5,13 @@ import {
   StyleSheet,
   ToastAndroid,
   Platform,
+  ActivityIndicator,
   Text,
 } from 'react-native';
 import {NavigationEvents} from 'react-navigation';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import debounce from '../../functions';
 import useGlobal from '../../store';
 import {secondaryColor} from '../../config';
-import debounce from '../../functions';
 
 const NotesPage = props => {
   const [, globalActions] = useGlobal();
@@ -21,9 +21,20 @@ const NotesPage = props => {
   const [body, setBody] = useState(navigation.getParam('body'));
 
   useEffect(() => {
+    // console.log('UseEffect got called');
     navigation.setParams({
-      handleSave: callAddNoteAction,
+      saving: true,
     });
+    setTimeout(() => {
+      navigation.setParams({
+        saving: false,
+      });
+    }, 500);
+    return () => {
+      navigation.setParams({
+        saving: false,
+      });
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, body]);
   const inputValidation = () => {
@@ -56,7 +67,7 @@ const NotesPage = props => {
         style={styles.title}
         autoCapitalize="sentences"
         maxLength={25}
-        onChangeText={value => debounce(setTitle(value), 300)}
+        onChangeText={value => debounce(setTitle(value), 1000)}
         value={title}
         placeholder="Title"
       />
@@ -66,7 +77,7 @@ const NotesPage = props => {
         autoCapitalize="sentences"
         maxLength={200}
         style={styles.body}
-        onChangeText={value => debounce(setBody(value), 300)}
+        onChangeText={value => debounce(setBody(value), 1000)}
         value={body}
         placeholder="Type something Here"
       />
@@ -76,16 +87,21 @@ const NotesPage = props => {
 
 NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;
-  console.log(navigation);
+  const {saving} = params;
   return {
     headerRight: (
-      <TouchableOpacity
-        onPress={() => {
-          params.handleSave();
-        }}
-      >
-        <Text style={styles.saveButton}>Save</Text>
-      </TouchableOpacity>
+      <View>
+        {saving && (
+          <View style={styles.saveHolder}>
+            <ActivityIndicator
+              size="small"
+              animating={saving}
+              color={secondaryColor}
+            />
+            <Text style={styles.saveText}>Saving</Text>
+          </View>
+        )}
+      </View>
     ),
   };
 };
@@ -110,10 +126,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: '100%',
   },
-  saveButton: {
-    fontSize: 20,
-    marginRight: 10,
-    color: '#fff',
+  saveHolder: {
+    margin: 15,
+    flexDirection: 'row',
+  },
+  saveText: {
+    marginLeft: 5,
+    color: secondaryColor,
   },
 });
 
