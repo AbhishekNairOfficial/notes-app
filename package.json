@@ -6,7 +6,7 @@
 		"start": "react-native start",
 		"test": "jest",
 		"lint": "eslint . --fix",
-		"postinstall": "npx jetify"
+		"postinstall": "npx jetify && node ./fixAndroid/android-release-fix.js"
 	},
 	"dependencies": {
 		"@react-native-community/async-storage": "^1.6.1",
