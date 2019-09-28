@@ -19,8 +19,8 @@ const ListItem = props => {
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
 
   useEffect(() => {
-    setDarkMode(darkMode);
-  }, [darkMode]);
+    setDarkMode(globalState.darkMode);
+  }, [globalState]);
 
   const styles = StyleSheet.create({
     container: {
@@ -38,7 +38,7 @@ const ListItem = props => {
     },
     description: {
       fontFamily: 'Product Sans',
-      fontSize: 18,
+      fontSize: 16,
       color: darkMode ? '#fff' : '#000',
     },
     deleteContainer: {
@@ -95,7 +95,7 @@ const ListItem = props => {
       >
         <View style={styles.container}>
           <Text style={styles.title}>{title}</Text>
-          <Text>{body}</Text>
+          <Text style={styles.description}>{body}</Text>
         </View>
       </TouchableOpacity>
     </Swipeable>
