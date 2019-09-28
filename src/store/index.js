@@ -5,6 +5,7 @@ import * as actions from '../actions';
 
 const initialState = {
   list: [],
+  darkMode: false,
 };
 // Notes Structure
 // const note = {

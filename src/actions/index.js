@@ -49,3 +49,7 @@ export const deleteNote = (store, noteId) => {
   store.setState({list});
   updateAsyncStorage(list);
 };
+
+export const toggleDarkMode = (store, darkMode) => {
+  store.setState({darkMode});
+};
