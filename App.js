@@ -8,11 +8,8 @@
 
 import React from 'react';
 import {Image, StyleSheet} from 'react-native';
-import {
-  createSwitchNavigator,
-  createStackNavigator,
-  createAppContainer,
-} from 'react-navigation';
+import {createSwitchNavigator, createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AuthLoadingScreen from './src/pages/loading';
 import SignIn from './src/pages/signIn';
