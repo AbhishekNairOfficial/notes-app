@@ -13,7 +13,7 @@ const LogoTitle = () => {
 
   const styles = StyleSheet.create({
     title: {
-      fontWeight: 'bold',
+      // fontWeight: 'bold',
       color: darkMode ? '#000' : secondaryColor,
       fontSize: 24,
       fontFamily: 'Product Sans',

@@ -25,6 +25,7 @@ const AppStack = createStackNavigator(
   {
     initialRouteName: 'Listing',
     /* The header config from HomeScreen is now here */
+    headerLayoutPreset: 'center',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: primaryColor,
