@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Alert, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import useGlobal from '../../store';
 
-const renderLeftActions = () => {
+const renderLeftActions = styles => {
   return (
     <View style={styles.deleteContainer}>
       <Text style={styles.deleteButton}>Delete</Text>
@@ -13,9 +13,47 @@ const renderLeftActions = () => {
 };
 
 const ListItem = props => {
-  const [, globalActions] = useGlobal();
+  const [globalState, globalActions] = useGlobal();
   const {id, title, body, navigation} = props;
   const [ref, updateRef] = useState('');
+  const [darkMode, setDarkMode] = useState(globalState.darkMode);
+
+  useEffect(() => {
+    setDarkMode(globalState.darkMode);
+  }, [globalState]);
+
+  const styles = StyleSheet.create({
+    container: {
+      width: '100%',
+      height: 80,
+      padding: 15,
+      borderWidth: 1,
+      borderColor: darkMode ? '#111' : '#ccc',
+      backgroundColor: darkMode ? '#000' : '#fff',
+    },
+    title: {
+      fontFamily: 'Product Sans',
+      fontSize: 20,
+      color: darkMode ? '#fff' : '#000',
+    },
+    description: {
+      fontFamily: 'Product Sans',
+      fontSize: 16,
+      color: darkMode ? '#fff' : '#000',
+    },
+    deleteContainer: {
+      backgroundColor: 'red',
+      flex: 1,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+    deleteButton: {
+      fontSize: 20,
+      fontFamily: 'Product Sans',
+      color: '#fff',
+      margin: 10,
+    },
+  });
 
   return (
     <Swipeable
@@ -44,7 +82,7 @@ const ListItem = props => {
         );
         ref.close();
       }}
-      renderRightActions={() => renderLeftActions()}
+      renderRightActions={() => renderLeftActions(styles)}
     >
       <TouchableOpacity
         onPress={() =>
@@ -57,42 +95,11 @@ const ListItem = props => {
       >
         <View style={styles.container}>
           <Text style={styles.title}>{title}</Text>
-          <Text>{body}</Text>
+          <Text style={styles.description}>{body}</Text>
         </View>
       </TouchableOpacity>
     </Swipeable>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: 80,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontFamily: 'Product Sans',
-    fontSize: 20,
-  },
-  description: {
-    fontFamily: 'Product Sans',
-    fontSize: 18,
-  },
-  deleteContainer: {
-    backgroundColor: 'red',
-    flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  deleteButton: {
-    fontSize: 20,
-    fontFamily: 'Product Sans',
-    color: '#fff',
-    margin: 10,
-  },
-});
 
 export default ListItem;

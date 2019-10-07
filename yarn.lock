@@ -7172,6 +7172,11 @@ urix@^0.1.0:
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
 
+use-debounced-effect@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/use-debounced-effect/-/use-debounced-effect-0.0.3.tgz#ec349c3b837a5b5dcf193d8757ae773fb19998e7"
+  integrity sha512-9cAkZCFv/FYkF+cIGM0/oSMxbxWyz26wrx6wI6Bpq7kiV0JfF1qMOQHy1m802ZE4D0vCn9G7E4NNT3lttqQLCg==
+
 use-global-hook@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/use-global-hook/-/use-global-hook-0.1.7.tgz#7fe2fced8700ea11ce300cc05e6c9cfe10fcc92e"
