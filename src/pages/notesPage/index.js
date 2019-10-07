@@ -8,35 +8,79 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
+import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
 import debounce from '../../functions';
 import useGlobal from '../../store';
 import {secondaryColor} from '../../config';
 
 const NotesPage = props => {
-  const [, globalActions] = useGlobal();
+  const [globalState, globalActions] = useGlobal();
   const {navigation} = props;
   const id = navigation.getParam('id');
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
+  const [darkMode, setDarkMode] = useState(globalState.darkMode);
 
   useEffect(() => {
-    // console.log('UseEffect got called');
-    navigation.setParams({
-      saving: true,
-    });
-    setTimeout(() => {
+    if (globalState.darkMode !== darkMode) {
+      setDarkMode(globalState.darkMode);
+    }
+  }, [darkMode, globalState.darkMode]);
+
+  // Dark mode effect
+  useEffect(() => {
+    const firstTimeThisEffectIsFiring = !navigation.state.params;
+    if (
+      firstTimeThisEffectIsFiring ||
+      navigation.state.params.darkMode !== darkMode
+    ) {
       navigation.setParams({
-        saving: false,
+        darkMode,
       });
-    }, 500);
-    return () => {
+    }
+  }, [darkMode, navigation]);
+
+  const styles = StyleSheet.create({
+    container: {
+      padding: 15,
+      height: '100%',
+      backgroundColor: darkMode ? '#000' : secondaryColor,
+      justifyContent: 'space-between',
+    },
+    title: {
+      fontFamily: 'Product Sans',
+      fontSize: 28,
+      paddingBottom: 15,
+      marginBottom: 10,
+      borderBottomColor: '#ccc',
+      borderBottomWidth: 1,
+      color: darkMode ? '#ccc' : '#000',
+    },
+    body: {
+      fontFamily: 'Product Sans',
+      fontSize: 20,
+      height: '100%',
+      color: darkMode ? '#ccc' : '#000',
+    },
+  });
+
+  // Effect to show loader on header
+  useDebouncedEffect(
+    () => {
       navigation.setParams({
-        saving: false,
+        saving: true,
       });
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, body]);
+      setTimeout(() => {
+        navigation.setParams({
+          saving: false,
+        });
+      }, 500);
+    },
+    1000,
+    [title, body],
+  );
+
   const inputValidation = () => {
     return title || body;
   };
@@ -56,7 +100,7 @@ const NotesPage = props => {
       globalActions.editNote(newNote);
     }
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Note Saved!', ToastAndroid.SHORT);
+      ToastAndroid.show('Saved!', ToastAndroid.SHORT);
     }
     navigation.goBack();
   };
@@ -64,6 +108,7 @@ const NotesPage = props => {
     <View style={styles.container}>
       <NavigationEvents onWillBlur={() => callAddNoteAction()} />
       <TextInput
+        placeholderTextColor={darkMode ? '#555' : '#ccc'}
         style={styles.title}
         autoCapitalize="sentences"
         maxLength={25}
@@ -72,10 +117,11 @@ const NotesPage = props => {
         placeholder="Title"
       />
       <TextInput
+        placeholderTextColor={darkMode ? '#555' : '#ccc'}
         multiline
         textAlignVertical="top"
         autoCapitalize="sentences"
-        maxLength={200}
+        maxLength={1000}
         style={styles.body}
         onChangeText={value => debounce(setBody(value), 1000)}
         value={body}
@@ -87,7 +133,17 @@ const NotesPage = props => {
 
 NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;
-  const {saving} = params;
+  const {saving, darkMode} = params;
+  const styles = StyleSheet.create({
+    saveHolder: {
+      margin: 15,
+      flexDirection: 'row',
+    },
+    saveText: {
+      marginLeft: 5,
+      color: darkMode ? '#000' : secondaryColor,
+    },
+  });
   return {
     headerRight: (
       <View>
@@ -96,44 +152,15 @@ NotesPage.navigationOptions = ({navigation}) => {
             <ActivityIndicator
               size="small"
               animating={saving}
-              color={secondaryColor}
+              color={darkMode ? '#000' : secondaryColor}
             />
             <Text style={styles.saveText}>Saving</Text>
           </View>
         )}
       </View>
     ),
+    headerTintColor: darkMode ? '#000' : secondaryColor,
   };
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 15,
-    height: '100%',
-    backgroundColor: secondaryColor,
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontFamily: 'Product Sans',
-    fontSize: 28,
-    paddingBottom: 15,
-    marginBottom: 10,
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
-  },
-  body: {
-    fontFamily: 'Product Sans',
-    fontSize: 20,
-    height: '100%',
-  },
-  saveHolder: {
-    margin: 15,
-    flexDirection: 'row',
-  },
-  saveText: {
-    marginLeft: 5,
-    color: secondaryColor,
-  },
-});
 
 export default NotesPage;
