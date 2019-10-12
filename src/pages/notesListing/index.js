@@ -5,14 +5,18 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  View,
+  Text,
 } from 'react-native';
 import useGlobal from '../../store';
 import ListItem from '../../components/listItem';
-import {primaryColor} from '../../config';
+import {black, white, primaryColor} from '../../config';
 import LogoTitle from '../../components/title';
 
 const addButton = require('../../../assets/add_btn.png');
 const addButtonDark = require('../../../assets/add_btn_dark.png');
+const emptyIcon = require('../../../assets/empty_icon.png');
+const emptyIconDark = require('../../../assets/empty_icon_dark.png');
 
 const NotesListing = props => {
   const [globalState] = useGlobal();
@@ -37,26 +41,66 @@ const NotesListing = props => {
 
   // Changing the Statusbar text to light content on iOS
   StatusBar.setBarStyle('light-content', true);
+
+  const innerStyles = StyleSheet.create({
+    scrollViewStyle: {
+      backgroundColor: darkMode ? black : white,
+    },
+    emptyContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: 1,
+      height: '100%',
+      width: '100%',
+    },
+    emptyText: {
+      fontSize: 22,
+      color: darkMode ? white : black,
+    },
+    image: {
+      height: 50,
+      width: 50,
+    },
+  });
+
   return (
-    <ScrollView
-      style={{
-        backgroundColor: darkMode ? '#000' : '#fff',
-      }}
-    >
-      {/* Changing the Statusbar text to light content on Android */}
+    <>
       <StatusBar backgroundColor={primaryColor} barStyle="light-content" />
-      {globalState.list.map((note, key) => {
-        return (
-          <ListItem
-            key={key}
-            id={note.id}
-            title={note.title}
-            body={note.body}
-            navigation={navigation}
+      {globalState.list.length > 0 && (
+        <ScrollView style={innerStyles.scrollViewStyle}>
+          {/* Changing the Statusbar text to light content on Android */}
+          {globalState.list.map((note, key) => {
+            return (
+              <ListItem
+                key={key}
+                id={note.id}
+                title={note.title}
+                body={note.body}
+                navigation={navigation}
+              />
+            );
+          })}
+        </ScrollView>
+      )}
+      {/* Empty Condition */}
+      {globalState.list.length === 0 && (
+        <View
+          style={{
+            ...innerStyles.emptyContainer,
+            ...innerStyles.scrollViewStyle,
+          }}
+        >
+          <Image
+            style={styles.emptyIcon}
+            source={darkMode ? emptyIconDark : emptyIcon}
           />
-        );
-      })}
-    </ScrollView>
+          <Text style={innerStyles.emptyText}>No Notes found!</Text>
+          <Text style={innerStyles.emptyText}>
+            Click on the + icon to add a note.
+          </Text>
+        </View>
+      )}
+    </>
   );
 };
 
@@ -82,6 +126,10 @@ const styles = StyleSheet.create({
   icon: {
     height: 40,
     width: 40,
+  },
+  emptyIcon: {
+    height: 52,
+    width: 52,
   },
 });
 

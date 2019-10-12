@@ -21,6 +21,11 @@
 		810B4354899AF4B4A07D6299 /* libPods-notesapp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 853C487830A34EDD582438AC /* libPods-notesapp-tvOS.a */; };
 		87A0C51DC316452EABF47519 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CA88248682554A4FBF37C5AA /* add_btn.png */; };
 		8E42886423114BA20003ABFC /* Product Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C357706D8E124DE88223247F /* Product Sans.ttf */; };
+		8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */; };
+		3A79AA111D8E41AF8540921F /* empty_icon_dark.svg in Resources */ = {isa = PBXBuildFile; fileRef = ECBD33851D4142FB89F2B33F /* empty_icon_dark.svg */; };
+		1A5C14DFC72C4F4DAA738173 /* empty_icon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 848611D54DB14D91B8DCF204 /* empty_icon.svg */; };
+		4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = AF52A833F3884A40843FF0EA /* empty_icon_dark.png */; };
+		A3E082341B074FDE968957B2 /* empty_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C1A5A4C86654779A0DE9183 /* empty_icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +75,11 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC5945605DB7CB5C93C3CF95 /* Pods-notesappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesappTests.debug.xcconfig"; path = "Target Support Files/Pods-notesappTests/Pods-notesappTests.debug.xcconfig"; sourceTree = "<group>"; };
+		91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */ = {isa = PBXFileReference; name = "add_btn_dark.png"; path = "../assets/add_btn_dark.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ECBD33851D4142FB89F2B33F /* empty_icon_dark.svg */ = {isa = PBXFileReference; name = "empty_icon_dark.svg"; path = "../assets/empty_icon_dark.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		848611D54DB14D91B8DCF204 /* empty_icon.svg */ = {isa = PBXFileReference; name = "empty_icon.svg"; path = "../assets/empty_icon.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AF52A833F3884A40843FF0EA /* empty_icon_dark.png */ = {isa = PBXFileReference; name = "empty_icon_dark.png"; path = "../assets/empty_icon_dark.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5C1A5A4C86654779A0DE9183 /* empty_icon.png */ = {isa = PBXFileReference; name = "empty_icon.png"; path = "../assets/empty_icon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +123,11 @@
 			children = (
 				CA88248682554A4FBF37C5AA /* add_btn.png */,
 				C357706D8E124DE88223247F /* Product Sans.ttf */,
+				91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */,
+				ECBD33851D4142FB89F2B33F /* empty_icon_dark.svg */,
+				848611D54DB14D91B8DCF204 /* empty_icon.svg */,
+				AF52A833F3884A40843FF0EA /* empty_icon_dark.png */,
+				5C1A5A4C86654779A0DE9183 /* empty_icon.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -297,7 +312,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 940;
+				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -356,6 +371,11 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				87A0C51DC316452EABF47519 /* add_btn.png in Resources */,
+				8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */,
+				3A79AA111D8E41AF8540921F /* empty_icon_dark.svg in Resources */,
+				1A5C14DFC72C4F4DAA738173 /* empty_icon.svg in Resources */,
+				4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */,
+				A3E082341B074FDE968957B2 /* empty_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +814,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -847,6 +868,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
