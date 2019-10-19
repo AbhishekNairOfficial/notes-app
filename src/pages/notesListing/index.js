@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -18,13 +18,19 @@ const addButtonDark = require('../../../assets/add_btn_dark.png');
 const emptyIcon = require('../../../assets/empty_icon.png');
 const emptyIconDark = require('../../../assets/empty_icon_dark.png');
 
-const NotesListing = props => {
+const NotesListing = memo(props => {
   const [globalState] = useGlobal();
   const {navigation} = props;
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
 
   useEffect(() => {
     setDarkMode(globalState.darkMode);
+    // Changing the Statusbar text to light content on iOS
+    if (globalState.darkMode) {
+      StatusBar.setBarStyle('dark-content', true);
+    } else {
+      StatusBar.setBarStyle('light-content', true);
+    }
   }, [globalState.darkMode]);
 
   useEffect(() => {
@@ -38,9 +44,6 @@ const NotesListing = props => {
       });
     }
   }, [globalState.darkMode, navigation]);
-
-  // Changing the Statusbar text to light content on iOS
-  StatusBar.setBarStyle('light-content', true);
 
   const innerStyles = StyleSheet.create({
     scrollViewStyle: {
@@ -65,7 +68,10 @@ const NotesListing = props => {
 
   return (
     <>
-      <StatusBar backgroundColor={primaryColor} barStyle="light-content" />
+      <StatusBar
+        backgroundColor={primaryColor}
+        barStyle={darkMode ? 'dark-content' : 'light-content'}
+      />
       {globalState.list.length > 0 && (
         <ScrollView style={innerStyles.scrollViewStyle}>
           {/* Changing the Statusbar text to light content on Android */}
@@ -102,7 +108,7 @@ const NotesListing = props => {
       )}
     </>
   );
-};
+});
 
 NotesListing.navigationOptions = ({navigation}) => ({
   title: 'NotesApp',
