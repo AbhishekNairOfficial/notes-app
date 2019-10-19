@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* notesappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* notesappTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -16,15 +17,13 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* notesappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* notesappTests.m */; };
+		4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = AF52A833F3884A40843FF0EA /* empty_icon_dark.png */; };
 		5893034A44A9BD782D126D8D /* libPods-notesappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0765270FAA0EA67DE427BD4B /* libPods-notesappTests.a */; };
 		792863E186E655CDBB6591DC /* libPods-notesapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CFE0148A0800EC82885701 /* libPods-notesapp.a */; };
 		810B4354899AF4B4A07D6299 /* libPods-notesapp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 853C487830A34EDD582438AC /* libPods-notesapp-tvOS.a */; };
+		8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */; };
 		87A0C51DC316452EABF47519 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CA88248682554A4FBF37C5AA /* add_btn.png */; };
 		8E42886423114BA20003ABFC /* Product Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C357706D8E124DE88223247F /* Product Sans.ttf */; };
-		8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */; };
-		3A79AA111D8E41AF8540921F /* empty_icon_dark.svg in Resources */ = {isa = PBXBuildFile; fileRef = ECBD33851D4142FB89F2B33F /* empty_icon_dark.svg */; };
-		1A5C14DFC72C4F4DAA738173 /* empty_icon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 848611D54DB14D91B8DCF204 /* empty_icon.svg */; };
-		4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = AF52A833F3884A40843FF0EA /* empty_icon_dark.png */; };
 		A3E082341B074FDE968957B2 /* empty_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C1A5A4C86654779A0DE9183 /* empty_icon.png */; };
 /* End PBXBuildFile section */
 
@@ -62,12 +61,15 @@
 		2D02E47B1E0B4A5D006451C7 /* notesapp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "notesapp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* notesapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "notesapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CFE0148A0800EC82885701 /* libPods-notesapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C1A5A4C86654779A0DE9183 /* empty_icon.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = empty_icon.png; path = ../assets/empty_icon.png; sourceTree = "<group>"; };
 		66A7957B413DE423CABF3EE2 /* Pods-notesapp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOSTests/Pods-notesapp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6E70EB42984E7B5A0670E5EB /* Pods-notesapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp.release.xcconfig"; path = "Target Support Files/Pods-notesapp/Pods-notesapp.release.xcconfig"; sourceTree = "<group>"; };
 		853C487830A34EDD582438AC /* libPods-notesapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A85B4C344640D87B7417834 /* Pods-notesapp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOS/Pods-notesapp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		91529FC06F1B381F266C2071 /* Pods-notesapp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOSTests/Pods-notesapp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = add_btn_dark.png; path = ../assets/add_btn_dark.png; sourceTree = "<group>"; };
 		9DA6C4BEB42801E792AA9F07 /* libPods-notesapp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF52A833F3884A40843FF0EA /* empty_icon_dark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = empty_icon_dark.png; path = ../assets/empty_icon_dark.png; sourceTree = "<group>"; };
 		B7F2B955AADEDA0D018C1E89 /* Pods-notesappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesappTests.release.xcconfig"; path = "Target Support Files/Pods-notesappTests/Pods-notesappTests.release.xcconfig"; sourceTree = "<group>"; };
 		BCCB2237E7E7F3CEB2B35E1B /* Pods-notesapp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOS/Pods-notesapp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C357706D8E124DE88223247F /* Product Sans.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Product Sans.ttf"; path = "../assets/fonts/Product Sans.ttf"; sourceTree = "<group>"; };
@@ -75,11 +77,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC5945605DB7CB5C93C3CF95 /* Pods-notesappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesappTests.debug.xcconfig"; path = "Target Support Files/Pods-notesappTests/Pods-notesappTests.debug.xcconfig"; sourceTree = "<group>"; };
-		91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */ = {isa = PBXFileReference; name = "add_btn_dark.png"; path = "../assets/add_btn_dark.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		ECBD33851D4142FB89F2B33F /* empty_icon_dark.svg */ = {isa = PBXFileReference; name = "empty_icon_dark.svg"; path = "../assets/empty_icon_dark.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		848611D54DB14D91B8DCF204 /* empty_icon.svg */ = {isa = PBXFileReference; name = "empty_icon.svg"; path = "../assets/empty_icon.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AF52A833F3884A40843FF0EA /* empty_icon_dark.png */ = {isa = PBXFileReference; name = "empty_icon_dark.png"; path = "../assets/empty_icon_dark.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5C1A5A4C86654779A0DE9183 /* empty_icon.png */ = {isa = PBXFileReference; name = "empty_icon.png"; path = "../assets/empty_icon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +121,6 @@
 				CA88248682554A4FBF37C5AA /* add_btn.png */,
 				C357706D8E124DE88223247F /* Product Sans.ttf */,
 				91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */,
-				ECBD33851D4142FB89F2B33F /* empty_icon_dark.svg */,
-				848611D54DB14D91B8DCF204 /* empty_icon.svg */,
 				AF52A833F3884A40843FF0EA /* empty_icon_dark.png */,
 				5C1A5A4C86654779A0DE9183 /* empty_icon.png */,
 			);
@@ -372,8 +367,6 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				87A0C51DC316452EABF47519 /* add_btn.png in Resources */,
 				8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */,
-				3A79AA111D8E41AF8540921F /* empty_icon_dark.svg in Resources */,
-				1A5C14DFC72C4F4DAA738173 /* empty_icon.svg in Resources */,
 				4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */,
 				A3E082341B074FDE968957B2 /* empty_icon.png in Resources */,
 			);
@@ -669,6 +662,7 @@
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -689,6 +683,7 @@
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
