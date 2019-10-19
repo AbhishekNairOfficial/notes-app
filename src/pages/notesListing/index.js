@@ -25,6 +25,12 @@ const NotesListing = memo(props => {
 
   useEffect(() => {
     setDarkMode(globalState.darkMode);
+    // Changing the Statusbar text to light content on iOS
+    if (globalState.darkMode) {
+      StatusBar.setBarStyle('dark-content', true);
+    } else {
+      StatusBar.setBarStyle('light-content', true);
+    }
   }, [globalState.darkMode]);
 
   useEffect(() => {
@@ -38,9 +44,6 @@ const NotesListing = memo(props => {
       });
     }
   }, [globalState.darkMode, navigation]);
-
-  // Changing the Statusbar text to light content on iOS
-  StatusBar.setBarStyle('light-content', true);
 
   const innerStyles = StyleSheet.create({
     scrollViewStyle: {
@@ -65,7 +68,10 @@ const NotesListing = memo(props => {
 
   return (
     <>
-      <StatusBar backgroundColor={primaryColor} barStyle="light-content" />
+      <StatusBar
+        backgroundColor={primaryColor}
+        barStyle={darkMode ? 'dark-content' : 'light-content'}
+      />
       {globalState.list.length > 0 && (
         <ScrollView style={innerStyles.scrollViewStyle}>
           {/* Changing the Statusbar text to light content on Android */}
