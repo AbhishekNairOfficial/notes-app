@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {secondaryColor} from '../../config';
 
-const SignIn = ({navigation}) => {
+const SignIn = memo(({navigation}) => {
   // ;
   const [userId, setUserId] = useState('');
   return (
@@ -28,7 +28,7 @@ const SignIn = ({navigation}) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

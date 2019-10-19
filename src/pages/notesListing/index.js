@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -18,7 +18,7 @@ const addButtonDark = require('../../../assets/add_btn_dark.png');
 const emptyIcon = require('../../../assets/empty_icon.png');
 const emptyIconDark = require('../../../assets/empty_icon_dark.png');
 
-const NotesListing = props => {
+const NotesListing = memo(props => {
   const [globalState] = useGlobal();
   const {navigation} = props;
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
@@ -102,7 +102,7 @@ const NotesListing = props => {
       )}
     </>
   );
-};
+});
 
 NotesListing.navigationOptions = ({navigation}) => ({
   title: 'NotesApp',

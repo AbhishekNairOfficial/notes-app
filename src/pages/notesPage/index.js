@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   TextInput,
@@ -14,7 +14,7 @@ import debounce from '../../functions';
 import useGlobal from '../../store';
 import {secondaryColor} from '../../config';
 
-const NotesPage = props => {
+const NotesPage = memo(props => {
   const [globalState, globalActions] = useGlobal();
   const {navigation} = props;
   const id = navigation.getParam('id');
@@ -129,7 +129,7 @@ const NotesPage = props => {
       />
     </View>
   );
-};
+});
 
 NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;

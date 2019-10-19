@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -11,7 +11,7 @@ import {SafeAreaView} from 'react-navigation';
 import {secondaryColor, primaryColor} from '../../config';
 import useGlobal from '../../store';
 
-const AuthLoadingScreen = props => {
+const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [globalState, globalActions] = useGlobal();
   const [token, setToken] = useState('');
@@ -88,7 +88,7 @@ const AuthLoadingScreen = props => {
       </SafeAreaView>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

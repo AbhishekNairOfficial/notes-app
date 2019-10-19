@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {secondaryColor} from '../../config';
 import useGlobal from '../../store';
 
-const LogoTitle = () => {
+const LogoTitle = memo(() => {
   const [globalState, globalActions] = useGlobal();
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
 
@@ -25,6 +25,6 @@ const LogoTitle = () => {
       <Text style={styles.title}>NotesApp</Text>
     </TouchableOpacity>
   );
-};
+});
 
 export default LogoTitle;
