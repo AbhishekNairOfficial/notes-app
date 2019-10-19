@@ -1,31 +1,42 @@
 import React, {useState, memo} from 'react';
-import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Button,
+  Dimensions,
+  StatusBar,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {secondaryColor} from '../../config';
+import signInImage from '../../../assets/sign_in_background.jpg';
+import {secondaryColor, black} from '../../config';
 
 const SignIn = memo(({navigation}) => {
-  // ;
+  StatusBar.setBarStyle('dark-content', false);
   const [userId, setUserId] = useState('');
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Hi there!</Text>
       <Text style={styles.text}>Welcome to NotesApp!</Text>
+      <Image style={styles.image} source={signInImage} />
       <TextInput
         style={styles.input}
         onChangeText={text => setUserId(text)}
         value={userId}
+        placeholderTextColor="#333"
         placeholder="Enter your name"
       />
-      {userId !== '' && (
-        <Button
-          onPress={() => {
-            AsyncStorage.setItem('userId', userId);
-            navigation.navigate('App');
-          }}
-          style={styles.button}
-          title="Sign In"
-        />
-      )}
+      <Button
+        disabled={userId === ''}
+        onPress={() => {
+          AsyncStorage.setItem('userId', userId);
+          navigation.navigate('App');
+        }}
+        style={styles.button}
+        title="Sign In"
+      />
     </View>
   );
 });
@@ -39,16 +50,22 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 28,
-    marginBottom: 30,
+    marginBottom: 15,
     fontFamily: 'Product Sans',
   },
+  image: {
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').width,
+  },
   input: {
-    margin: 30,
+    margin: 15,
+    padding: 15,
     fontFamily: 'Product Sans',
     borderColor: 'gray',
     borderBottomWidth: 1,
     width: '80%',
     fontSize: 20,
+    color: black,
   },
   button: {
     alignSelf: 'flex-end',
