@@ -21,7 +21,7 @@ const LogoTitle = () => {
   });
 
   return (
-    <TouchableOpacity onPress={() => globalActions.toggleDarkMode()}>
+    <TouchableOpacity onPress={() => globalActions.toggleDarkMode(!darkMode)}>
       <Text style={styles.title}>NotesApp</Text>
     </TouchableOpacity>
   );
