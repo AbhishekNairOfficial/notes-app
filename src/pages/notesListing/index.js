@@ -100,10 +100,11 @@ const NotesListing = memo(props => {
     <>
       <ModalComponent
         darkMode={darkMode}
-        leftButton="Delete"
+        leftButton="Log Out"
         leftAction={signOut}
         rightAction={cancelSignOut}
         visible={logoutModalVisible}
+        text="Are you sure you want to logout?"
       />
       <StatusBar
         backgroundColor={primaryColor}

@@ -16,6 +16,7 @@ const ModalComponent = ({
   rightButton = 'Cancel',
   visible,
   darkMode,
+  text = 'Are you sure you want to delete this note?',
 }) => {
   const [modalVisible, setModalVisible] = useState(visible);
 
@@ -62,9 +63,7 @@ const ModalComponent = ({
     <Modal animationType="slide" transparent visible={modalVisible}>
       <SafeAreaView>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalText}>
-            Are you sure you want to delete this note?
-          </Text>
+          <Text style={styles.modalText}>{text}</Text>
           <View style={styles.modalButtonHolder}>
             <TouchableOpacity onPress={leftAction}>
               <Text style={styles.modalButton}>{leftButton}</Text>
