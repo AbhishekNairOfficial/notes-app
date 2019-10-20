@@ -25,6 +25,7 @@
 		87A0C51DC316452EABF47519 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CA88248682554A4FBF37C5AA /* add_btn.png */; };
 		8E42886423114BA20003ABFC /* Product Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C357706D8E124DE88223247F /* Product Sans.ttf */; };
 		A3E082341B074FDE968957B2 /* empty_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C1A5A4C86654779A0DE9183 /* empty_icon.png */; };
+		E52B354EBD3845539A03C650 /* sign_in_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DB9289993594D099DDC7951 /* sign_in_background.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		1AB62FC44BC98AF909F9ECD3 /* Pods-notesapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp.debug.xcconfig"; path = "Target Support Files/Pods-notesapp/Pods-notesapp.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* notesapp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "notesapp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* notesapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "notesapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DB9289993594D099DDC7951 /* sign_in_background.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = sign_in_background.jpg; path = ../assets/sign_in_background.jpg; sourceTree = "<group>"; };
 		49CFE0148A0800EC82885701 /* libPods-notesapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C1A5A4C86654779A0DE9183 /* empty_icon.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = empty_icon.png; path = ../assets/empty_icon.png; sourceTree = "<group>"; };
 		66A7957B413DE423CABF3EE2 /* Pods-notesapp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOSTests/Pods-notesapp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */,
 				AF52A833F3884A40843FF0EA /* empty_icon_dark.png */,
 				5C1A5A4C86654779A0DE9183 /* empty_icon.png */,
+				2DB9289993594D099DDC7951 /* sign_in_background.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */,
 				4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */,
 				A3E082341B074FDE968957B2 /* empty_icon.png in Resources */,
+				E52B354EBD3845539A03C650 /* sign_in_background.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,7 +666,7 @@
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -683,7 +687,7 @@
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
