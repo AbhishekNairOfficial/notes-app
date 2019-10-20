@@ -1,26 +1,96 @@
-import React, {useState, memo} from 'react';
+import React, {useState, memo, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Image,
+  // Image,
   TextInput,
   Button,
   Dimensions,
   StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import signInImage from '../../../assets/sign_in_background.jpg';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from 'react-native-google-signin';
+// import signInImage from '../../../assets/sign_in_background.jpg';
 import {secondaryColor, black} from '../../config';
+
+const onSignIn = async () => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    this.setState({userInfo, loggedIn: true});
+  } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // user cancelled the login flow
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (f.e. sign in) is in progress already
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
+    } else {
+      // some other error happened
+    }
+  }
+};
+
+// const signOut = async () => {
+//   try {
+//     await GoogleSignin.revokeAccess();
+//     await GoogleSignin.signOut();
+//     this.setState({user: null, loggedIn: false}); // Remember to remove the user from your app's state as well
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+const getCurrentUserInfo = async () => {
+  try {
+    const userInfo = await GoogleSignin.signInSilently();
+    this.setState({userInfo});
+  } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+      // user has not signed in yet
+      this.setState({loggedIn: false});
+    } else {
+      // some other error
+      this.setState({loggedIn: false});
+    }
+  }
+};
 
 const SignIn = memo(({navigation}) => {
   StatusBar.setBarStyle('dark-content', false);
   const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId:
+        '445354016106-kgprss2d95vkpinlsdqphc7bsvmi6cih.apps.googleusercontent.com',
+      offlineAccess: true,
+      hostedDomain: '',
+      loginHint: '',
+      forceConsentPrompt: true,
+      accountName: '',
+    });
+    getCurrentUserInfo();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Hi there!</Text>
       <Text style={styles.text}>Welcome to NotesApp!</Text>
-      <Image style={styles.image} source={signInImage} />
+      {/* <Image style={styles.image} source={signInImage} /> */}
+      <GoogleSigninButton
+        style={{...{width: 312, height: 48}}}
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Light}
+        onPress={onSignIn}
+        disabled={false}
+      />
       <TextInput
         style={styles.input}
         onChangeText={text => setUserId(text)}

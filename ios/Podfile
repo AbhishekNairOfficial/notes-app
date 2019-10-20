@@ -28,6 +28,7 @@ target 'notesapp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
 
 
   target 'notesappTests' do
