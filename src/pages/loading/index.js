@@ -9,38 +9,40 @@ import {
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView} from 'react-navigation';
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 import {secondaryColor, primaryColor} from '../../config';
 import useGlobal from '../../store';
 
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
-  const [globalState, globalActions] = useGlobal();
-  const [data, setData] = useState();
+  const [, globalActions] = useGlobal();
+  // const [data, setData] = useState();
   const [darkMode, setDarkMode] = useState();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
 
   useEffect(() => {
-    const CheckForList = async () => {
-      try {
-        const value = await AsyncStorage.getItem('list');
-        if (!data || !userName) {
-          if (value) {
-            setData(value);
-            globalActions.addAllNotes(JSON.parse(value));
-            setTimeout(() => {
-              // navigation.navigate('App');
-            }, 500);
-          } else {
-            setTimeout(() => {
-              // navigation.navigate('App');
-            }, 500);
-          }
-        }
-      } catch (e) {
-        // error reading value
-      }
-    };
+    // const CheckForList = async () => {
+    //   try {
+    //     const value = await AsyncStorage.getItem('list');
+    //     if (!data || !userName) {
+    //       if (value) {
+    //         setData(value);
+    //         globalActions.addAllNotes(JSON.parse(value));
+    //         setTimeout(() => {
+    //           // navigation.navigate('App');
+    //         }, 500);
+    //       } else {
+    //         setTimeout(() => {
+    //           // navigation.navigate('App');
+    //         }, 500);
+    //       }
+    //     }
+    //   } catch (e) {
+    //     // error reading value
+    //   }
+    // };
 
     const CheckForDarkMode = async () => {
       try {
@@ -58,17 +60,10 @@ const AuthLoadingScreen = memo(props => {
     if (!darkMode) {
       CheckForDarkMode();
     }
-    if (!data) {
-      CheckForList();
-    }
-  }, [
-    darkMode,
-    data,
-    globalActions,
-    globalState.darkMode,
-    navigation,
-    userName,
-  ]);
+    // if (!data) {
+    // CheckForList();
+    // }
+  }, [darkMode, globalActions]);
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -90,6 +85,19 @@ const AuthLoadingScreen = memo(props => {
         setTimeout(() => {
           navigation.navigate('App');
         }, 300);
+        // Get the users ID
+        const {uid} = auth().currentUser;
+
+        // Create a reference
+        const ref = database().ref(`/users/${uid}`);
+
+        await ref.set({
+          uid,
+          name: userName,
+          role: 'admin',
+        });
+
+        console.log('done');
       } catch (error) {
         if (error.code === statusCodes.SIGN_IN_REQUIRED) {
           // user has not signed in yet
