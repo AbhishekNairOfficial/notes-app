@@ -8,7 +8,9 @@ import {
   View,
   Text,
 } from 'react-native';
+import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
+import ModalComponent from '../../components/modal';
 import ListItem from '../../components/listItem';
 import {black, white, primaryColor} from '../../config';
 import LogoTitle from '../../components/title';
@@ -17,11 +19,14 @@ const addButton = require('../../../assets/add_btn.png');
 const addButtonDark = require('../../../assets/add_btn_dark.png');
 const emptyIcon = require('../../../assets/empty_icon.png');
 const emptyIconDark = require('../../../assets/empty_icon_dark.png');
+const logoutIconDark = require('../../../assets/logout_icon.png');
+const logoutIcon = require('../../../assets/logout_icon_dark.png');
 
 const NotesListing = memo(props => {
   const [globalState] = useGlobal();
   const {navigation} = props;
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
 
   useEffect(() => {
     setDarkMode(globalState.darkMode);
@@ -34,6 +39,15 @@ const NotesListing = memo(props => {
   }, [globalState.darkMode]);
 
   useEffect(() => {
+    const {logout} = navigation.state.params
+      ? navigation.state.params
+      : {logout: false};
+    if (logout) {
+      setLogoutModalVisible(true);
+    }
+  }, [navigation.state.params]);
+
+  useEffect(() => {
     const firstTimePageIsLoading = !navigation.state.params;
     const itHasNotChanged = firstTimePageIsLoading
       ? true
@@ -44,6 +58,22 @@ const NotesListing = memo(props => {
       });
     }
   }, [globalState.darkMode, navigation]);
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      setLogoutModalVisible(false);
+      navigation.navigate('Auth');
+    } catch (error) {
+      console.error(error);
+      setLogoutModalVisible(false);
+    }
+  };
+
+  const cancelSignOut = () => {
+    setLogoutModalVisible(false);
+  };
 
   const innerStyles = StyleSheet.create({
     scrollViewStyle: {
@@ -68,6 +98,13 @@ const NotesListing = memo(props => {
 
   return (
     <>
+      <ModalComponent
+        darkMode={darkMode}
+        leftButton="Delete"
+        leftAction={signOut}
+        rightAction={cancelSignOut}
+        visible={logoutModalVisible}
+      />
       <StatusBar
         backgroundColor={primaryColor}
         barStyle={darkMode ? 'dark-content' : 'light-content'}
@@ -126,12 +163,36 @@ NotesListing.navigationOptions = ({navigation}) => ({
       </TouchableOpacity>
     );
   },
+  headerLeft: () => {
+    const darkMode = navigation.state.params
+      ? navigation.state.params.darkMode
+      : false;
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.setParams({
+            logout: true,
+          });
+        }}
+      >
+        <Image
+          style={styles.logoutIcon}
+          source={darkMode ? logoutIconDark : logoutIcon}
+        />
+      </TouchableOpacity>
+    );
+  },
 });
 
 const styles = StyleSheet.create({
   icon: {
     height: 40,
     width: 40,
+  },
+  logoutIcon: {
+    height: 30,
+    width: 30,
+    marginLeft: 10,
   },
   emptyIcon: {
     height: 52,

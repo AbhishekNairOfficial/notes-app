@@ -1,112 +1,97 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  // Image,
-  TextInput,
-  Button,
+  Image,
   Dimensions,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import auth, {firebase} from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from 'react-native-google-signin';
-// import signInImage from '../../../assets/sign_in_background.jpg';
-import {secondaryColor, black} from '../../config';
-
-const onSignIn = async () => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    this.setState({userInfo, loggedIn: true});
-  } catch (error) {
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation (f.e. sign in) is in progress already
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      // play services not available or outdated
-    } else {
-      // some other error happened
-    }
-  }
-};
-
-// const signOut = async () => {
-//   try {
-//     await GoogleSignin.revokeAccess();
-//     await GoogleSignin.signOut();
-//     this.setState({user: null, loggedIn: false}); // Remember to remove the user from your app's state as well
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-const getCurrentUserInfo = async () => {
-  try {
-    const userInfo = await GoogleSignin.signInSilently();
-    this.setState({userInfo});
-  } catch (error) {
-    if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-      // user has not signed in yet
-      this.setState({loggedIn: false});
-    } else {
-      // some other error
-      this.setState({loggedIn: false});
-    }
-  }
-};
+import signInImage from '../../../assets/sign_in_background_2.png';
+import {signInBackground} from '../../config';
 
 const SignIn = memo(({navigation}) => {
   StatusBar.setBarStyle('dark-content', false);
-  const [userId, setUserId] = useState('');
+  const [initilizing, setInitilizing] = useState(true);
 
   useEffect(() => {
-    GoogleSignin.configure({
-      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId:
-        '445354016106-kgprss2d95vkpinlsdqphc7bsvmi6cih.apps.googleusercontent.com',
-      offlineAccess: true,
-      hostedDomain: '',
-      loginHint: '',
-      forceConsentPrompt: true,
-      accountName: '',
-    });
-    getCurrentUserInfo();
-  }, []);
+    // Handle user state changes
+    const onAuthStateChanged = () => {
+      if (initilizing) {
+        setInitilizing(false);
+      }
+    };
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, [initilizing]);
+
+  if (initilizing) return null;
+
+  const signInAnonymously = async () => {
+    try {
+      await auth().signInAnonymously();
+      navigation.navigate('App');
+    } catch (e) {
+      switch (e.code) {
+        case 'auth/operation-not-allowed':
+          console.log('Enable anonymous in your firebase console.');
+          break;
+        default:
+          console.error(e);
+          break;
+      }
+    }
+  };
+
+  const onSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const {idToken, accessToken} = await GoogleSignin.signIn();
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken,
+      );
+      await firebase.auth().signInWithCredential(credential);
+      navigation.navigate('App');
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hi there!</Text>
+      <Image style={styles.image} source={signInImage} />
+      <Text style={styles.text}>Hi there, Stranger</Text>
       <Text style={styles.text}>Welcome to NotesApp!</Text>
-      {/* <Image style={styles.image} source={signInImage} /> */}
+      <Text style={styles.description}>
+        Login with one of the options below, and let&apos;s get you started!
+      </Text>
       <GoogleSigninButton
-        style={{...{width: 312, height: 48}}}
+        style={styles.googleButton}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={onSignIn}
         disabled={false}
       />
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setUserId(text)}
-        value={userId}
-        placeholderTextColor="#333"
-        placeholder="Enter your name"
-      />
-      <Button
-        disabled={userId === ''}
-        onPress={() => {
-          AsyncStorage.setItem('userId', userId);
-          navigation.navigate('App');
-        }}
-        style={styles.button}
-        title="Sign In"
-      />
+      <Text style={styles.description}>or</Text>
+      <TouchableOpacity onPress={() => signInAnonymously()}>
+        <Text style={styles.anonText}>Sign In anonymously</Text>
+      </TouchableOpacity>
     </View>
   );
 });
@@ -114,31 +99,33 @@ const SignIn = memo(({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+    padding: 20,
+    paddingTop: Dimensions.get('screen').height / 5,
     alignItems: 'center',
-    justifyContent: 'center',
-    color: secondaryColor,
+    justifyContent: 'flex-start',
+    backgroundColor: signInBackground,
+  },
+  googleButton: {
+    width: 312,
+    height: 48,
   },
   text: {
     fontSize: 28,
-    marginBottom: 15,
+    marginBottom: 10,
     fontFamily: 'Product Sans',
+  },
+  description: {
+    fontSize: 18,
+    fontFamily: 'Product Sans',
+    margin: 15,
   },
   image: {
-    width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').width,
+    width: Dimensions.get('screen').width / 2,
+    height: Dimensions.get('screen').width / 2,
   },
-  input: {
-    margin: 15,
-    padding: 15,
+  anonText: {
+    fontSize: 22,
     fontFamily: 'Product Sans',
-    borderColor: 'gray',
-    borderBottomWidth: 1,
-    width: '80%',
-    fontSize: 20,
-    color: black,
-  },
-  button: {
-    alignSelf: 'flex-end',
   },
 });
 

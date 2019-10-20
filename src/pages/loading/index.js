@@ -6,6 +6,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView} from 'react-navigation';
 import {secondaryColor, primaryColor} from '../../config';
@@ -14,40 +15,26 @@ import useGlobal from '../../store';
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [globalState, globalActions] = useGlobal();
-  const [token, setToken] = useState('');
   const [data, setData] = useState();
   const [darkMode, setDarkMode] = useState();
+  const [statusText, setStatusText] = useState('Loading..');
+  const [userName, setUsername] = useState('');
 
   useEffect(() => {
-    const CheckForToken = async () => {
-      try {
-        const value = await AsyncStorage.getItem('userId');
-        if (token) {
-          return;
-        }
-        if (value) {
-          setToken(value);
-        } else {
-          navigation.navigate('Auth');
-        }
-      } catch (e) {
-        // error reading value
-      }
-    };
-
     const CheckForList = async () => {
       try {
         const value = await AsyncStorage.getItem('list');
-        if (!token) {
-          return;
-        }
-        if (!data) {
+        if (!data || !userName) {
           if (value) {
             setData(value);
             globalActions.addAllNotes(JSON.parse(value));
-            navigation.navigate('App');
+            setTimeout(() => {
+              // navigation.navigate('App');
+            }, 500);
           } else {
-            navigation.navigate('App');
+            setTimeout(() => {
+              // navigation.navigate('App');
+            }, 500);
           }
         }
       } catch (e) {
@@ -71,20 +58,62 @@ const AuthLoadingScreen = memo(props => {
     if (!darkMode) {
       CheckForDarkMode();
     }
-    if (!token) {
-      CheckForToken();
-    }
     if (!data) {
       CheckForList();
     }
-  }, [darkMode, data, globalActions, globalState.darkMode, navigation, token]);
+  }, [
+    darkMode,
+    data,
+    globalActions,
+    globalState.darkMode,
+    navigation,
+    userName,
+  ]);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId:
+        '445354016106-kgprss2d95vkpinlsdqphc7bsvmi6cih.apps.googleusercontent.com',
+      offlineAccess: true,
+      hostedDomain: '',
+      loginHint: '',
+      forceConsentPrompt: true,
+      accountName: '',
+    });
+
+    const getCurrentUserInfo = async () => {
+      try {
+        const userInfo = await GoogleSignin.signInSilently();
+        setUsername(userInfo.user.name);
+        setStatusText(`Welcome back, ${userName}`);
+        setTimeout(() => {
+          navigation.navigate('App');
+        }, 300);
+      } catch (error) {
+        if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+          // user has not signed in yet
+          setTimeout(() => {
+            navigation.navigate('Auth');
+          }, 300);
+        } else {
+          // some other error
+          setTimeout(() => {
+            navigation.navigate('Auth');
+          }, 300);
+        }
+      }
+    };
+
+    getCurrentUserInfo();
+  }, [navigation, userName]);
 
   return (
     <View>
       <StatusBar barStyle="default" />
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={primaryColor} />
-        <Text style={styles.text}>Loading</Text>
+        <Text style={styles.text}>{statusText}</Text>
       </SafeAreaView>
     </View>
   );
@@ -102,6 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Product Sans',
   },
 });
 
