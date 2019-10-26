@@ -85,7 +85,9 @@ const SignIn = memo(({navigation}) => {
           } else {
             // User has already used the app
             const {list, preferences} = userProfile;
-            globalActions.addAllNotes(Object.values(list));
+            if (list) {
+              globalActions.addAllNotes(Object.values(list));
+            }
             globalActions.toggleDarkMode(preferences.darkMode);
           }
           navigation.navigate('App');

@@ -87,6 +87,11 @@ const NotesListing = memo(props => {
   const {height, width} = Dimensions.get('window');
 
   const innerStyles = StyleSheet.create({
+    safeAreaView: {
+      flex: 1,
+      position: 'relative',
+      backgroundColor: darkMode ? black : white,
+    },
     scrollViewStyle: {
       backgroundColor: darkMode ? black : null,
     },
@@ -119,7 +124,7 @@ const NotesListing = memo(props => {
       position: 'absolute',
       zIndex: 2,
       bottom: 120,
-      right: 10,
+      right: 20,
       shadowOpacity: 0.75,
       shadowRadius: 5,
       shadowColor: darkMode ? placeHolderColorDark : black,
@@ -136,7 +141,7 @@ const NotesListing = memo(props => {
       imageStyle={{width, marginTop: width / 2}}
       style={{height, width}}
     >
-      <SafeAreaView style={styles.safeAreaView}>
+      <SafeAreaView style={innerStyles.safeAreaView}>
         <ModalComponent
           darkMode={darkMode}
           leftButton="Logout"
@@ -225,9 +230,6 @@ NotesListing.navigationOptions = ({navigation}) => ({
 });
 
 const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1,
-  },
   icon: {
     height: 40,
     width: 40,

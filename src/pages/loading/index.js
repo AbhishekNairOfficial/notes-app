@@ -48,7 +48,7 @@ const AuthLoadingScreen = memo(props => {
         const userInfo = await GoogleSignin.signInSilently();
         // Showing Welcome Message
         setUsername(userInfo.user.name);
-        setStatusText(`Welcome back, ${userName}`);
+        setStatusText(`Welcome back, ${userName}!`);
         if (globalState.list.length === 0) {
           const list = await AsyncStorage.getItem('list');
           globalActions.addAllNotes(JSON.parse(list));
@@ -75,7 +75,7 @@ const AuthLoadingScreen = memo(props => {
 
     getCurrentUserInfo();
     return () => {};
-  }, [globalActions, globalState.list.length, navigation, userName]);
+  }, [globalActions, globalState.list, navigation, userName]);
 
   return (
     <View>
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    padding: 30,
     backgroundColor: secondaryColor,
     alignItems: 'center',
     justifyContent: 'center',
