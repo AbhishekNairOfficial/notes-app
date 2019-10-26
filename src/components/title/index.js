@@ -1,6 +1,6 @@
 import React, {useState, useEffect, memo} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {secondaryColor} from '../../config';
+import {secondaryColor, black} from '../../config';
 import useGlobal from '../../store';
 
 const LogoTitle = memo(() => {
@@ -13,9 +13,9 @@ const LogoTitle = memo(() => {
 
   const styles = StyleSheet.create({
     title: {
-      // fontWeight: 'bold',
-      color: darkMode ? '#000' : secondaryColor,
-      fontSize: 24,
+      fontWeight: '600',
+      color: darkMode ? black : secondaryColor,
+      fontSize: 28,
       fontFamily: 'Product Sans',
     },
   });
