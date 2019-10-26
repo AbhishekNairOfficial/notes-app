@@ -4,9 +4,11 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  Dimensions,
   StyleSheet,
   View,
   Text,
+  ImageBackground,
 } from 'react-native';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
@@ -21,6 +23,7 @@ const emptyIcon = require('../../../assets/empty_icon.png');
 const emptyIconDark = require('../../../assets/empty_icon_dark.png');
 const logoutIconDark = require('../../../assets/logout_icon.png');
 const logoutIcon = require('../../../assets/logout_icon_dark.png');
+const backgroundImage = require('../../../assets/listing_page_background.jpg');
 
 const NotesListing = memo(props => {
   const [globalState] = useGlobal();
@@ -74,10 +77,11 @@ const NotesListing = memo(props => {
   const cancelSignOut = () => {
     setLogoutModalVisible(false);
   };
+  const {height, width} = Dimensions.get('window');
 
   const innerStyles = StyleSheet.create({
     scrollViewStyle: {
-      backgroundColor: darkMode ? black : white,
+      backgroundColor: darkMode ? black : null,
     },
     emptyContainer: {
       justifyContent: 'center',
@@ -97,7 +101,11 @@ const NotesListing = memo(props => {
   });
 
   return (
-    <>
+    <ImageBackground
+      source={darkMode ? null : backgroundImage}
+      imageStyle={{width, marginTop: width / 2}}
+      style={{height, width}}
+    >
       <ModalComponent
         darkMode={darkMode}
         leftButton="Log Out"
@@ -146,7 +154,7 @@ const NotesListing = memo(props => {
           </Text>
         </View>
       )}
-    </>
+    </ImageBackground>
   );
 });
 

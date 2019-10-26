@@ -34,20 +34,25 @@ const ListItem = memo(props => {
   const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height: 80,
+      maxHeight: 120,
       padding: 15,
-      borderWidth: 1,
+      paddingLeft: 20,
+      paddingRight: 30,
+      borderWidth: 2,
       borderColor: darkMode ? '#111' : '#ccc',
       backgroundColor: darkMode ? black : white,
     },
     title: {
       fontFamily: 'Product Sans',
-      fontSize: 20,
+      fontSize: 24,
+      fontWeight: '600',
+      marginBottom: 5,
       color: darkMode ? white : black,
     },
     description: {
       fontFamily: 'Product Sans',
-      fontSize: 16,
+      fontSize: 18,
+      opacity: 0.8,
       color: darkMode ? white : black,
     },
     deleteContainer: {
@@ -102,7 +107,9 @@ const ListItem = memo(props => {
         >
           <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
-            <Text style={styles.description}>{body}</Text>
+            <Text numberOfLines={2} style={styles.description}>
+              {body}
+            </Text>
           </View>
         </TouchableOpacity>
       </Swipeable>
