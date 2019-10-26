@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -16,9 +17,11 @@ import {
 } from 'react-native-google-signin';
 import signInImage from '../../../assets/sign_in_background_2.png';
 import {signInBackground} from '../../config';
+import useGlobal from '../../store';
 
 const SignIn = memo(({navigation}) => {
   StatusBar.setBarStyle('dark-content', false);
+  const [, globalActions] = useGlobal();
   const [initilizing, setInitilizing] = useState(true);
 
   useEffect(() => {
@@ -58,7 +61,34 @@ const SignIn = memo(({navigation}) => {
         idToken,
         accessToken,
       );
-      await firebase.auth().signInWithCredential(credential);
+      const userInfo = await firebase.auth().signInWithCredential(credential);
+      const {uid, email, displayName} = userInfo.user;
+      // Create a reference
+      const ref = database().ref(`/users/${uid}`);
+      globalActions.updateUid(uid);
+      // Checking whether the user already has data here
+      await database()
+        .ref(`/users/${uid}`)
+        .once('value')
+        .then(async snapshot => {
+          const userProfile = snapshot.val();
+          if (userProfile === null) {
+            // User doesn't exist
+            // Creating Initial State for user
+            await ref.set({
+              uid,
+              name: displayName,
+              email,
+              preferences: {darkMode: false},
+              list: [],
+            });
+          } else {
+            // User has already used the app
+            const {list, preferences} = userProfile;
+            globalActions.addAllNotes(Object.values(list));
+            globalActions.toggleDarkMode(preferences.darkMode);
+          }
+        });
       navigation.navigate('App');
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

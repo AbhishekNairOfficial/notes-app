@@ -9,9 +9,7 @@ import {
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView} from 'react-navigation';
-import database from '@react-native-firebase/database';
-import auth from '@react-native-firebase/auth';
-import {secondaryColor, primaryColor} from '../../config';
+import {secondaryColor, primaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
 
 const AuthLoadingScreen = memo(props => {
@@ -23,27 +21,6 @@ const AuthLoadingScreen = memo(props => {
   const [userName, setUsername] = useState('');
 
   useEffect(() => {
-    // const CheckForList = async () => {
-    //   try {
-    //     const value = await AsyncStorage.getItem('list');
-    //     if (!data || !userName) {
-    //       if (value) {
-    //         setData(value);
-    //         globalActions.addAllNotes(JSON.parse(value));
-    //         setTimeout(() => {
-    //           // navigation.navigate('App');
-    //         }, 500);
-    //       } else {
-    //         setTimeout(() => {
-    //           // navigation.navigate('App');
-    //         }, 500);
-    //       }
-    //     }
-    //   } catch (e) {
-    //     // error reading value
-    //   }
-    // };
-
     const CheckForDarkMode = async () => {
       try {
         const darkModeFromAsyncStorage =
@@ -60,42 +37,21 @@ const AuthLoadingScreen = memo(props => {
     if (!darkMode) {
       CheckForDarkMode();
     }
-    // if (!data) {
-    // CheckForList();
-    // }
   }, [darkMode, globalActions]);
 
   useEffect(() => {
-    GoogleSignin.configure({
-      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId:
-        '445354016106-kgprss2d95vkpinlsdqphc7bsvmi6cih.apps.googleusercontent.com',
-      offlineAccess: true,
-      hostedDomain: '',
-      loginHint: '',
-      forceConsentPrompt: true,
-      accountName: '',
-    });
+    GoogleSignin.configure(googleConfig);
 
     const getCurrentUserInfo = async () => {
       try {
+        // Trying to Sign in Silently
         const userInfo = await GoogleSignin.signInSilently();
+        // Showing Welcome Message
         setUsername(userInfo.user.name);
         setStatusText(`Welcome back, ${userName}`);
-        setTimeout(() => {
-          navigation.navigate('App');
-        }, 300);
-        // Get the users ID
-        const {uid} = auth().currentUser;
-
-        // Create a reference
-        const ref = database().ref(`/users/${uid}`);
-
-        await ref.set({
-          uid,
-          name: userName,
-          role: 'admin',
-        });
+        const list = await AsyncStorage.getItem('list');
+        globalActions.addAllNotes(JSON.parse(list));
+        navigation.navigate('App');
 
         console.log('done');
       } catch (error) {
@@ -114,7 +70,7 @@ const AuthLoadingScreen = memo(props => {
     };
 
     getCurrentUserInfo();
-  }, [navigation, userName]);
+  }, [globalActions, navigation, userName]);
 
   return (
     <View>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>northstar.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>43446289220BD13ADCF692E688970D4A652B01B3</string>
+				<key>dateExpires</key>
+				<string>09/10/20</string>
+				<key>type</key>
+				<string>Apple Development</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>6DB2L525PC.com.piktorlabs.northstar</string>
+				<key>aps-environment</key>
+				<string>development</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>6DB2L525PC</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>northstar.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>ef9899e3-c1ce-4196-9704-490934dfb636</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: com.piktorlabs.northstar</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>6DB2L525PC</string>
+				<key>name</key>
+				<string>Abhishek Panthalingal</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
