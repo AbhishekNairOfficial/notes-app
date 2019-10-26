@@ -14,7 +14,7 @@ import useGlobal from '../../store';
 
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
-  const [, globalActions] = useGlobal();
+  const [globalState, globalActions] = useGlobal();
   // const [data, setData] = useState();
   const [darkMode, setDarkMode] = useState();
   const [statusText, setStatusText] = useState('Loading..');
@@ -49,10 +49,14 @@ const AuthLoadingScreen = memo(props => {
         // Showing Welcome Message
         setUsername(userInfo.user.name);
         setStatusText(`Welcome back, ${userName}`);
-        const list = await AsyncStorage.getItem('list');
-        globalActions.addAllNotes(JSON.parse(list));
-        navigation.navigate('App');
-
+        if (globalState.list.length === 0) {
+          const list = await AsyncStorage.getItem('list');
+          globalActions.addAllNotes(JSON.parse(list));
+        }
+        // Setting Timeout, so state update can happen, name gets populated.
+        setTimeout(() => {
+          navigation.navigate('App');
+        }, 300);
         console.log('done');
       } catch (error) {
         if (error.code === statusCodes.SIGN_IN_REQUIRED) {
@@ -70,7 +74,8 @@ const AuthLoadingScreen = memo(props => {
     };
 
     getCurrentUserInfo();
-  }, [globalActions, navigation, userName]);
+    return () => {};
+  }, [globalActions, globalState.list.length, navigation, userName]);
 
   return (
     <View>
