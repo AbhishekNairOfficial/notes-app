@@ -88,8 +88,8 @@ const SignIn = memo(({navigation}) => {
             globalActions.addAllNotes(Object.values(list));
             globalActions.toggleDarkMode(preferences.darkMode);
           }
+          navigation.navigate('App');
         });
-      navigation.navigate('App');
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
