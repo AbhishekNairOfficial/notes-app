@@ -134,10 +134,12 @@ const NotesListing = memo(props => {
             ...innerStyles.scrollViewStyle,
           }}
         >
-          <Image
-            style={styles.emptyIcon}
-            source={darkMode ? emptyIconDark : emptyIcon}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate('Note')}>
+            <Image
+              style={styles.emptyIcon}
+              source={darkMode ? emptyIconDark : emptyIcon}
+            />
+          </TouchableOpacity>
           <Text style={innerStyles.emptyText}>No Notes found!</Text>
           <Text style={innerStyles.emptyText}>
             Click on the + icon to add a note.
