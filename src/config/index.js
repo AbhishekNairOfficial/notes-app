@@ -5,6 +5,7 @@ const black = '#000';
 const white = '#fff';
 const placeHolderColor = '#ccc';
 const placeHolderColorDark = '#555';
+const buttonColor = '#ff844e';
 
 const googleConfig = {
   scopes: ['https://www.googleapis.com/auth/drive.readonly'],
@@ -26,4 +27,5 @@ export {
   googleConfig,
   placeHolderColor,
   placeHolderColorDark,
+  buttonColor,
 };

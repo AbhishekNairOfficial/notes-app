@@ -15,7 +15,13 @@ import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
 import ModalComponent from '../../components/modal';
 import ListItem from '../../components/listItem';
-import {black, white, primaryColor} from '../../config';
+import {
+  black,
+  white,
+  primaryColor,
+  placeHolderColorDark,
+  buttonColor,
+} from '../../config';
 import LogoTitle from '../../components/title';
 
 const addButton = require('../../../assets/add_btn.png');
@@ -99,6 +105,26 @@ const NotesListing = memo(props => {
       height: 50,
       width: 50,
     },
+
+    buttonHolder: {
+      height: 80,
+      width: 80,
+      backgroundColor: buttonColor,
+      borderRadius: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'absolute',
+      zIndex: 2,
+      bottom: 120,
+      right: 10,
+      shadowOpacity: 0.75,
+      shadowRadius: 5,
+      shadowColor: darkMode ? placeHolderColorDark : black,
+      shadowOffset: {
+        height: 1,
+        width: 1,
+      },
+    },
   });
 
   return (
@@ -123,7 +149,7 @@ const NotesListing = memo(props => {
         {/* The floating action button */}
         <TouchableOpacity
           onPress={() => navigation.navigate('Note')}
-          style={styles.buttonHolder}
+          style={innerStyles.buttonHolder}
         >
           <Image
             style={styles.addButton}
@@ -211,22 +237,6 @@ const styles = StyleSheet.create({
   emptyIcon: {
     height: 52,
     width: 52,
-  },
-  buttonHolder: {
-    height: 80,
-    width: 80,
-    backgroundColor: primaryColor,
-    borderRadius: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    zIndex: 2,
-    bottom: 120,
-    right: 10,
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: black,
-    shadowOffset: {height: 0, width: 0},
   },
   addButton: {
     height: 60,
