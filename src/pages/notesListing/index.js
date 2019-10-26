@@ -91,11 +91,14 @@ const NotesListing = memo(props => {
       backgroundColor: darkMode ? black : null,
     },
     emptyContainer: {
-      justifyContent: 'center',
+      marginTop: height / 3,
+      justifyContent: 'flex-start',
+      backgroundColor: darkMode ? black : white,
+      opacity: darkMode ? 1 : 9.5,
       alignItems: 'center',
       flex: 1,
-      height: '100%',
-      width: '100%',
+      height,
+      width,
     },
     emptyText: {
       fontSize: 22,
@@ -136,7 +139,7 @@ const NotesListing = memo(props => {
       <SafeAreaView style={styles.safeAreaView}>
         <ModalComponent
           darkMode={darkMode}
-          leftButton="Log Out"
+          leftButton="Logout"
           leftAction={signOut}
           rightAction={cancelSignOut}
           visible={logoutModalVisible}
@@ -176,8 +179,8 @@ const NotesListing = memo(props => {
         {globalState.list.length === 0 && (
           <View
             style={{
-              ...innerStyles.emptyContainer,
               ...innerStyles.scrollViewStyle,
+              ...innerStyles.emptyContainer,
             }}
           >
             <TouchableOpacity onPress={() => navigation.navigate('Note')}>

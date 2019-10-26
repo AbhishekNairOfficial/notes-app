@@ -7,7 +7,13 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import {primaryColor, white, black} from '../../config';
+import {
+  white,
+  black,
+  placeHolderColorDark,
+  secondaryColor,
+  buttonColor,
+} from '../../config';
 
 const ModalComponent = ({
   leftAction,
@@ -27,12 +33,16 @@ const ModalComponent = ({
   const styles = StyleSheet.create({
     modalContainer: {
       alignItems: 'center',
-      shadowOffset: {width: 5, height: 15},
-      backgroundColor: primaryColor,
-      shadowColor: darkMode ? null : '#ccc',
-      shadowOpacity: 1.0,
+      backgroundColor: darkMode ? black : white,
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      shadowColor: darkMode ? placeHolderColorDark : black,
+      shadowOffset: {
+        height: 1,
+        width: 1,
+      },
       borderRadius: 10,
-      padding: 20,
+      paddingTop: 20,
       position: 'absolute',
       top: 300,
       width: '90%',
@@ -42,20 +52,35 @@ const ModalComponent = ({
       textAlign: 'center',
       fontFamily: 'Product Sans',
       fontSize: 19,
-      color: !darkMode ? white : black,
+      padding: 20,
+      color: darkMode ? white : black,
     },
     modalButtonHolder: {
-      marginTop: 10,
       flexDirection: 'row',
       width: '100%',
-      justifyContent: 'space-around',
+      padding: 10,
+      backgroundColor: secondaryColor,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
     },
     modalButton: {
-      color: !darkMode ? white : black,
+      color: placeHolderColorDark,
       height: 50,
-      padding: 20,
-      paddingBottom: 0,
-      fontSize: 24,
+      padding: 25,
+      paddingTop: 15,
+      paddingBottom: 15,
+      fontSize: 18,
+      fontFamily: 'Product Sans',
+      fontWeight: '600',
+      letterSpacing: 0.5,
+      textAlign: 'center',
+    },
+    primary: {
+      backgroundColor: buttonColor,
+      color: white,
+      borderRadius: 5,
     },
   });
 
@@ -66,7 +91,9 @@ const ModalComponent = ({
           <Text style={styles.modalText}>{text}</Text>
           <View style={styles.modalButtonHolder}>
             <TouchableOpacity onPress={leftAction}>
-              <Text style={styles.modalButton}>{leftButton}</Text>
+              <Text style={[styles.modalButton, styles.primary]}>
+                {leftButton}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={rightAction}>
               <Text style={styles.modalButton}>{rightButton}</Text>

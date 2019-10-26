@@ -114,7 +114,7 @@ const NotesPage = memo(props => {
       <NavigationEvents onWillBlur={() => callAddNoteAction()} />
       <TextInput
         placeholderTextColor={
-          darkMode ? placeHolderColorDark : placeHolderColorDark
+          darkMode ? placeHolderColorDark : placeHolderColor
         }
         style={styles.title}
         autoCorrect={false}
