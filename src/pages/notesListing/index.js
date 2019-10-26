@@ -9,6 +9,7 @@ import {
   View,
   Text,
   ImageBackground,
+  SafeAreaView,
 } from 'react-native';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
@@ -106,54 +107,66 @@ const NotesListing = memo(props => {
       imageStyle={{width, marginTop: width / 2}}
       style={{height, width}}
     >
-      <ModalComponent
-        darkMode={darkMode}
-        leftButton="Log Out"
-        leftAction={signOut}
-        rightAction={cancelSignOut}
-        visible={logoutModalVisible}
-        text="Are you sure you want to logout?"
-      />
-      <StatusBar
-        backgroundColor={primaryColor}
-        barStyle={darkMode ? 'dark-content' : 'light-content'}
-      />
-      {globalState.list.length > 0 && (
-        <ScrollView style={innerStyles.scrollViewStyle}>
-          {/* Changing the Statusbar text to light content on Android */}
-          {globalState.list.map((note, key) => {
-            return (
-              <ListItem
-                key={key}
-                id={note.id}
-                title={note.title}
-                body={note.body}
-                navigation={navigation}
-              />
-            );
-          })}
-        </ScrollView>
-      )}
-      {/* Empty Condition */}
-      {globalState.list.length === 0 && (
-        <View
-          style={{
-            ...innerStyles.emptyContainer,
-            ...innerStyles.scrollViewStyle,
-          }}
+      <SafeAreaView style={styles.safeAreaView}>
+        <ModalComponent
+          darkMode={darkMode}
+          leftButton="Log Out"
+          leftAction={signOut}
+          rightAction={cancelSignOut}
+          visible={logoutModalVisible}
+          text="Are you sure you want to logout?"
+        />
+        <StatusBar
+          backgroundColor={primaryColor}
+          barStyle={darkMode ? 'dark-content' : 'light-content'}
+        />
+        {/* The floating action button */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Note')}
+          style={styles.buttonHolder}
         >
-          <TouchableOpacity onPress={() => navigation.navigate('Note')}>
-            <Image
-              style={styles.emptyIcon}
-              source={darkMode ? emptyIconDark : emptyIcon}
-            />
-          </TouchableOpacity>
-          <Text style={innerStyles.emptyText}>No Notes found!</Text>
-          <Text style={innerStyles.emptyText}>
-            Click on the + icon to add a note.
-          </Text>
-        </View>
-      )}
+          <Image
+            style={styles.addButton}
+            source={darkMode ? addButtonDark : addButton}
+          />
+        </TouchableOpacity>
+        {globalState.list.length > 0 && (
+          <ScrollView style={innerStyles.scrollViewStyle}>
+            {/* Changing the Statusbar text to light content on Android */}
+            {globalState.list.map((note, key) => {
+              return (
+                <ListItem
+                  key={key}
+                  id={note.id}
+                  title={note.title}
+                  body={note.body}
+                  navigation={navigation}
+                />
+              );
+            })}
+          </ScrollView>
+        )}
+        {/* Empty Condition */}
+        {globalState.list.length === 0 && (
+          <View
+            style={{
+              ...innerStyles.emptyContainer,
+              ...innerStyles.scrollViewStyle,
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.navigate('Note')}>
+              <Image
+                style={styles.emptyIcon}
+                source={darkMode ? emptyIconDark : emptyIcon}
+              />
+            </TouchableOpacity>
+            <Text style={innerStyles.emptyText}>No Notes found!</Text>
+            <Text style={innerStyles.emptyText}>
+              Click on the + icon to add a note.
+            </Text>
+          </View>
+        )}
+      </SafeAreaView>
     </ImageBackground>
   );
 });
@@ -162,19 +175,6 @@ NotesListing.navigationOptions = ({navigation}) => ({
   title: 'NotesApp',
   headerTitle: <LogoTitle />,
   headerRight: () => {
-    const darkMode = navigation.state.params
-      ? navigation.state.params.darkMode
-      : false;
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('Note')}>
-        <Image
-          style={styles.icon}
-          source={darkMode ? addButtonDark : addButton}
-        />
-      </TouchableOpacity>
-    );
-  },
-  headerLeft: () => {
     const darkMode = navigation.state.params
       ? navigation.state.params.darkMode
       : false;
@@ -196,6 +196,9 @@ NotesListing.navigationOptions = ({navigation}) => ({
 });
 
 const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1,
+  },
   icon: {
     height: 40,
     width: 40,
@@ -203,11 +206,31 @@ const styles = StyleSheet.create({
   logoutIcon: {
     height: 30,
     width: 30,
-    marginLeft: 10,
+    marginRight: 10,
   },
   emptyIcon: {
     height: 52,
     width: 52,
+  },
+  buttonHolder: {
+    height: 80,
+    width: 80,
+    backgroundColor: primaryColor,
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 2,
+    bottom: 120,
+    right: 10,
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    shadowColor: black,
+    shadowOffset: {height: 0, width: 0},
+  },
+  addButton: {
+    height: 60,
+    width: 60,
   },
 });
 
