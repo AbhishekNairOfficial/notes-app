@@ -12,7 +12,12 @@ import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
 import debounce from '../../functions';
 import useGlobal from '../../store';
-import {secondaryColor} from '../../config';
+import {
+  secondaryColor,
+  black,
+  placeHolderColorDark,
+  placeHolderColor,
+} from '../../config';
 
 const NotesPage = memo(props => {
   const [globalState, globalActions] = useGlobal();
@@ -45,7 +50,7 @@ const NotesPage = memo(props => {
     container: {
       padding: 15,
       height: '100%',
-      backgroundColor: darkMode ? '#000' : secondaryColor,
+      backgroundColor: darkMode ? black : secondaryColor,
       justifyContent: 'space-between',
     },
     title: {
@@ -53,15 +58,15 @@ const NotesPage = memo(props => {
       fontSize: 28,
       paddingBottom: 15,
       marginBottom: 10,
-      borderBottomColor: '#ccc',
+      borderBottomColor: placeHolderColor,
       borderBottomWidth: 1,
-      color: darkMode ? '#ccc' : '#000',
+      color: darkMode ? placeHolderColor : black,
     },
     body: {
       fontFamily: 'Product Sans',
       fontSize: 20,
       height: '100%',
-      color: darkMode ? '#ccc' : '#000',
+      color: darkMode ? placeHolderColor : black,
     },
   });
 
@@ -108,7 +113,9 @@ const NotesPage = memo(props => {
     <View style={styles.container}>
       <NavigationEvents onWillBlur={() => callAddNoteAction()} />
       <TextInput
-        placeholderTextColor={darkMode ? '#555' : '#ccc'}
+        placeholderTextColor={
+          darkMode ? placeHolderColorDark : placeHolderColorDark
+        }
         style={styles.title}
         autoCorrect={false}
         autoFocus={!id}
@@ -119,7 +126,9 @@ const NotesPage = memo(props => {
         placeholder="Title"
       />
       <TextInput
-        placeholderTextColor={darkMode ? '#555' : '#ccc'}
+        placeholderTextColor={
+          darkMode ? placeHolderColorDark : placeHolderColor
+        }
         multiline
         textAlignVertical="top"
         autoCapitalize="sentences"
@@ -144,7 +153,7 @@ NotesPage.navigationOptions = ({navigation}) => {
     },
     saveText: {
       marginLeft: 5,
-      color: darkMode ? '#000' : secondaryColor,
+      color: darkMode ? black : secondaryColor,
     },
   });
   return {
@@ -155,14 +164,14 @@ NotesPage.navigationOptions = ({navigation}) => {
             <ActivityIndicator
               size="small"
               animating={saving}
-              color={darkMode ? '#000' : secondaryColor}
+              color={darkMode ? black : secondaryColor}
             />
             <Text style={styles.saveText}>Saving</Text>
           </View>
         )}
       </View>
     ),
-    headerTintColor: darkMode ? '#000' : secondaryColor,
+    headerTintColor: darkMode ? black : secondaryColor,
   };
 };
 

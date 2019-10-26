@@ -10,7 +10,7 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import useGlobal from '../../store';
 import ModalComponent from '../modal';
-import {white, black} from '../../config';
+import {white, black, secondaryColor} from '../../config';
 
 const renderLeftActions = styles => {
   return (
@@ -33,14 +33,14 @@ const ListItem = memo(props => {
 
   const styles = StyleSheet.create({
     container: {
-      width: '100%',
       maxHeight: 120,
       padding: 15,
-      paddingLeft: 20,
       paddingRight: 30,
-      borderWidth: 2,
+      borderBottomWidth: 2,
       borderColor: darkMode ? '#111' : '#ccc',
-      backgroundColor: darkMode ? black : white,
+      backgroundColor: darkMode ? black : secondaryColor,
+      marginLeft: 5,
+      marginRight: 5,
     },
     title: {
       fontFamily: 'Product Sans',
@@ -97,6 +97,7 @@ const ListItem = memo(props => {
         renderRightActions={() => renderLeftActions(styles)}
       >
         <TouchableOpacity
+          activeOpacity={1}
           onPress={() =>
             navigation.navigate('Note', {
               title,

@@ -3,6 +3,8 @@ const secondaryColor = '#f3f3f3';
 const signInBackground = '#F3F9FE';
 const black = '#000';
 const white = '#fff';
+const placeHolderColor = '#ccc';
+const placeHolderColorDark = '#555';
 
 const googleConfig = {
   scopes: ['https://www.googleapis.com/auth/drive.readonly'],
@@ -22,4 +24,6 @@ export {
   white,
   signInBackground,
   googleConfig,
+  placeHolderColor,
+  placeHolderColorDark,
 };
