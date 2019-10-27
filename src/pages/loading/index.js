@@ -20,6 +20,9 @@ const AuthLoadingScreen = memo(props => {
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
 
+  // Small function to give me easy await functionality
+  const sleep = m => new Promise(r => setTimeout(r, m));
+
   useEffect(() => {
     const CheckForDarkMode = async () => {
       try {
@@ -45,18 +48,22 @@ const AuthLoadingScreen = memo(props => {
     const getCurrentUserInfo = async () => {
       try {
         // Trying to Sign in Silently
+        if (userName) {
+          setStatusText(`Welcome back, ${userName}!`);
+          return;
+        }
         const userInfo = await GoogleSignin.signInSilently();
         // Showing Welcome Message
         setUsername(userInfo.user.name);
-        setStatusText(`Welcome back, ${userName}!`);
         if (globalState.list.length === 0) {
+          await sleep(1000);
+          setStatusText(`Getting your data ready!`);
           const list = await AsyncStorage.getItem('list');
           globalActions.addAllNotes(JSON.parse(list));
         }
         // Setting Timeout, so state update can happen, name gets populated.
-        setTimeout(() => {
-          navigation.navigate('App');
-        }, 300);
+        await sleep(1000);
+        navigation.navigate('App');
         console.log('done');
       } catch (error) {
         if (error.code === statusCodes.SIGN_IN_REQUIRED) {

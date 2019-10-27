@@ -33,7 +33,7 @@ const logoutIcon = require('../../../assets/logout_icon_dark.png');
 const backgroundImage = require('../../../assets/listing_page_background.jpg');
 
 const NotesListing = memo(props => {
-  const [globalState] = useGlobal();
+  const [globalState, globalActions] = useGlobal();
   const {navigation} = props;
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
@@ -74,6 +74,7 @@ const NotesListing = memo(props => {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
       setLogoutModalVisible(false);
+      globalActions.logout();
       navigation.navigate('Auth');
     } catch (error) {
       console.error(error);

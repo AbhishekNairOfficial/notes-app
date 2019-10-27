@@ -6,7 +6,9 @@ import {
   Image,
   Dimensions,
   StatusBar,
-  TouchableOpacity,
+  SafeAreaView,
+  ActivityIndicator,
+  // TouchableOpacity,
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -16,13 +18,17 @@ import {
   statusCodes,
 } from 'react-native-google-signin';
 import signInImage from '../../../assets/sign_in_background_2.png';
-import {signInBackground} from '../../config';
+import {signInBackground, primaryColor} from '../../config';
 import useGlobal from '../../store';
 
 const SignIn = memo(({navigation}) => {
   StatusBar.setBarStyle('dark-content', false);
   const [, globalActions] = useGlobal();
   const [initilizing, setInitilizing] = useState(true);
+  const [statusText, setStatusText] = useState('');
+
+  // Small function to give me easy await functionality
+  const sleep = m => new Promise(r => setTimeout(r, m));
 
   useEffect(() => {
     // Handle user state changes
@@ -37,32 +43,34 @@ const SignIn = memo(({navigation}) => {
 
   if (initilizing) return null;
 
-  const signInAnonymously = async () => {
-    try {
-      await auth().signInAnonymously();
-      navigation.navigate('App');
-    } catch (e) {
-      switch (e.code) {
-        case 'auth/operation-not-allowed':
-          console.log('Enable anonymous in your firebase console.');
-          break;
-        default:
-          console.error(e);
-          break;
-      }
-    }
-  };
+  // const signInAnonymously = async () => {
+  //   try {
+  //     await auth().signInAnonymously();
+  //     navigation.navigate('App');
+  //   } catch (e) {
+  //     switch (e.code) {
+  //       case 'auth/operation-not-allowed':
+  //         console.log('Enable anonymous in your firebase console.');
+  //         break;
+  //       default:
+  //         console.error(e);
+  //         break;
+  //     }
+  //   }
+  // };
 
   const onSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const {idToken, accessToken} = await GoogleSignin.signIn();
+      setStatusText('Loading your details...');
       const credential = firebase.auth.GoogleAuthProvider.credential(
         idToken,
         accessToken,
       );
       const userInfo = await firebase.auth().signInWithCredential(credential);
       const {uid, email, displayName} = userInfo.user;
+      setStatusText('Checking whether you already have used the app before..');
       // Create a reference
       const ref = database().ref(`/users/${uid}`);
       globalActions.updateUid(uid);
@@ -75,6 +83,7 @@ const SignIn = memo(({navigation}) => {
           if (userProfile === null) {
             // User doesn't exist
             // Creating Initial State for user
+            setStatusText('Creating a user profile for you...!');
             await ref.set({
               uid,
               name: displayName,
@@ -84,12 +93,16 @@ const SignIn = memo(({navigation}) => {
             });
           } else {
             // User has already used the app
+            setStatusText('Loading all your notes from Google...');
+            await sleep(1000);
             const {list, preferences} = userProfile;
             if (list) {
-              globalActions.addAllNotes(Object.values(list));
+              await globalActions.addAllNotes(Object.values(list));
             }
             globalActions.toggleDarkMode(preferences.darkMode);
           }
+          setStatusText('All Set!');
+          await sleep(1000);
           navigation.navigate('App');
         });
     } catch (error) {
@@ -107,6 +120,12 @@ const SignIn = memo(({navigation}) => {
 
   return (
     <View style={styles.container}>
+      {statusText !== '' && (
+        <SafeAreaView style={styles.container}>
+          <ActivityIndicator size="large" color={primaryColor} />
+          <Text style={styles.text}>{statusText}</Text>
+        </SafeAreaView>
+      )}
       <Image style={styles.image} source={signInImage} />
       <Text style={styles.text}>Hi there, Stranger</Text>
       <Text style={styles.text}>Welcome to NotesApp!</Text>
@@ -120,10 +139,10 @@ const SignIn = memo(({navigation}) => {
         onPress={onSignIn}
         disabled={false}
       />
-      <Text style={styles.description}>or</Text>
+      {/* <Text style={styles.description}>or</Text>
       <TouchableOpacity onPress={() => signInAnonymously()}>
         <Text style={styles.anonText}>Sign In anonymously</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 });

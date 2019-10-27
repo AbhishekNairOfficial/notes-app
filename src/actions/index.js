@@ -83,3 +83,8 @@ export const toggleDarkMode = async (store, darkMode) => {
     .ref()
     .update(updates);
 };
+
+export const logout = async store => {
+  store.setState({list: [], darkMode: false});
+  updateAsyncStorage([], 'list');
+};
