@@ -83,6 +83,9 @@ const NotesListing = memo(props => {
 
   const cancelSignOut = () => {
     setLogoutModalVisible(false);
+    navigation.setParams({
+      logout: false,
+    });
   };
   const {height, width} = Dimensions.get('window');
 
@@ -90,7 +93,7 @@ const NotesListing = memo(props => {
     safeAreaView: {
       flex: 1,
       position: 'relative',
-      backgroundColor: darkMode ? black : white,
+      backgroundColor: darkMode ? black : null,
     },
     scrollViewStyle: {
       backgroundColor: darkMode ? black : null,
@@ -115,15 +118,15 @@ const NotesListing = memo(props => {
     },
 
     buttonHolder: {
-      height: 80,
-      width: 80,
+      height: 56,
+      width: 56,
       backgroundColor: buttonColor,
       borderRadius: 40,
       alignItems: 'center',
       justifyContent: 'center',
       position: 'absolute',
       zIndex: 2,
-      bottom: 120,
+      bottom: 86,
       right: 20,
       shadowOpacity: 0.75,
       shadowRadius: 5,
@@ -154,16 +157,6 @@ const NotesListing = memo(props => {
           backgroundColor={primaryColor}
           barStyle={darkMode ? 'dark-content' : 'light-content'}
         />
-        {/* The floating action button */}
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Note')}
-          style={innerStyles.buttonHolder}
-        >
-          <Image
-            style={styles.addButton}
-            source={darkMode ? addButtonDark : addButton}
-          />
-        </TouchableOpacity>
         {globalState.list.length > 0 && (
           <ScrollView style={innerStyles.scrollViewStyle}>
             {/* Changing the Statusbar text to light content on Android */}
@@ -200,6 +193,16 @@ const NotesListing = memo(props => {
             </Text>
           </View>
         )}
+        {/* The floating action button */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Note')}
+          style={innerStyles.buttonHolder}
+        >
+          <Image
+            style={styles.addButton}
+            source={darkMode ? addButtonDark : addButton}
+          />
+        </TouchableOpacity>
       </SafeAreaView>
     </ImageBackground>
   );
@@ -244,8 +247,8 @@ const styles = StyleSheet.create({
     width: 52,
   },
   addButton: {
-    height: 60,
-    width: 60,
+    height: 40,
+    width: 40,
   },
 });
 

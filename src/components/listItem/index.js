@@ -10,7 +10,13 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import useGlobal from '../../store';
 import ModalComponent from '../modal';
-import {white, black, secondaryColor} from '../../config';
+import {
+  white,
+  black,
+  secondaryColor,
+  placeHolderColorDark,
+  placeHolderColor,
+} from '../../config';
 
 const renderLeftActions = styles => {
   return (
@@ -37,7 +43,7 @@ const ListItem = memo(props => {
       padding: 15,
       paddingRight: 30,
       borderBottomWidth: 2,
-      borderColor: darkMode ? '#111' : '#ccc',
+      borderColor: darkMode ? placeHolderColorDark : placeHolderColor,
       backgroundColor: darkMode ? black : secondaryColor,
       marginLeft: 5,
       marginRight: 5,
