@@ -5,11 +5,11 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* notesappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* notesappTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1DE4706B2FAB3737F49B910F /* libPods-notesapp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA6C4BEB42801E792AA9F07 /* libPods-notesapp-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -19,20 +19,21 @@
 		4495DB6896E949149AFE141E /* empty_icon_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = AF52A833F3884A40843FF0EA /* empty_icon_dark.png */; };
 		5893034A44A9BD782D126D8D /* libPods-notesappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0765270FAA0EA67DE427BD4B /* libPods-notesappTests.a */; };
 		792863E186E655CDBB6591DC /* libPods-notesapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CFE0148A0800EC82885701 /* libPods-notesapp.a */; };
+		7FD38928340B471F933BF21F /* logout_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D4F8E1DA221B4ED397A5CBD0 /* logout_icon.png */; };
 		810B4354899AF4B4A07D6299 /* libPods-notesapp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 853C487830A34EDD582438AC /* libPods-notesapp-tvOS.a */; };
 		8293F43C99D741E1AFC6F6E4 /* add_btn_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */; };
 		87A0C51DC316452EABF47519 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CA88248682554A4FBF37C5AA /* add_btn.png */; };
 		8E42886423114BA20003ABFC /* Product Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C357706D8E124DE88223247F /* Product Sans.ttf */; };
+		8E4D90702365A0BC00E0A1F7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		8E9C3CB2235C3A10009A6B26 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C3CB1235C3A0F009A6B26 /* GoogleService-Info.plist */; };
-		A3E082341B074FDE968957B2 /* empty_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C1A5A4C86654779A0DE9183 /* empty_icon.png */; };
-		E52B354EBD3845539A03C650 /* sign_in_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DB9289993594D099DDC7951 /* sign_in_background.jpg */; };
-		FCA1E26AF17B405B9BC4DF15 /* listing_page_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7F55C5219BD04FC6A1100B1E /* listing_page_background.jpg */; };
+		94C828C921F446D4B35F6520 /* sign_in_background_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D2B611F844010956E02EB /* sign_in_background_2.png */; };
+		9DAA87E9EF5E4B99B0E176F0 /* share_icon.svg in Resources */ = {isa = PBXBuildFile; fileRef = B72B7FEE2EF94182B6CB51CF /* share_icon.svg */; };
 		A2C874C5CEC94F1394F6603B /* logout_icon_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A6AB7EAAE041F9A22D3019 /* logout_icon_dark.png */; };
-		7FD38928340B471F933BF21F /* logout_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D4F8E1DA221B4ED397A5CBD0 /* logout_icon.png */; };
+		A3E082341B074FDE968957B2 /* empty_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C1A5A4C86654779A0DE9183 /* empty_icon.png */; };
 		A8986D29A9FD4B66ACAFDB5D /* pencil_icon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 7C663BDEBDDB46FCA56B4F74 /* pencil_icon.svg */; };
 		BCB3F74817C94121A58CF601 /* share_icon_dark.svg in Resources */ = {isa = PBXBuildFile; fileRef = 59A1655C89FF43AB82B4A6B1 /* share_icon_dark.svg */; };
-		9DAA87E9EF5E4B99B0E176F0 /* share_icon.svg in Resources */ = {isa = PBXBuildFile; fileRef = B72B7FEE2EF94182B6CB51CF /* share_icon.svg */; };
-		94C828C921F446D4B35F6520 /* sign_in_background_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D2B611F844010956E02EB /* sign_in_background_2.png */; };
+		E52B354EBD3845539A03C650 /* sign_in_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2DB9289993594D099DDC7951 /* sign_in_background.jpg */; };
+		FCA1E26AF17B405B9BC4DF15 /* listing_page_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7F55C5219BD04FC6A1100B1E /* listing_page_background.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,30 +71,30 @@
 		2D02E4901E0B4A5D006451C7 /* notesapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "notesapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB9289993594D099DDC7951 /* sign_in_background.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = sign_in_background.jpg; path = ../assets/sign_in_background.jpg; sourceTree = "<group>"; };
 		49CFE0148A0800EC82885701 /* libPods-notesapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		59A1655C89FF43AB82B4A6B1 /* share_icon_dark.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = share_icon_dark.svg; path = ../assets/share_icon_dark.svg; sourceTree = "<group>"; };
 		5C1A5A4C86654779A0DE9183 /* empty_icon.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = empty_icon.png; path = ../assets/empty_icon.png; sourceTree = "<group>"; };
 		66A7957B413DE423CABF3EE2 /* Pods-notesapp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOSTests/Pods-notesapp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6E70EB42984E7B5A0670E5EB /* Pods-notesapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp.release.xcconfig"; path = "Target Support Files/Pods-notesapp/Pods-notesapp.release.xcconfig"; sourceTree = "<group>"; };
+		7C663BDEBDDB46FCA56B4F74 /* pencil_icon.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = pencil_icon.svg; path = ../assets/pencil_icon.svg; sourceTree = "<group>"; };
+		7F55C5219BD04FC6A1100B1E /* listing_page_background.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = listing_page_background.jpg; path = ../assets/listing_page_background.jpg; sourceTree = "<group>"; };
 		853C487830A34EDD582438AC /* libPods-notesapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A85B4C344640D87B7417834 /* Pods-notesapp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOS/Pods-notesapp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		8E9C3CB1235C3A0F009A6B26 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "notesapp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		91529FC06F1B381F266C2071 /* Pods-notesapp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOSTests/Pods-notesapp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = add_btn_dark.png; path = ../assets/add_btn_dark.png; sourceTree = "<group>"; };
+		9B5D2B611F844010956E02EB /* sign_in_background_2.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = sign_in_background_2.png; path = ../assets/sign_in_background_2.png; sourceTree = "<group>"; };
 		9DA6C4BEB42801E792AA9F07 /* libPods-notesapp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF52A833F3884A40843FF0EA /* empty_icon_dark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = empty_icon_dark.png; path = ../assets/empty_icon_dark.png; sourceTree = "<group>"; };
+		B4A6AB7EAAE041F9A22D3019 /* logout_icon_dark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logout_icon_dark.png; path = ../assets/logout_icon_dark.png; sourceTree = "<group>"; };
+		B72B7FEE2EF94182B6CB51CF /* share_icon.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = share_icon.svg; path = ../assets/share_icon.svg; sourceTree = "<group>"; };
 		B7F2B955AADEDA0D018C1E89 /* Pods-notesappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesappTests.release.xcconfig"; path = "Target Support Files/Pods-notesappTests/Pods-notesappTests.release.xcconfig"; sourceTree = "<group>"; };
 		BCCB2237E7E7F3CEB2B35E1B /* Pods-notesapp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOS/Pods-notesapp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C357706D8E124DE88223247F /* Product Sans.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Product Sans.ttf"; path = "../assets/fonts/Product Sans.ttf"; sourceTree = "<group>"; };
 		CA88248682554A4FBF37C5AA /* add_btn.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = add_btn.png; path = ../assets/add_btn.png; sourceTree = "<group>"; };
+		D4F8E1DA221B4ED397A5CBD0 /* logout_icon.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logout_icon.png; path = ../assets/logout_icon.png; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC5945605DB7CB5C93C3CF95 /* Pods-notesappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesappTests.debug.xcconfig"; path = "Target Support Files/Pods-notesappTests/Pods-notesappTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7F55C5219BD04FC6A1100B1E /* listing_page_background.jpg */ = {isa = PBXFileReference; name = "listing_page_background.jpg"; path = "../assets/listing_page_background.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B4A6AB7EAAE041F9A22D3019 /* logout_icon_dark.png */ = {isa = PBXFileReference; name = "logout_icon_dark.png"; path = "../assets/logout_icon_dark.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D4F8E1DA221B4ED397A5CBD0 /* logout_icon.png */ = {isa = PBXFileReference; name = "logout_icon.png"; path = "../assets/logout_icon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7C663BDEBDDB46FCA56B4F74 /* pencil_icon.svg */ = {isa = PBXFileReference; name = "pencil_icon.svg"; path = "../assets/pencil_icon.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		59A1655C89FF43AB82B4A6B1 /* share_icon_dark.svg */ = {isa = PBXFileReference; name = "share_icon_dark.svg"; path = "../assets/share_icon_dark.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B72B7FEE2EF94182B6CB51CF /* share_icon.svg */ = {isa = PBXFileReference; name = "share_icon.svg"; path = "../assets/share_icon.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9B5D2B611F844010956E02EB /* sign_in_background_2.png */ = {isa = PBXFileReference; name = "sign_in_background_2.png"; path = "../assets/sign_in_background_2.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,7 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E42886423114BA20003ABFC /* Product Sans.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				8E4D90702365A0BC00E0A1F7 /* Images.xcassets in Resources */,
 				8E9C3CB2235C3A10009A6B26 /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				87A0C51DC316452EABF47519 /* add_btn.png in Resources */,
@@ -727,13 +728,13 @@
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.notesapp;
 				PRODUCT_NAME = notesapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -748,13 +749,13 @@
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.notesapp;
 				PRODUCT_NAME = notesapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
