@@ -21,7 +21,9 @@ const LogoTitle = memo(() => {
   });
 
   return (
-    <TouchableOpacity onPress={() => globalActions.toggleDarkMode(!darkMode)}>
+    <TouchableOpacity
+      onLongPress={() => globalActions.toggleDarkMode(!darkMode)}
+    >
       <Text style={styles.title}>NotesApp</Text>
     </TouchableOpacity>
   );
