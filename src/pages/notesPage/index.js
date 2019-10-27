@@ -21,6 +21,7 @@ import {
   black,
   placeHolderColorDark,
   placeHolderColor,
+  primaryColor,
 } from '../../config';
 
 const shareIconDark = require('../../../assets/share_icon.svg');
@@ -40,30 +41,20 @@ const NotesPage = memo(props => {
     }
   }, [darkMode, globalState.darkMode]);
 
-  // Dark mode effect
-  useEffect(() => {
-    const firstTimeThisEffectIsFiring = !navigation.state.params;
-    if (
-      firstTimeThisEffectIsFiring ||
-      navigation.state.params.darkMode !== darkMode
-    ) {
-      navigation.setParams({
-        darkMode,
-      });
-    }
-  }, [darkMode, navigation]);
-
   // Sending data to header for share
+  // Also, sending dark mode
   useEffect(() => {
     if (
       (navigation.state.params.title &&
         navigation.state.params.title === title) ||
-      (navigation.state.params.body && navigation.state.params.body === body)
+      (navigation.state.params.body && navigation.state.params.body === body) ||
+      (navigation.state.params.darkMode === undefined ||
+        navigation.state.params.darkMode !== darkMode)
     ) {
       return;
     }
-    navigation.setParams({title, body});
-  }, [title, body, navigation]);
+    navigation.setParams({title, body, darkMode});
+  }, [title, body, navigation, darkMode]);
 
   const styles = StyleSheet.create({
     container: {
@@ -165,7 +156,17 @@ const NotesPage = memo(props => {
 NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;
   const {saving, darkMode, title, body} = params;
+  const firstTime = darkMode === undefined;
 
+  const headerTintColor = () => {
+    if (firstTime) {
+      return primaryColor;
+    }
+    if (darkMode) {
+      return black;
+    }
+    return secondaryColor;
+  };
   const onShare = async () => {
     try {
       const result = await Share.share(
@@ -225,16 +226,18 @@ NotesPage.navigationOptions = ({navigation}) => {
         )}
         {!saving && (
           <TouchableOpacity onPress={onShare} style={styles.shareHolder}>
-            <Image
-              resizeMode="contain"
-              style={styles.shareIcon}
-              source={darkMode ? shareIconDark : shareIcon}
-            />
+            {!firstTime && (
+              <Image
+                resizeMode="contain"
+                style={styles.shareIcon}
+                source={darkMode ? shareIconDark : shareIcon}
+              />
+            )}
           </TouchableOpacity>
         )}
       </View>
     ),
-    headerTintColor: darkMode ? black : secondaryColor,
+    headerTintColor: headerTintColor(),
   };
 };
 
