@@ -7,6 +7,10 @@ import {
   Platform,
   ActivityIndicator,
   Text,
+  Image,
+  Share,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
@@ -18,6 +22,9 @@ import {
   placeHolderColorDark,
   placeHolderColor,
 } from '../../config';
+
+const shareIconDark = require('../../../assets/share_icon.svg');
+const shareIcon = require('../../../assets/share_icon_dark.svg');
 
 const NotesPage = memo(props => {
   const [globalState, globalActions] = useGlobal();
@@ -45,6 +52,18 @@ const NotesPage = memo(props => {
       });
     }
   }, [darkMode, navigation]);
+
+  // Sending data to header for share
+  useEffect(() => {
+    if (
+      (navigation.state.params.title &&
+        navigation.state.params.title === title) ||
+      (navigation.state.params.body && navigation.state.params.body === body)
+    ) {
+      return;
+    }
+    navigation.setParams({title, body});
+  }, [title, body, navigation]);
 
   const styles = StyleSheet.create({
     container: {
@@ -145,7 +164,34 @@ const NotesPage = memo(props => {
 
 NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;
-  const {saving, darkMode} = params;
+  const {saving, darkMode, title, body} = params;
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share(
+        {
+          message: body,
+          title,
+        },
+        {
+          // Android only:
+          dialogTitle: title,
+        },
+      );
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
   const styles = StyleSheet.create({
     saveHolder: {
       margin: 15,
@@ -154,6 +200,14 @@ NotesPage.navigationOptions = ({navigation}) => {
     saveText: {
       marginLeft: 5,
       color: darkMode ? black : secondaryColor,
+    },
+    shareIcon: {
+      width: 30,
+      height: 30,
+    },
+    shareHolder: {
+      padding: 15,
+      alignItems: 'center',
     },
   });
   return {
@@ -168,6 +222,15 @@ NotesPage.navigationOptions = ({navigation}) => {
             />
             <Text style={styles.saveText}>Saving</Text>
           </View>
+        )}
+        {!saving && (
+          <TouchableOpacity onPress={onShare} style={styles.shareHolder}>
+            <Image
+              resizeMode="contain"
+              style={styles.shareIcon}
+              source={darkMode ? shareIconDark : shareIcon}
+            />
+          </TouchableOpacity>
         )}
       </View>
     ),
