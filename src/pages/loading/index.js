@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
+import {firebase} from '@react-native-firebase/auth';
 import {SafeAreaView} from 'react-navigation';
 import {secondaryColor, primaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
@@ -47,20 +48,29 @@ const AuthLoadingScreen = memo(props => {
 
     const getCurrentUserInfo = async () => {
       try {
+        console.log('sd');
         // Trying to Sign in Silently
         if (userName) {
           setStatusText(`Welcome back, ${userName}!`);
           return;
         }
-        const userInfo = await GoogleSignin.signInSilently();
-        // Showing Welcome Message
-        setUsername(userInfo.user.name);
-        if (globalState.list.length === 0) {
-          await sleep(1000);
-          setStatusText(`Getting your data ready!`);
-          const list = await AsyncStorage.getItem('list');
-          globalActions.addAllNotes(JSON.parse(list));
+        // const userInfo = await GoogleSignin.signInSilently();
+        const userInfo = firebase.auth().currentUser;
+        if (userInfo) {
+          // User is signed in.
+          const {_user} = userInfo;
+          setUsername(_user.displayName);
+          if (globalState.list.length === 0) {
+            await sleep(1000);
+            setStatusText(`Getting your data ready!`);
+            const list = await AsyncStorage.getItem('list');
+            globalActions.addAllNotes(JSON.parse(list));
+          }
+        } else {
+          // No user is signed in.
+          navigation.navigate('Auth');
         }
+        // Showing Welcome Message
         // Setting Timeout, so state update can happen, name gets populated.
         await sleep(1000);
         navigation.navigate('App');

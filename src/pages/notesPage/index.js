@@ -44,6 +44,9 @@ const NotesPage = memo(props => {
   // Sending data to header for share
   // Also, sending dark mode
   useEffect(() => {
+    if (!title || !body) {
+      return;
+    }
     if (
       (navigation.state.params.title &&
         navigation.state.params.title === title) ||

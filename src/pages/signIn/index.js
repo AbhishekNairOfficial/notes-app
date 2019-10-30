@@ -62,8 +62,9 @@ const SignIn = memo(({navigation}) => {
   const onSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const {idToken, accessToken} = await GoogleSignin.signIn();
+      const {idToken} = await GoogleSignin.signIn();
       setStatusText('Loading your details...');
+      const {accessToken} = await GoogleSignin.getTokens();
       const credential = firebase.auth.GoogleAuthProvider.credential(
         idToken,
         accessToken,
