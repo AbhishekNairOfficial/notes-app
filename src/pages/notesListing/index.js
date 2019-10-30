@@ -182,7 +182,9 @@ const NotesListing = memo(props => {
               ...innerStyles.emptyContainer,
             }}
           >
-            <TouchableOpacity onPress={() => navigation.navigate('Note')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Note', {darkMode})}
+            >
               <Image
                 style={styles.emptyIcon}
                 source={darkMode ? emptyIconDark : emptyIcon}
@@ -196,7 +198,7 @@ const NotesListing = memo(props => {
         )}
         {/* The floating action button */}
         <TouchableOpacity
-          onPress={() => navigation.navigate('Note')}
+          onPress={() => navigation.navigate('Note', {darkMode})}
           style={innerStyles.buttonHolder}
         >
           <Image

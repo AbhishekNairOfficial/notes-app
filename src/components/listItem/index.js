@@ -109,6 +109,7 @@ const ListItem = memo(props => {
               title,
               body,
               id,
+              darkMode,
             })
           }
         >
