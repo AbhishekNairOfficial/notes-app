@@ -8,6 +8,8 @@ import {
   ActivityIndicator,
   Text,
   Image,
+  ScrollView,
+  KeyboardAvoidingView,
   Share,
   TouchableOpacity,
   Alert,
@@ -60,10 +62,16 @@ const NotesPage = memo(props => {
   }, [title, body, navigation, darkMode]);
 
   const styles = StyleSheet.create({
+    flex: {
+      flex: 1,
+    },
     container: {
       padding: 15,
-      height: '100%',
       backgroundColor: darkMode ? black : secondaryColor,
+      height: '100%',
+    },
+    scrollView: {
+      paddingBottom: 20,
       justifyContent: 'space-between',
     },
     title: {
@@ -123,36 +131,45 @@ const NotesPage = memo(props => {
     navigation.goBack();
   };
   return (
-    <View style={styles.container}>
-      <NavigationEvents onWillBlur={() => callAddNoteAction()} />
-      <TextInput
-        placeholderTextColor={
-          darkMode ? placeHolderColorDark : placeHolderColor
-        }
-        style={styles.title}
-        autoCorrect={false}
-        autoFocus={!id}
-        autoCapitalize="sentences"
-        maxLength={25}
-        onChangeText={value => debounce(setTitle(value), 1000)}
-        value={title}
-        placeholder="Title"
-      />
-      <TextInput
-        placeholderTextColor={
-          darkMode ? placeHolderColorDark : placeHolderColor
-        }
-        multiline
-        textAlignVertical="top"
-        autoCapitalize="sentences"
-        autoCorrect={false}
-        maxLength={1000}
-        style={styles.body}
-        onChangeText={value => debounce(setBody(value), 1000)}
-        value={body}
-        placeholder="Type something Here"
-      />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      style={styles.flex}
+    >
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollView}
+      >
+        <NavigationEvents onWillBlur={() => callAddNoteAction()} />
+        <TextInput
+          placeholderTextColor={
+            darkMode ? placeHolderColorDark : placeHolderColor
+          }
+          style={styles.title}
+          autoCorrect={false}
+          autoFocus={!id}
+          autoCapitalize="sentences"
+          maxLength={25}
+          onChangeText={value => debounce(setTitle(value), 1000)}
+          value={title}
+          placeholder="Title"
+        />
+        <TextInput
+          placeholderTextColor={
+            darkMode ? placeHolderColorDark : placeHolderColor
+          }
+          multiline
+          textAlignVertical="top"
+          autoCapitalize="sentences"
+          autoCorrect={false}
+          maxLength={1000}
+          style={styles.body}
+          onChangeText={value => debounce(setBody(value), 1000)}
+          value={body}
+          placeholder="Type something Here"
+        />
+        <View style={styles.flex} />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 });
 
@@ -216,7 +233,7 @@ NotesPage.navigationOptions = ({navigation}) => {
   });
   return {
     headerRight: (
-      <View>
+      <>
         {saving && (
           <View style={styles.saveHolder}>
             <ActivityIndicator
@@ -238,7 +255,7 @@ NotesPage.navigationOptions = ({navigation}) => {
             )}
           </TouchableOpacity>
         )}
-      </View>
+      </>
     ),
     headerTintColor: headerTintColor(),
   };
