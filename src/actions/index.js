@@ -12,7 +12,12 @@ const updateAsyncStorage = (list, itemName = 'list') => {
   );
 };
 
-export const addAllNotes = (store, list) => {
+export const addAllNotes = (store, listFromProps) => {
+  let list = listFromProps;
+  // Error Condition
+  if (list === null) {
+    list = [];
+  }
   store.setState({list});
   updateAsyncStorage(list);
 };
