@@ -65,16 +65,16 @@ const AuthLoadingScreen = memo(props => {
             setStatusText(`Getting your data ready!`);
             const list = await AsyncStorage.getItem('list');
             globalActions.addAllNotes(JSON.parse(list));
+            // Showing Welcome Message
+            // Setting Timeout, so state update can happen, name gets populated.
+            await sleep(1000);
+            navigation.navigate('App');
+            console.log('done');
           }
         } else {
           // No user is signed in.
           navigation.navigate('Auth');
         }
-        // Showing Welcome Message
-        // Setting Timeout, so state update can happen, name gets populated.
-        await sleep(1000);
-        navigation.navigate('App');
-        console.log('done');
       } catch (error) {
         if (error.code === statusCodes.SIGN_IN_REQUIRED) {
           // user has not signed in yet
