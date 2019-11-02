@@ -253,7 +253,7 @@ NotesPage.navigationOptions = ({navigation}) => {
               animating={saving}
               color={darkMode ? black : secondaryColor}
             />
-            <Text style={styles.saveText}>Saving</Text>
+            <Text style={styles.saveText}>Saved</Text>
           </View>
         )}
         {!saving && (
