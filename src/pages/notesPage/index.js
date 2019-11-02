@@ -145,7 +145,7 @@ const NotesPage = memo(props => {
         style={styles.flex}
       >
         <ScrollView
-          onTouchEnd={() => Keyboard.dismiss()}
+          onScrollEndDrag={() => Keyboard.dismiss()}
           keyboardDismissMode="on-drag"
           style={styles.container}
           contentContainerStyle={styles.scrollView}
