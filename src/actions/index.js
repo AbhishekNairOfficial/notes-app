@@ -1,8 +1,15 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import database from '@react-native-firebase/database';
 import debounce from '../functions';
 
-const updateAsyncStorage = list => {
-  debounce(AsyncStorage.setItem('list', JSON.stringify(list)), 500);
+const updateAsyncStorage = (list, itemName = 'list') => {
+  debounce(
+    AsyncStorage.setItem(
+      itemName,
+      itemName === 'list' ? JSON.stringify(list) : list,
+    ),
+    500,
+  );
 };
 
 export const addAllNotes = (store, list) => {
@@ -10,47 +17,74 @@ export const addAllNotes = (store, list) => {
   updateAsyncStorage(list);
 };
 
-export const addNote = (store, note) => {
-  const times = x => f => {
-    if (x > 0) {
-      f();
-      times(x - 1)(f);
-    }
-  };
-  const makeId = length => {
-    let result = '';
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    times(length)(() => {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    });
-    return result;
-  };
+export const updateUid = (store, uid) => {
+  store.setState({uid});
+  updateAsyncStorage(uid, 'uid');
+};
+
+export const addNote = async (store, note) => {
+  const uid = await AsyncStorage.getItem('uid');
   const newNote = note;
-  newNote.id = makeId(20);
+  // Get a key for a new Post.
+  const newNoteKey = database()
+    .ref()
+    .child(`users/${uid}/list/`)
+    .push().key;
+  newNote.id = newNoteKey;
   const list = store.state.list.concat(note);
   store.setState({list});
   updateAsyncStorage(list);
+  const updates = {};
+  updates[`/users/${uid}/list/${newNoteKey}`] = newNote;
+  return database()
+    .ref()
+    .update(updates);
 };
 
-export const editNote = (store, note) => {
+export const editNote = async (store, note) => {
   const {list} = store.state;
   const index = list.findIndex(i => i.id === note.id);
   list[index] = note;
   store.setState({list});
   updateAsyncStorage(list);
+  // Updating the post in firebase
+  const uid = await AsyncStorage.getItem('uid');
+  const updates = {};
+  updates[`/users/${uid}/list/${note.id}`] = note;
+  return database()
+    .ref()
+    .update(updates);
 };
 
-export const deleteNote = (store, noteId) => {
+export const deleteNote = async (store, noteId) => {
   const {list} = store.state;
   const index = list.findIndex(i => i.id === noteId);
   list.splice(index, 1);
   store.setState({list});
   updateAsyncStorage(list);
+  // Updating the post in firebase
+  const uid = await AsyncStorage.getItem('uid');
+  const updates = {};
+  updates[`/users/${uid}/list/${noteId}`] = null;
+  return database()
+    .ref()
+    .update(updates);
 };
 
-export const toggleDarkMode = (store, darkMode) => {
+export const toggleDarkMode = async (store, darkMode) => {
   store.setState({darkMode});
   AsyncStorage.setItem('darkMode', JSON.stringify(darkMode));
+  const uid = await AsyncStorage.getItem('uid');
+  const updates = {};
+  updates[`/users/${uid}/preferences/`] = {
+    darkMode,
+  };
+  return database()
+    .ref()
+    .update(updates);
+};
+
+export const logout = async store => {
+  store.setState({list: [], darkMode: false});
+  updateAsyncStorage([], 'list');
 };

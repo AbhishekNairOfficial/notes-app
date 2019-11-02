@@ -6,55 +6,25 @@ import {
   View,
   Text,
 } from 'react-native';
+import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
+import {firebase} from '@react-native-firebase/auth';
 import {SafeAreaView} from 'react-navigation';
-import {secondaryColor, primaryColor} from '../../config';
+import {secondaryColor, primaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
 
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [globalState, globalActions] = useGlobal();
-  const [token, setToken] = useState('');
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
   const [darkMode, setDarkMode] = useState();
+  const [statusText, setStatusText] = useState('Loading..');
+  const [userName, setUsername] = useState('');
+
+  // Small function to give me easy await functionality
+  const sleep = m => new Promise(r => setTimeout(r, m));
 
   useEffect(() => {
-    const CheckForToken = async () => {
-      try {
-        const value = await AsyncStorage.getItem('userId');
-        if (token) {
-          return;
-        }
-        if (value) {
-          setToken(value);
-        } else {
-          navigation.navigate('Auth');
-        }
-      } catch (e) {
-        // error reading value
-      }
-    };
-
-    const CheckForList = async () => {
-      try {
-        const value = await AsyncStorage.getItem('list');
-        if (!token) {
-          return;
-        }
-        if (!data) {
-          if (value) {
-            setData(value);
-            globalActions.addAllNotes(JSON.parse(value));
-            navigation.navigate('App');
-          } else {
-            navigation.navigate('App');
-          }
-        }
-      } catch (e) {
-        // error reading value
-      }
-    };
-
     const CheckForDarkMode = async () => {
       try {
         const darkModeFromAsyncStorage =
@@ -71,20 +41,65 @@ const AuthLoadingScreen = memo(props => {
     if (!darkMode) {
       CheckForDarkMode();
     }
-    if (!token) {
-      CheckForToken();
-    }
-    if (!data) {
-      CheckForList();
-    }
-  }, [darkMode, data, globalActions, globalState.darkMode, navigation, token]);
+  }, [darkMode, globalActions]);
+
+  useEffect(() => {
+    GoogleSignin.configure(googleConfig);
+
+    const getCurrentUserInfo = async () => {
+      try {
+        console.log('sd');
+        // Trying to Sign in Silently
+        if (userName) {
+          setStatusText(`Welcome back, ${userName}!`);
+          return;
+        }
+        // const userInfo = await GoogleSignin.signInSilently();
+        const userInfo = firebase.auth().currentUser;
+        if (userInfo) {
+          // User is signed in.
+          const {_user} = userInfo;
+          setUsername(_user.displayName);
+          if (globalState.list.length === 0) {
+            await sleep(1000);
+            setStatusText(`Getting your data ready!`);
+            const list = await AsyncStorage.getItem('list');
+            globalActions.addAllNotes(JSON.parse(list));
+            // Showing Welcome Message
+            // Setting Timeout, so state update can happen, name gets populated.
+            await sleep(1000);
+            navigation.navigate('App');
+            console.log('done');
+          }
+        } else {
+          // No user is signed in.
+          navigation.navigate('Auth');
+        }
+      } catch (error) {
+        if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+          // user has not signed in yet
+          setTimeout(() => {
+            navigation.navigate('Auth');
+          }, 300);
+        } else {
+          // some other error
+          setTimeout(() => {
+            navigation.navigate('Auth');
+          }, 300);
+        }
+      }
+    };
+
+    getCurrentUserInfo();
+    return () => {};
+  }, [globalActions, globalState.list, navigation, userName]);
 
   return (
     <View>
       <StatusBar barStyle="default" />
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={primaryColor} />
-        <Text style={styles.text}>Loading</Text>
+        <Text style={styles.text}>{statusText}</Text>
       </SafeAreaView>
     </View>
   );
@@ -94,6 +109,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    padding: 30,
     backgroundColor: secondaryColor,
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,6 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Product Sans',
   },
 });
 
