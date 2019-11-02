@@ -157,7 +157,6 @@ const NotesPage = memo(props => {
             }
             style={styles.title}
             autoCorrect={false}
-            autoFocus={!id}
             autoCapitalize="sentences"
             maxLength={25}
             onChangeText={value => debounce(setTitle(value), 1000)}
@@ -168,6 +167,7 @@ const NotesPage = memo(props => {
             placeholderTextColor={
               darkMode ? placeHolderColorDark : placeHolderColor
             }
+            autoFocus={!id}
             multiline
             textAlignVertical="top"
             autoCapitalize="sentences"
