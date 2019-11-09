@@ -1,6 +1,5 @@
 import React, {useEffect, useState, memo} from 'react';
 import {
-  ScrollView,
   StatusBar,
   Image,
   TouchableOpacity,
@@ -10,7 +9,9 @@ import {
   Text,
   ImageBackground,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
 import ModalComponent from '../../components/modal';
@@ -158,22 +159,20 @@ const NotesListing = memo(props => {
           backgroundColor={primaryColor}
           barStyle={darkMode ? 'dark-content' : 'light-content'}
         />
-        {globalState.list.length > 0 && (
-          <ScrollView style={innerStyles.scrollViewStyle}>
-            {/* Changing the Statusbar text to light content on Android */}
-            {globalState.list.map((note, key) => {
-              return (
-                <ListItem
-                  key={key}
-                  id={note.id}
-                  title={note.title}
-                  body={note.body}
-                  navigation={navigation}
-                />
-              );
-            })}
-          </ScrollView>
-        )}
+        <FlatList
+          data={globalState.list}
+          renderItem={({item}) => {
+            return (
+              <ListItem
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                body={item.body}
+                navigation={navigation}
+              />
+            );
+          }}
+        />
         {/* Empty Condition */}
         {globalState.list.length === 0 && (
           <View
@@ -198,7 +197,14 @@ const NotesListing = memo(props => {
         )}
         {/* The floating action button */}
         <TouchableOpacity
-          onPress={() => navigation.navigate('Note', {darkMode})}
+          onPress={() => {
+            const onProductView = async () => {
+              const data = await analytics().logEvent('created_a_note');
+              console.log(data);
+            };
+            navigation.navigate('Note', {darkMode});
+            onProductView();
+          }}
           style={innerStyles.buttonHolder}
         >
           <Image
@@ -239,6 +245,10 @@ const styles = StyleSheet.create({
   icon: {
     height: 40,
     width: 40,
+  },
+  contentContainerStyle: {
+    paddingBottom: 20,
+    justifyContent: 'space-between',
   },
   logoutIcon: {
     height: 30,
