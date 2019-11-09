@@ -11,11 +11,11 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
+import ContentLoader from 'react-native-easy-content-loader';
 import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
 import ModalComponent from '../../components/modal';
-import ListItem from '../../components/listItem';
 import {
   black,
   white,
@@ -24,6 +24,8 @@ import {
   buttonColor,
 } from '../../config';
 import LogoTitle from '../../components/title';
+
+const ListItem = React.lazy(() => import('../../components/listItem'));
 
 const addButton = require('../../../assets/add_btn.png');
 const addButtonDark = require('../../../assets/add_btn_dark.png');
@@ -140,6 +142,19 @@ const NotesListing = memo(props => {
     },
   });
 
+  const Loader = () => {
+    return (
+      <ContentLoader
+        title={false}
+        active
+        pRows={4}
+        pHeight={10}
+        containerStyles={styles.loaderContainerStyle}
+        pWidth={['100%', '90%', '80%', '70%']}
+      />
+    );
+  };
+
   return (
     <ImageBackground
       source={darkMode ? null : backgroundImage}
@@ -163,13 +178,15 @@ const NotesListing = memo(props => {
           data={globalState.list}
           renderItem={({item}) => {
             return (
-              <ListItem
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                body={item.body}
-                navigation={navigation}
-              />
+              <React.Suspense fallback={<Loader />}>
+                <ListItem
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  body={item.body}
+                  navigation={navigation}
+                />
+              </React.Suspense>
             );
           }}
         />
@@ -262,6 +279,10 @@ const styles = StyleSheet.create({
   addButton: {
     height: 40,
     width: 40,
+  },
+  loaderContainerStyle: {
+    padding: 10,
+    height: 100,
   },
 });
 
