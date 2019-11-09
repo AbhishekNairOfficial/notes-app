@@ -43,22 +43,6 @@ const SignIn = memo(({navigation}) => {
 
   if (initilizing) return null;
 
-  // const signInAnonymously = async () => {
-  //   try {
-  //     await auth().signInAnonymously();
-  //     navigation.navigate('App');
-  //   } catch (e) {
-  //     switch (e.code) {
-  //       case 'auth/operation-not-allowed':
-  //         console.log('Enable anonymous in your firebase console.');
-  //         break;
-  //       default:
-  //         console.error(e);
-  //         break;
-  //     }
-  //   }
-  // };
-
   const onSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();

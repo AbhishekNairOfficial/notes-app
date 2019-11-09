@@ -216,8 +216,7 @@ const NotesListing = memo(props => {
         <TouchableOpacity
           onPress={() => {
             const onProductView = async () => {
-              const data = await analytics().logEvent('created_a_note');
-              console.log(data);
+              await analytics().logEvent('created_a_note');
             };
             navigation.navigate('Note', {darkMode});
             onProductView();

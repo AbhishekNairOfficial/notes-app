@@ -19,7 +19,6 @@ try {
     dataFix,
   );
   fs.writeFileSync(file, result, 'utf8');
-  console.log('Android Gradle Fixed!');
 } catch (error) {
   console.error(error);
 }

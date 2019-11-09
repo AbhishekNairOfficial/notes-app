@@ -48,28 +48,24 @@ const AuthLoadingScreen = memo(props => {
 
     const getCurrentUserInfo = async () => {
       try {
-        console.log('sd');
         // Trying to Sign in Silently
         if (userName) {
           setStatusText(`Welcome back, ${userName}!`);
           return;
         }
-        // const userInfo = await GoogleSignin.signInSilently();
-        const userInfo = firebase.auth().currentUser;
+        const userInfo = await firebase.auth().currentUser;
         if (userInfo) {
           // User is signed in.
           const {_user} = userInfo;
           setUsername(_user.displayName);
           if (globalState.list.length === 0) {
-            await sleep(1000);
+            await sleep(500);
             setStatusText(`Getting your data ready!`);
             const list = await AsyncStorage.getItem('list');
             globalActions.addAllNotes(JSON.parse(list));
             // Showing Welcome Message
             // Setting Timeout, so state update can happen, name gets populated.
-            await sleep(1000);
             navigation.navigate('App');
-            console.log('done');
           }
         } else {
           // No user is signed in.
