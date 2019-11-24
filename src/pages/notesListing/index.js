@@ -125,7 +125,7 @@ const NotesListing = memo(props => {
       borderRadius: 40,
       alignItems: 'center',
       justifyContent: 'center',
-      position: 'relative',
+      position: 'absolute',
       zIndex: 2,
       bottom: 20,
       left: width - 76,
