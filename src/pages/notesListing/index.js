@@ -1,6 +1,5 @@
 import React, {useEffect, useState, memo} from 'react';
 import {
-  ScrollView,
   StatusBar,
   Image,
   TouchableOpacity,
@@ -8,13 +7,14 @@ import {
   StyleSheet,
   View,
   Text,
-  ImageBackground,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
+import ContentLoader from 'react-native-easy-content-loader';
+import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
 import ModalComponent from '../../components/modal';
-import ListItem from '../../components/listItem';
 import {
   black,
   white,
@@ -24,13 +24,14 @@ import {
 } from '../../config';
 import LogoTitle from '../../components/title';
 
+const ListItem = React.lazy(() => import('../../components/listItem'));
+
 const addButton = require('../../../assets/add_btn.png');
 const addButtonDark = require('../../../assets/add_btn_dark.png');
 const emptyIcon = require('../../../assets/empty_icon.png');
 const emptyIconDark = require('../../../assets/empty_icon_dark.png');
 const logoutIconDark = require('../../../assets/logout_icon.png');
 const logoutIcon = require('../../../assets/logout_icon_dark.png');
-const backgroundImage = require('../../../assets/listing_page_background.jpg');
 
 const NotesListing = memo(props => {
   const [globalState, globalActions] = useGlobal();
@@ -88,7 +89,7 @@ const NotesListing = memo(props => {
       logout: false,
     });
   };
-  const {height, width} = Dimensions.get('window');
+  const {height, width} = Dimensions.get('screen');
 
   const innerStyles = StyleSheet.create({
     safeAreaView: {
@@ -100,7 +101,6 @@ const NotesListing = memo(props => {
       backgroundColor: darkMode ? black : null,
     },
     emptyContainer: {
-      marginTop: height / 3,
       justifyContent: 'flex-start',
       backgroundColor: darkMode ? black : white,
       opacity: darkMode ? 1 : 9.5,
@@ -127,8 +127,8 @@ const NotesListing = memo(props => {
       justifyContent: 'center',
       position: 'absolute',
       zIndex: 2,
-      bottom: 86,
-      right: 20,
+      bottom: 20,
+      left: width - 76,
       shadowOpacity: 0.75,
       shadowRadius: 5,
       shadowColor: darkMode ? placeHolderColorDark : black,
@@ -139,75 +139,88 @@ const NotesListing = memo(props => {
     },
   });
 
+  const Loader = () => {
+    return (
+      <ContentLoader
+        title={false}
+        active
+        pRows={4}
+        pHeight={10}
+        containerStyles={styles.loaderContainerStyle}
+        pWidth={['100%', '90%', '80%', '70%']}
+      />
+    );
+  };
+
   return (
-    <ImageBackground
-      source={darkMode ? null : backgroundImage}
-      imageStyle={{width, marginTop: width / 2}}
-      style={{height, width}}
-    >
-      <SafeAreaView style={innerStyles.safeAreaView}>
-        <ModalComponent
-          darkMode={darkMode}
-          leftButton="Logout"
-          leftAction={signOut}
-          rightAction={cancelSignOut}
-          visible={logoutModalVisible}
-          text="Are you sure you want to logout?"
-        />
-        <StatusBar
-          backgroundColor={primaryColor}
-          barStyle={darkMode ? 'dark-content' : 'light-content'}
-        />
-        {globalState.list.length > 0 && (
-          <ScrollView style={innerStyles.scrollViewStyle}>
-            {/* Changing the Statusbar text to light content on Android */}
-            {globalState.list.map((note, key) => {
-              return (
-                <ListItem
-                  key={key}
-                  id={note.id}
-                  title={note.title}
-                  body={note.body}
-                  navigation={navigation}
-                />
-              );
-            })}
-          </ScrollView>
-        )}
-        {/* Empty Condition */}
-        {globalState.list.length === 0 && (
-          <View
-            style={{
-              ...innerStyles.scrollViewStyle,
-              ...innerStyles.emptyContainer,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Note', {darkMode})}
-            >
-              <Image
-                style={styles.emptyIcon}
-                source={darkMode ? emptyIconDark : emptyIcon}
+    <SafeAreaView style={innerStyles.safeAreaView}>
+      <ModalComponent
+        darkMode={darkMode}
+        leftButton="Logout"
+        leftAction={signOut}
+        rightAction={cancelSignOut}
+        visible={logoutModalVisible}
+        text="Are you sure you want to logout?"
+      />
+      <StatusBar
+        backgroundColor={primaryColor}
+        barStyle={darkMode ? 'dark-content' : 'light-content'}
+      />
+      <FlatList
+        data={globalState.list}
+        renderItem={({item}) => {
+          return (
+            <React.Suspense fallback={<Loader />}>
+              <ListItem
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                body={item.body}
+                navigation={navigation}
               />
-            </TouchableOpacity>
-            <Text style={innerStyles.emptyText}>No Notes found!</Text>
-            <Text style={innerStyles.emptyText}>
-              Click on the + icon to add a note.
-            </Text>
-          </View>
-        )}
-        {/* The floating action button */}
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Note', {darkMode})}
-          style={innerStyles.buttonHolder}
+            </React.Suspense>
+          );
+        }}
+      />
+      {/* Empty Condition */}
+      {globalState.list.length === 0 && (
+        <View
+          style={{
+            ...innerStyles.scrollViewStyle,
+            ...innerStyles.emptyContainer,
+          }}
         >
-          <Image
-            style={styles.addButton}
-            source={darkMode ? addButtonDark : addButton}
-          />
-        </TouchableOpacity>
-      </SafeAreaView>
-    </ImageBackground>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Note', {darkMode})}
+          >
+            <Image
+              style={styles.emptyIcon}
+              source={darkMode ? emptyIconDark : emptyIcon}
+            />
+          </TouchableOpacity>
+          <Text style={innerStyles.emptyText}>No Notes found!</Text>
+          <Text style={innerStyles.emptyText}>
+            Click on the + icon to add a note.
+          </Text>
+        </View>
+      )}
+      {/* The floating action button */}
+      <TouchableOpacity
+        onPress={() => {
+          const onProductView = async () => {
+            await analytics().logEvent('created_a_note');
+          };
+          navigation.navigate('Note', {darkMode});
+          onProductView();
+        }}
+        style={innerStyles.buttonHolder}
+      >
+        <Image
+          style={styles.addButton}
+          source={darkMode ? addButtonDark : addButton}
+        />
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 });
 
@@ -240,6 +253,10 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  contentContainerStyle: {
+    paddingBottom: 20,
+    justifyContent: 'space-between',
+  },
   logoutIcon: {
     height: 30,
     width: 30,
@@ -252,6 +269,10 @@ const styles = StyleSheet.create({
   addButton: {
     height: 40,
     width: 40,
+  },
+  loaderContainerStyle: {
+    padding: 10,
+    height: 100,
   },
 });
 

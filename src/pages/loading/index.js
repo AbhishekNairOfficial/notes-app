@@ -6,6 +6,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import database from '@react-native-firebase/database';
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import {firebase} from '@react-native-firebase/auth';
@@ -20,9 +21,6 @@ const AuthLoadingScreen = memo(props => {
   const [darkMode, setDarkMode] = useState();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
-
-  // Small function to give me easy await functionality
-  const sleep = m => new Promise(r => setTimeout(r, m));
 
   useEffect(() => {
     const CheckForDarkMode = async () => {
@@ -48,28 +46,32 @@ const AuthLoadingScreen = memo(props => {
 
     const getCurrentUserInfo = async () => {
       try {
-        console.log('sd');
         // Trying to Sign in Silently
         if (userName) {
           setStatusText(`Welcome back, ${userName}!`);
           return;
         }
-        // const userInfo = await GoogleSignin.signInSilently();
-        const userInfo = firebase.auth().currentUser;
+        const userInfo = await firebase.auth().currentUser;
         if (userInfo) {
           // User is signed in.
           const {_user} = userInfo;
           setUsername(_user.displayName);
           if (globalState.list.length === 0) {
-            await sleep(1000);
             setStatusText(`Getting your data ready!`);
-            const list = await AsyncStorage.getItem('list');
-            globalActions.addAllNotes(JSON.parse(list));
+            const listFromStorage = await AsyncStorage.getItem('list');
+            globalActions.addAllNotes(JSON.parse(listFromStorage));
             // Showing Welcome Message
             // Setting Timeout, so state update can happen, name gets populated.
-            await sleep(1000);
             navigation.navigate('App');
-            console.log('done');
+            const {uid} = _user;
+            const snapshot = await database()
+              .ref(`/users/${uid}`)
+              .once('value');
+            const userProfile = snapshot.val();
+            const {list} = userProfile;
+            if (list) {
+              await globalActions.addAllNotes(Object.values(list));
+            }
           }
         } else {
           // No user is signed in.

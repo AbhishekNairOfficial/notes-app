@@ -13,7 +13,10 @@ import {
   Share,
   TouchableOpacity,
   Alert,
+  Keyboard,
+  SafeAreaView,
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
 import debounce from '../../functions';
@@ -24,6 +27,7 @@ import {
   placeHolderColorDark,
   placeHolderColor,
   primaryColor,
+  white,
 } from '../../config';
 
 const shareIconDark = require('../../../assets/share_icon.svg');
@@ -53,8 +57,8 @@ const NotesPage = memo(props => {
       (navigation.state.params.title &&
         navigation.state.params.title === title) ||
       (navigation.state.params.body && navigation.state.params.body === body) ||
-      (navigation.state.params.darkMode === undefined ||
-        navigation.state.params.darkMode !== darkMode)
+      navigation.state.params.darkMode === undefined ||
+      navigation.state.params.darkMode !== darkMode
     ) {
       return;
     }
@@ -64,6 +68,11 @@ const NotesPage = memo(props => {
   const styles = StyleSheet.create({
     flex: {
       flex: 1,
+    },
+    safeAreaView: {
+      flex: 1,
+      position: 'relative',
+      backgroundColor: darkMode ? black : white,
     },
     container: {
       padding: 15,
@@ -131,45 +140,49 @@ const NotesPage = memo(props => {
     navigation.goBack();
   };
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-      style={styles.flex}
-    >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollView}
+    <SafeAreaView style={styles.safeAreaView}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        style={styles.flex}
       >
-        <NavigationEvents onWillBlur={() => callAddNoteAction()} />
-        <TextInput
-          placeholderTextColor={
-            darkMode ? placeHolderColorDark : placeHolderColor
-          }
-          style={styles.title}
-          autoCorrect={false}
-          autoFocus={!id}
-          autoCapitalize="sentences"
-          maxLength={25}
-          onChangeText={value => debounce(setTitle(value), 1000)}
-          value={title}
-          placeholder="Title"
-        />
-        <TextInput
-          placeholderTextColor={
-            darkMode ? placeHolderColorDark : placeHolderColor
-          }
-          multiline
-          textAlignVertical="top"
-          autoCapitalize="sentences"
-          autoCorrect={false}
-          maxLength={1000}
-          style={styles.body}
-          onChangeText={value => debounce(setBody(value), 1000)}
-          value={body}
-          placeholder="Type something Here"
-        />
-        <View style={styles.flex} />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <ScrollView
+          onScrollEndDrag={() => Keyboard.dismiss()}
+          keyboardDismissMode="on-drag"
+          style={styles.container}
+          contentContainerStyle={styles.scrollView}
+        >
+          <NavigationEvents onWillBlur={() => callAddNoteAction()} />
+          <TextInput
+            placeholderTextColor={
+              darkMode ? placeHolderColorDark : placeHolderColor
+            }
+            style={styles.title}
+            autoCorrect={false}
+            autoCapitalize="sentences"
+            maxLength={25}
+            onChangeText={value => debounce(setTitle(value), 1000)}
+            value={title}
+            placeholder="Title"
+          />
+          <TextInput
+            placeholderTextColor={
+              darkMode ? placeHolderColorDark : placeHolderColor
+            }
+            autoFocus={!id}
+            multiline
+            textAlignVertical="top"
+            autoCapitalize="sentences"
+            autoCorrect={false}
+            maxLength={1000}
+            style={styles.body}
+            onChangeText={value => debounce(setBody(value), 1000)}
+            value={body}
+            placeholder="Type something Here"
+          />
+          <View style={styles.flex} />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 });
 
@@ -201,6 +214,7 @@ NotesPage.navigationOptions = ({navigation}) => {
       );
 
       if (result.action === Share.sharedAction) {
+        await analytics().logEvent('shared_a_note');
         if (result.activityType) {
           // shared with activity type of result.activityType
         } else {
@@ -241,7 +255,7 @@ NotesPage.navigationOptions = ({navigation}) => {
               animating={saving}
               color={darkMode ? black : secondaryColor}
             />
-            <Text style={styles.saveText}>Saving</Text>
+            <Text style={styles.saveText}>Saved</Text>
           </View>
         )}
         {!saving && (
