@@ -1,5 +1,6 @@
 import React, {useState, useEffect, memo} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import {secondaryColor, black} from '../../config';
 import useGlobal from '../../store';
 
@@ -22,7 +23,13 @@ const LogoTitle = memo(() => {
 
   return (
     <TouchableOpacity
-      onLongPress={() => globalActions.toggleDarkMode(!darkMode)}
+      onLongPress={async () => {
+        globalActions.toggleDarkMode(!darkMode);
+        await analytics().logEvent('toggled_dark_mode', {
+          darkMode,
+          time: new Date().getTime(),
+        });
+      }}
     >
       <Text style={styles.title}>NotesApp</Text>
     </TouchableOpacity>

@@ -7,6 +7,7 @@ import {
   // Modal,
   // SafeAreaView,
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import useGlobal from '../../store';
 import ModalComponent from '../modal';
@@ -75,8 +76,9 @@ const ListItem = memo(props => {
     },
   });
 
-  const deletePressed = () => {
+  const deletePressed = async () => {
     globalActions.deleteNote(id);
+    await analytics().logEvent('deleted_a_note');
   };
   const cancelPressed = () => {
     setModalVisible(false);

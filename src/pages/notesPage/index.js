@@ -16,6 +16,7 @@ import {
   Keyboard,
   SafeAreaView,
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
 import debounce from '../../functions';
@@ -213,6 +214,7 @@ NotesPage.navigationOptions = ({navigation}) => {
       );
 
       if (result.action === Share.sharedAction) {
+        await analytics().logEvent('shared_a_note');
         if (result.activityType) {
           // shared with activity type of result.activityType
         } else {
