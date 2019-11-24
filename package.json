@@ -10,8 +10,7 @@
 		"android-two": "./gradlew assembleDebug",
 		"android-three": "./gradlew assembleRelease",
 		"debugApk": "yarn android-one && cd android && yarn android-two",
-		"releaseApk": "yarn android-one && cd android && yarn android-three",
-		"postinstall": "npx jetify && node ./fixAndroid/android-release-fix.js"
+		"releaseApk": "yarn android-one && cd android && yarn android-three"
 	},
 	"dependencies": {
 		"@react-native-community/async-storage": "^1.6.1",
@@ -34,8 +33,6 @@
 		"@babel/plugin-transform-modules-commonjs": "^7.5.0",
 		"@babel/runtime": "^7.5.5",
 		"@react-native-community/eslint-config": "^0.0.5",
-		"@types/react-native": "0.57.36",
-		"babel-jest": "^24.8.0",
 		"babel-plugin-transform-remove-console": "^6.9.4",
 		"eslint": "^5.16.0",
 		"eslint-config-airbnb": "^17.1.1",
@@ -51,7 +48,6 @@
 		"metro-react-native-babel-preset": "^0.55.0",
 		"prettier": "^1.18.2",
 		"react-native-svg-asset-plugin": "^0.3.0",
-		"react-native-testing-library": "^1.11.1",
 		"react-test-renderer": "16.8.6"
 	},
 	"jest": {
