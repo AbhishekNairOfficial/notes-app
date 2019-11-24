@@ -56,8 +56,8 @@ const NotesPage = memo(props => {
       (navigation.state.params.title &&
         navigation.state.params.title === title) ||
       (navigation.state.params.body && navigation.state.params.body === body) ||
-      (navigation.state.params.darkMode === undefined ||
-        navigation.state.params.darkMode !== darkMode)
+      navigation.state.params.darkMode === undefined ||
+      navigation.state.params.darkMode !== darkMode
     ) {
       return;
     }
