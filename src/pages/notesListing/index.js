@@ -72,7 +72,6 @@ const NotesListing = memo(props => {
 
   const signOut = async () => {
     try {
-      await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
       setLogoutModalVisible(false);
       globalActions.logout();
