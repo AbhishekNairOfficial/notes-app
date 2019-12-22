@@ -16,6 +16,7 @@ import {
   Keyboard,
   SafeAreaView,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import analytics from '@react-native-firebase/analytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
@@ -140,11 +141,9 @@ const NotesPage = memo(props => {
       } else {
         globalActions.editNote(newNote);
       }
-      if (Platform.OS === 'android') {
-        // ToastAndroid.show('Saved!', ToastAndroid.SHORT);
-      }
       if (!nextAppState) {
         // Only navigate back when this event is caused by navigation, not by multitasking
+        Toast.show('Saved!', Toast.LONG);
         navigation.goBack();
       }
     },
