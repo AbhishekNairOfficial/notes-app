@@ -127,3 +127,7 @@ buck-out/
 
 #cache
 **/.png-cache
+
+#Bundles
+*.bundle
+*.hprof
