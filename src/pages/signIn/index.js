@@ -105,6 +105,7 @@ const SignIn = memo(({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={signInBackground} />
       {statusText !== '' && (
         <SafeAreaView style={styles.container}>
           <ActivityIndicator size="large" color={primaryColor} />

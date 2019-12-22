@@ -96,7 +96,10 @@ const AuthLoadingScreen = memo(props => {
 
   return (
     <View>
-      <StatusBar barStyle="default" />
+      <StatusBar
+        backgroundColor={secondaryColor}
+        barStyle={darkMode ? 'dark-content' : 'light-content'}
+      />
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={primaryColor} />
         <Text style={styles.text}>{statusText}</Text>
