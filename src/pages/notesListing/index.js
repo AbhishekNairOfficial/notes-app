@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 import ContentLoader from 'react-native-easy-content-loader';
 import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
@@ -73,6 +74,7 @@ const NotesListing = memo(props => {
   const signOut = async () => {
     try {
       await GoogleSignin.signOut();
+      await auth().signOut();
       setLogoutModalVisible(false);
       globalActions.logout();
       navigation.navigate('Auth');

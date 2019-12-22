@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   // TouchableOpacity,
 } from 'react-native';
-import auth, {firebase} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {
   GoogleSignin,
@@ -49,11 +49,11 @@ const SignIn = memo(({navigation}) => {
       const {idToken} = await GoogleSignin.signIn();
       setStatusText('Loading your details...');
       const {accessToken} = await GoogleSignin.getTokens();
-      const credential = firebase.auth.GoogleAuthProvider.credential(
+      const credential = auth.GoogleAuthProvider.credential(
         idToken,
         accessToken,
       );
-      const userInfo = await firebase.auth().signInWithCredential(credential);
+      const userInfo = await auth().signInWithCredential(credential);
       const {uid, email, displayName} = userInfo.user;
       setStatusText('Checking whether you already have used the app before..');
       // Create a reference
@@ -105,7 +105,7 @@ const SignIn = memo(({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={signInBackground} />
+      <StatusBar backgroundColor={signInBackground} barStyle="dark-content" />
       {statusText !== '' && (
         <SafeAreaView style={styles.container}>
           <ActivityIndicator size="large" color={primaryColor} />

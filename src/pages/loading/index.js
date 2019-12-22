@@ -17,28 +17,8 @@ import useGlobal from '../../store';
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [, globalActions] = useGlobal();
-  const [darkMode, setDarkMode] = useState();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
-
-  useEffect(() => {
-    const CheckForDarkMode = async () => {
-      try {
-        const darkModeFromAsyncStorage =
-          (await AsyncStorage.getItem('darkMode')) === 'true';
-        if (darkModeFromAsyncStorage) {
-          setDarkMode(darkModeFromAsyncStorage);
-          globalActions.toggleDarkMode(darkModeFromAsyncStorage);
-        }
-      } catch (e) {
-        // error reading value
-      }
-    };
-
-    if (!darkMode) {
-      CheckForDarkMode();
-    }
-  }, [darkMode, globalActions]);
 
   useEffect(() => {
     GoogleSignin.configure(googleConfig);
@@ -60,13 +40,14 @@ const AuthLoadingScreen = memo(props => {
           globalActions.addAllNotes(JSON.parse(listFromStorage));
           // Showing Welcome Message
           // Setting Timeout, so state update can happen, name gets populated.
-          navigation.navigate('App');
           const {uid} = _user;
           const snapshot = await database()
             .ref(`/users/${uid}`)
             .once('value');
           const userProfile = snapshot.val();
-          const {list} = userProfile;
+          const {list, preferences} = userProfile;
+          globalActions.toggleDarkMode(preferences.darkMode);
+          navigation.navigate('App');
           if (list) {
             await globalActions.addAllNotes(Object.values(list));
           }
@@ -96,10 +77,7 @@ const AuthLoadingScreen = memo(props => {
 
   return (
     <View>
-      <StatusBar
-        backgroundColor={secondaryColor}
-        barStyle={darkMode ? 'dark-content' : 'light-content'}
-      />
+      <StatusBar backgroundColor={secondaryColor} barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color={primaryColor} />
         <Text style={styles.text}>{statusText}</Text>
