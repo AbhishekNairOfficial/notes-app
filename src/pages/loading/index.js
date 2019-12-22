@@ -16,8 +16,7 @@ import useGlobal from '../../store';
 
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
-  const [globalState, globalActions] = useGlobal();
-  // const [data, setData] = useState();
+  const [, globalActions] = useGlobal();
   const [darkMode, setDarkMode] = useState();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
@@ -49,29 +48,27 @@ const AuthLoadingScreen = memo(props => {
         // Trying to Sign in Silently
         if (userName) {
           setStatusText(`Welcome back, ${userName}!`);
-          return;
         }
         const userInfo = await firebase.auth().currentUser;
         if (userInfo) {
           // User is signed in.
           const {_user} = userInfo;
           setUsername(_user.displayName);
-          if (globalState.list.length === 0) {
-            setStatusText(`Getting your data ready!`);
-            const listFromStorage = await AsyncStorage.getItem('list');
-            globalActions.addAllNotes(JSON.parse(listFromStorage));
-            // Showing Welcome Message
-            // Setting Timeout, so state update can happen, name gets populated.
-            navigation.navigate('App');
-            const {uid} = _user;
-            const snapshot = await database()
-              .ref(`/users/${uid}`)
-              .once('value');
-            const userProfile = snapshot.val();
-            const {list} = userProfile;
-            if (list) {
-              await globalActions.addAllNotes(Object.values(list));
-            }
+
+          setStatusText(`Getting your data ready!`);
+          const listFromStorage = await AsyncStorage.getItem('list');
+          globalActions.addAllNotes(JSON.parse(listFromStorage));
+          // Showing Welcome Message
+          // Setting Timeout, so state update can happen, name gets populated.
+          navigation.navigate('App');
+          const {uid} = _user;
+          const snapshot = await database()
+            .ref(`/users/${uid}`)
+            .once('value');
+          const userProfile = snapshot.val();
+          const {list} = userProfile;
+          if (list) {
+            await globalActions.addAllNotes(Object.values(list));
           }
         } else {
           // No user is signed in.
@@ -94,7 +91,8 @@ const AuthLoadingScreen = memo(props => {
 
     getCurrentUserInfo();
     return () => {};
-  }, [globalActions, globalState.list, navigation, userName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View>
