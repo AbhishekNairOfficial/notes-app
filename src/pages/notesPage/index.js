@@ -1,12 +1,12 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {useState, useCallback, useEffect, memo} from 'react';
 import {
   View,
   TextInput,
   StyleSheet,
-  ToastAndroid,
   Platform,
   ActivityIndicator,
   Text,
+  AppState,
   Image,
   ScrollView,
   KeyboardAvoidingView,
@@ -116,29 +116,46 @@ const NotesPage = memo(props => {
     [title, body],
   );
 
-  const inputValidation = () => {
-    return title || body;
-  };
+  const callAddNoteAction = useCallback(
+    nextAppState => {
+      const appIsActive = nextAppState === 'active';
+      if (appIsActive) {
+        // When you return from multi tasking, back to the app.
+        // No need to save again.
+        return;
+      }
+      const inputValidation = () => {
+        return title || body;
+      };
+      if (!inputValidation()) {
+        return;
+      }
+      const newNote = {
+        id,
+        title,
+        body,
+      };
+      if (!id) {
+        globalActions.addNote(newNote);
+      } else {
+        globalActions.editNote(newNote);
+      }
+      if (Platform.OS === 'android') {
+        // ToastAndroid.show('Saved!', ToastAndroid.SHORT);
+      }
+      if (!nextAppState) {
+        // Only navigate back when this event is caused by navigation, not by multitasking
+        navigation.goBack();
+      }
+    },
+    [body, globalActions, id, navigation, title],
+  );
 
-  const callAddNoteAction = () => {
-    if (!inputValidation()) {
-      return;
-    }
-    const newNote = {
-      id,
-      title,
-      body,
-    };
-    if (!id) {
-      globalActions.addNote(newNote);
-    } else {
-      globalActions.editNote(newNote);
-    }
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('Saved!', ToastAndroid.SHORT);
-    }
-    navigation.goBack();
-  };
+  useEffect(() => {
+    AppState.addEventListener('change', callAddNoteAction);
+    return () => AppState.removeEventListener('change', callAddNoteAction);
+  }, [callAddNoteAction]);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <KeyboardAvoidingView
