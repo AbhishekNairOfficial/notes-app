@@ -20,7 +20,7 @@ import Toast from 'react-native-simple-toast';
 import analytics from '@react-native-firebase/analytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
-import debounce from '../../functions';
+import debounce, {useDarkMode} from '../../functions';
 import useGlobal from '../../store';
 import {
   secondaryColor,
@@ -35,18 +35,12 @@ const shareIconDark = require('../../../assets/share_icon.svg');
 const shareIcon = require('../../../assets/share_icon_dark.svg');
 
 const NotesPage = memo(props => {
-  const [globalState, globalActions] = useGlobal();
+  const [, globalActions] = useGlobal();
   const {navigation} = props;
   const id = navigation.getParam('id');
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
-
-  useEffect(() => {
-    if (globalState.darkMode !== darkMode) {
-      setDarkMode(globalState.darkMode);
-    }
-  }, [darkMode, globalState.darkMode]);
+  const darkMode = useDarkMode();
 
   // Sending data to header for share
   // Also, sending dark mode

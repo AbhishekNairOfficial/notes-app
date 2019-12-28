@@ -1,16 +1,13 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {memo} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import analytics from '@react-native-firebase/analytics';
 import {secondaryColor, black} from '../../config';
 import useGlobal from '../../store';
+import {useDarkMode} from '../../functions';
 
 const LogoTitle = memo(() => {
-  const [globalState, globalActions] = useGlobal();
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
-
-  useEffect(() => {
-    setDarkMode(globalState.darkMode);
-  }, [globalState]);
+  const [, globalActions] = useGlobal();
+  const darkMode = useDarkMode();
 
   const styles = StyleSheet.create({
     title: {

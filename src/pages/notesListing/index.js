@@ -25,6 +25,7 @@ import {
   buttonColor,
 } from '../../config';
 import LogoTitle from '../../components/title';
+import {useDarkMode} from '../../functions';
 
 const ListItem = React.lazy(() => import('../../components/listItem'));
 
@@ -42,18 +43,8 @@ const cameraIconDark = require('../../../assets/camera_icon_dark.svg');
 const NotesListing = memo(props => {
   const [globalState, globalActions] = useGlobal();
   const {navigation} = props;
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const darkMode = useDarkMode();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
-
-  useEffect(() => {
-    setDarkMode(globalState.darkMode);
-    // Changing the Statusbar text to light content on iOS
-    if (globalState.darkMode) {
-      StatusBar.setBarStyle('dark-content', true);
-    } else {
-      StatusBar.setBarStyle('light-content', true);
-    }
-  }, [globalState.darkMode]);
 
   useEffect(() => {
     const {logout} = navigation.state.params

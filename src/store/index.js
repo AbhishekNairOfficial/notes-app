@@ -1,6 +1,7 @@
 import React from 'react';
 import useGlobalHook from 'use-global-hook';
 
+// eslint-disable-next-line import/no-cycle
 import * as actions from '../actions';
 
 const initialState = {

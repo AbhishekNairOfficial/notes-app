@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   StyleSheet,
-  StatusBar,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -12,7 +11,8 @@ import analytics from '@react-native-firebase/analytics';
 import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
 import ImagePicker from 'react-native-image-crop-picker';
-import useGlobal from '../../store';
+
+import {useDarkMode} from '../../functions';
 import {
   black,
   secondaryColor,
@@ -24,30 +24,16 @@ import {
 let wavingImage = null;
 
 const ImagePage = memo(({navigation}) => {
-  const [globalState] = useGlobal();
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const darkMode = useDarkMode();
   const [processing, setProcessing] = useState(false);
 
   // Ref for action sheet
   const actionSheetRef = useRef(null);
 
   useEffect(() => {
-    setDarkMode(globalState.darkMode);
-    // Changing the Statusbar text to light content on iOS
-    if (globalState.darkMode) {
-      StatusBar.setBarStyle('dark-content', true);
-    } else {
-      StatusBar.setBarStyle('light-content', true);
-    }
-    if (
-      navigation.state.params.darkMode === undefined ||
-      navigation.state.params.darkMode !== darkMode
-    ) {
-      return;
-    }
     navigation.setParams({darkMode});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [globalState.darkMode]);
+  }, [darkMode]);
 
   const styles = StyleSheet.create({
     container: {

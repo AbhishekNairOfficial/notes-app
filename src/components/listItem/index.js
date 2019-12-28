@@ -1,4 +1,4 @@
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState} from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import analytics from '@react-native-firebase/analytics';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import useGlobal from '../../store';
 import ModalComponent from '../modal';
+import {useDarkMode} from '../../functions';
 import {
   white,
   black,
@@ -28,15 +29,11 @@ const renderLeftActions = styles => {
 };
 
 const ListItem = memo(props => {
-  const [globalState, globalActions] = useGlobal();
+  const [, globalActions] = useGlobal();
   const {id, title, body, navigation} = props;
   const [ref, updateRef] = useState('');
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const darkMode = useDarkMode();
   const [modalVisible, setModalVisible] = useState(false);
-
-  useEffect(() => {
-    setDarkMode(globalState.darkMode);
-  }, [globalState]);
 
   const styles = StyleSheet.create({
     container: {

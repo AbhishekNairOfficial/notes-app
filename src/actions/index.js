@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import database from '@react-native-firebase/database';
-import debounce from '../functions';
+// eslint-disable-next-line import/no-cycle
+import {debounce} from '../functions';
 
 const updateAsyncStorage = (list, itemName = 'list') => {
   debounce(
