@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
+import ActionButton, {Item} from 'react-native-action-button';
 import auth from '@react-native-firebase/auth';
 import ContentLoader from 'react-native-easy-content-loader';
 import analytics from '@react-native-firebase/analytics';
@@ -33,6 +34,8 @@ const emptyIcon = require('../../../assets/empty_icon.png');
 const emptyIconDark = require('../../../assets/empty_icon_dark.png');
 const logoutIconDark = require('../../../assets/logout_icon.png');
 const logoutIcon = require('../../../assets/logout_icon_dark.png');
+const cameraIcon = require('../../../assets/camera_icon.svg');
+const cameraIconDark = require('../../../assets/camera_icon_dark.svg');
 
 const NotesListing = memo(props => {
   const [globalState, globalActions] = useGlobal();
@@ -206,21 +209,46 @@ const NotesListing = memo(props => {
         </View>
       )}
       {/* The floating action button */}
-      <TouchableOpacity
-        onPress={() => {
-          const onProductView = async () => {
-            await analytics().logEvent('created_a_note');
-          };
-          navigation.navigate('Note', {darkMode});
-          onProductView();
-        }}
-        style={innerStyles.buttonHolder}
+      <ActionButton
+        active
+        renderIcon={() => (
+          <Image
+            style={styles.addButton}
+            source={darkMode ? addButtonDark : addButton}
+          />
+        )}
+        size={64}
+        buttonColor={buttonColor}
       >
-        <Image
-          style={styles.addButton}
-          source={darkMode ? addButtonDark : addButton}
-        />
-      </TouchableOpacity>
+        <Item
+          size={56}
+          buttonColor={buttonColor}
+          title="Scan Image"
+          onPress={() => console.log('notes tapped!')}
+        >
+          <Image
+            style={styles.addButton}
+            source={darkMode ? cameraIconDark : cameraIcon}
+          />
+        </Item>
+        <Item
+          size={56}
+          buttonColor={buttonColor}
+          title="New Note"
+          onPress={() => {
+            const onProductView = async () => {
+              await analytics().logEvent('created_a_note');
+            };
+            navigation.navigate('Note', {darkMode});
+            onProductView();
+          }}
+        >
+          <Image
+            style={styles.addButton}
+            source={darkMode ? addButtonDark : addButton}
+          />
+        </Item>
+      </ActionButton>
     </SafeAreaView>
   );
 });
