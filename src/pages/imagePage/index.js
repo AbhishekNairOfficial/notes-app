@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, memo} from 'react';
+import React, {useState, useEffect, useRef, memo, useCallback} from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,9 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -19,11 +21,12 @@ import {
   buttonColor,
 } from '../../config';
 
-const wavingImage = require('../../../assets/waving_gif.gif');
+let wavingImage = null;
 
 const ImagePage = memo(({navigation}) => {
   const [globalState] = useGlobal();
   const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const [processing, setProcessing] = useState(false);
 
   // Ref for action sheet
   const actionSheetRef = useRef(null);
@@ -87,10 +90,14 @@ const ImagePage = memo(({navigation}) => {
   });
 
   // My Functions
+  // #############################
+
+  // Open the action sheet on press of try me button.
   const onButtonPress = () => {
     actionSheetRef.current.show();
   };
 
+  // On selection of an action sheet item
   const onActionSelected = async index => {
     // Opening camera or gallery based on selection.
     if (index === 0) {
@@ -100,7 +107,7 @@ const ImagePage = memo(({navigation}) => {
         height: 400,
         cropping: true,
       });
-      processImage(image.path);
+      ProcessImageCallback(image.path);
     } else if (index === 1) {
       // Gallery is selected
       const image = await ImagePicker.openPicker({
@@ -108,23 +115,44 @@ const ImagePage = memo(({navigation}) => {
         height: 400,
         cropping: true,
       });
-      processImage(image.path);
+      ProcessImageCallback(image.path);
     }
   };
 
-  const processImage = async image => {
-    try {
-      // Using the local file, process the image on the cloud image processor
-      const {text} = await vision().textRecognizerProcessImage(image);
-      navigation.navigate('Note', {
-        body: text,
-        title: '',
-        darkMode,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // The function which takes image path and returns text from it.
+
+  const ProcessImageCallback = useCallback(
+    imageSent => {
+      const processImage = async image => {
+        try {
+          const startTime = new Date().getTime();
+          setProcessing(true);
+          // Using the local file, process the image on the cloud image processor
+          const {text} = await vision().textRecognizerProcessImage(image);
+          setProcessing(false);
+          const endTime = new Date().getTime();
+          const timeTakenToProcessImage = endTime - startTime;
+          await analytics().logEvent('processed_an_image', {
+            timeTakenToProcessImage,
+          });
+          navigation.navigate('Note', {
+            body: text,
+            title: '',
+            darkMode,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      processImage(imageSent);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [darkMode],
+  );
+
+  if (wavingImage === null) {
+    wavingImage = require('../../../assets/waving_gif.gif');
+  }
 
   return (
     <View style={styles.container}>
@@ -142,9 +170,11 @@ const ImagePage = memo(({navigation}) => {
       <Text style={[styles.paragraph, styles.text]}>
         I would really appreciate any feedback you could send my way.
       </Text>
-      <TouchableOpacity onPress={onButtonPress}>
-        <Text style={styles.button}>Try it out!</Text>
+      <TouchableOpacity disabled={processing} onPress={onButtonPress}>
+        {processing || <Text style={styles.button}>Try it out!</Text>}
+        {processing && <ActivityIndicator color={primaryColor} />}
       </TouchableOpacity>
+      {/* The action sheet to show up in the bottom */}
       <ActionSheet
         ref={actionSheetRef}
         title="Select Image Source"
