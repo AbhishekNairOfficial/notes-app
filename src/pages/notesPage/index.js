@@ -31,8 +31,8 @@ import {
   white,
 } from '../../config';
 
-const shareIconDark = require('../../../assets/share_icon.svg');
-const shareIcon = require('../../../assets/share_icon_dark.svg');
+let shareIconDark = null;
+let shareIcon = null;
 
 const NotesPage = memo(props => {
   const [, globalActions] = useGlobal();
@@ -200,6 +200,14 @@ NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;
   const {saving, darkMode, title, body} = params;
   const firstTime = darkMode === undefined;
+
+  // Rendering the icons here when needed
+  if (shareIcon === null) {
+    shareIcon = require('../../../assets/share_icon_dark.svg');
+  }
+  if (shareIconDark === null) {
+    shareIconDark = require('../../../assets/share_icon.svg');
+  }
 
   const headerTintColor = () => {
     if (firstTime) {

@@ -31,14 +31,15 @@ const ListItem = React.lazy(() => import('../../components/listItem'));
 
 console.disableYellowBox = true;
 
-const addButton = require('../../../assets/add_btn.png');
-const addButtonDark = require('../../../assets/add_btn_dark.png');
-const emptyIcon = require('../../../assets/empty_icon.png');
-const emptyIconDark = require('../../../assets/empty_icon_dark.png');
-const logoutIconDark = require('../../../assets/logout_icon.png');
-const logoutIcon = require('../../../assets/logout_icon_dark.png');
-const cameraIcon = require('../../../assets/camera_icon.svg');
-const cameraIconDark = require('../../../assets/camera_icon_dark.svg');
+let addButton = null;
+let addButtonDark = null;
+let emptyIcon = null;
+let emptyIconDark = null;
+let cameraIcon = null;
+let cameraIconDark = null;
+
+let logoutIconDark = null;
+let logoutIcon = null;
 
 const NotesListing = memo(props => {
   const [globalState, globalActions] = useGlobal();
@@ -148,6 +149,26 @@ const NotesListing = memo(props => {
       />
     );
   };
+
+  // Rendering icons here
+  if (addButton === null) {
+    addButton = require('../../../assets/add_btn.png');
+  }
+  if (addButtonDark === null) {
+    addButtonDark = require('../../../assets/add_btn_dark.png');
+  }
+  if (emptyIcon === null) {
+    emptyIcon = require('../../../assets/empty_icon.png');
+  }
+  if (emptyIconDark === null) {
+    emptyIconDark = require('../../../assets/empty_icon_dark.png');
+  }
+  if (cameraIcon === null) {
+    cameraIcon = require('../../../assets/camera_icon.svg');
+  }
+  if (cameraIconDark === null) {
+    cameraIconDark = require('../../../assets/camera_icon_dark.svg');
+  }
 
   return (
     <SafeAreaView style={innerStyles.safeAreaView}>
@@ -259,6 +280,12 @@ NotesListing.navigationOptions = ({navigation}) => ({
     const darkMode = navigation.state.params
       ? navigation.state.params.darkMode
       : false;
+    if (logoutIconDark === null) {
+      logoutIconDark = require('../../../assets/logout_icon.png');
+    }
+    if (logoutIcon === null) {
+      logoutIcon = require('../../../assets/logout_icon_dark.png');
+    }
     return (
       <TouchableOpacity
         onPress={() => {
