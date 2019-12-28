@@ -20,7 +20,7 @@ import Toast from 'react-native-simple-toast';
 import analytics from '@react-native-firebase/analytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
-import debounce, {useDarkMode} from '../../functions';
+import {debounce, useDarkMode} from '../../functions';
 import useGlobal from '../../store';
 import {
   secondaryColor,

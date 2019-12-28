@@ -48,8 +48,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>${PRODUCT_NAME} would like to access your camera, to take pictures and convert them into notes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>${PRODUCT_NAME} would like to access your photos, to scan them for text you can use in our app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Product Sans.ttf</string>
@@ -66,9 +70,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>${PRODUCT_NAME} would like to access your photos, to scan them for text you can use in our app.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>${PRODUCT_NAME} would like to access your camera, to take pictures and convert them into notes.</string>
 </dict>
 </plist>
