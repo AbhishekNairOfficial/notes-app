@@ -47,6 +47,9 @@ target 'notesapp' do
   # (Recommended) Pod for Google Analytics
   pod 'Firebase/Analytics'
 
+  # Pod for image picker
+  pod 'QBImagePickerController', :path => '../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec'
+
 
   target 'notesappTests' do
     inherit! :search_paths

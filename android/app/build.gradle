@@ -133,6 +133,7 @@ android {
         applicationId "com.notesapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
         versionCode 1
         multiDexEnabled true
         versionName '1.2.6'

@@ -253,7 +253,7 @@ const NotesListing = memo(props => {
         >
           <Image
             style={styles.addButton}
-            source={darkMode ? addButtonDark : addButton}
+            source={darkMode ? emptyIcon : emptyIconDark}
           />
         </Item>
       </ActionButton>
@@ -304,8 +304,8 @@ const styles = StyleSheet.create({
     width: 52,
   },
   addButton: {
-    height: 40,
-    width: 40,
+    height: 36,
+    width: 36,
   },
   loaderContainerStyle: {
     padding: 10,

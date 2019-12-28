@@ -1,8 +1,25 @@
 import React, {useState, useEffect, useRef, memo} from 'react';
-import {View, Text, StyleSheet, StatusBar, Button} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
+import vision from '@react-native-firebase/ml-vision';
+import ImagePicker from 'react-native-image-crop-picker';
 import useGlobal from '../../store';
-import {black, secondaryColor, primaryColor} from '../../config';
+import {
+  black,
+  secondaryColor,
+  primaryColor,
+  white,
+  buttonColor,
+} from '../../config';
+
+const wavingImage = require('../../../assets/waving_gif.gif');
 
 const ImagePage = memo(({navigation}) => {
   const [globalState] = useGlobal();
@@ -33,6 +50,39 @@ const ImagePage = memo(({navigation}) => {
     container: {
       height: '100%',
       backgroundColor: darkMode ? black : null,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      padding: 20,
+    },
+    imageStyles: {
+      height: 300,
+    },
+    mainText: {
+      fontSize: 28,
+    },
+    text: {
+      padding: 20,
+      paddingTop: 0,
+      fontFamily: 'Product Sans',
+      color: darkMode ? white : black,
+    },
+    paragraph: {
+      fontSize: 20,
+    },
+    button: {
+      height: 50,
+      marginTop: 20,
+      padding: 25,
+      paddingTop: 15,
+      paddingBottom: 15,
+      fontSize: 18,
+      fontFamily: 'Product Sans',
+      fontWeight: '600',
+      letterSpacing: 0.5,
+      textAlign: 'center',
+      backgroundColor: buttonColor,
+      color: white,
+      borderRadius: 5,
     },
   });
 
@@ -41,23 +91,60 @@ const ImagePage = memo(({navigation}) => {
     actionSheetRef.current.show();
   };
 
-  const onActionSelected = index => {
+  const onActionSelected = async index => {
     // Opening camera or gallery based on selection.
     if (index === 0) {
       // Camera is selected
+      const image = await ImagePicker.openCamera({
+        width: 300,
+        height: 400,
+        cropping: true,
+      });
+      processImage(image.path);
     } else if (index === 1) {
       // Gallery is selected
+      const image = await ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true,
+      });
+      processImage(image.path);
+    }
+  };
+
+  const processImage = async image => {
+    try {
+      // Using the local file, process the image on the cloud image processor
+      const {text} = await vision().textRecognizerProcessImage(image);
+      navigation.navigate('Note', {
+        body: text,
+        title: '',
+        darkMode,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text>Hey there!</Text>
-      <Text>
+      <Image
+        resizeMethod="auto"
+        resizeMode="center"
+        style={styles.imageStyles}
+        source={wavingImage}
+      />
+      <Text style={[styles.mainText, styles.text]}>Hey there!</Text>
+      <Text style={[styles.paragraph, styles.text]}>
         Welcome to my ML experiment. This is a new experimental feature to test
         out image scanning and text recognition.
       </Text>
-      <Button onPress={onButtonPress} title="Try it out!" />
+      <Text style={[styles.paragraph, styles.text]}>
+        I would really appreciate any feedback you could send my way.
+      </Text>
+      <TouchableOpacity onPress={onButtonPress}>
+        <Text style={styles.button}>Try it out!</Text>
+      </TouchableOpacity>
       <ActionSheet
         ref={actionSheetRef}
         title="Select Image Source"
