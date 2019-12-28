@@ -12,15 +12,15 @@ import AuthLoadingScreen from './src/pages/loading';
 import SignIn from './src/pages/signIn';
 import NotesListing from './src/pages/notesListing';
 import NotesPage from './src/pages/notesPage';
+import ImagePage from './src/pages/imagePage';
 import {primaryColor, secondaryColor} from './src/config';
 
 const AuthStack = createStackNavigator({SignIn});
 const AppStack = createStackNavigator(
   {
-    Listing: {
-      screen: NotesListing,
-    },
+    Listing: NotesListing,
     Note: NotesPage,
+    Image: ImagePage,
   },
   {
     initialRouteName: 'Listing',

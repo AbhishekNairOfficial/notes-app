@@ -28,6 +28,8 @@ import LogoTitle from '../../components/title';
 
 const ListItem = React.lazy(() => import('../../components/listItem'));
 
+console.disableYellowBox = true;
+
 const addButton = require('../../../assets/add_btn.png');
 const addButtonDark = require('../../../assets/add_btn_dark.png');
 const emptyIcon = require('../../../assets/empty_icon.png');
@@ -224,7 +226,13 @@ const NotesListing = memo(props => {
           size={56}
           buttonColor={buttonColor}
           title="Scan Image"
-          onPress={() => console.log('notes tapped!')}
+          onPress={() => {
+            const onProductView = async () => {
+              await analytics().logEvent('scanned_an_image');
+            };
+            navigation.navigate('Image', {darkMode});
+            onProductView();
+          }}
         >
           <Image
             style={styles.addButton}
