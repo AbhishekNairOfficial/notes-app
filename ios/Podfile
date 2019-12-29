@@ -38,8 +38,8 @@ target 'notesapp' do
   pod 'Firebase/Auth'
 
   # Pods for PodTest
-  pod 'Fabric', '~> 1.10.2'
-  pod 'Crashlytics', '~> 3.14.0'
+  # pod 'Fabric', '~> 1.10.2'
+  # pod 'Crashlytics', '~> 3.14.0'
 
   # Firebase performance
   pod 'Firebase/Performance'

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import database from '@react-native-firebase/database';
+import perf from '@react-native-firebase/perf';
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import {firebase} from '@react-native-firebase/auth';
@@ -32,6 +33,9 @@ const AuthLoadingScreen = memo(props => {
         }
         const userInfo = await firebase.auth().currentUser;
         if (userInfo) {
+          // Using Firebase Performance plugin to measure time taken to sign in silently
+          const trace = await perf().startTrace('silent_sign_in');
+          const startTime = new Date().getTime();
           // User is signed in.
           const {_user} = userInfo;
           setUsername(_user.displayName);
@@ -48,6 +52,11 @@ const AuthLoadingScreen = memo(props => {
           const userProfile = snapshot.val();
           const {list, preferences} = userProfile;
           globalActions.toggleDarkMode(preferences.darkMode);
+          // Ending the firebase performance monitoring
+          const endTime = new Date().getTime();
+          trace.putAttribute('user_id', uid);
+          trace.putMetric('time_taken', endTime - startTime);
+          await trace.stop();
           navigation.navigate('App');
           if (list) {
             await globalActions.addAllNotes(Object.values(list));

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
+import perf from '@react-native-firebase/perf';
 import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -112,13 +113,17 @@ const ImagePage = memo(({navigation}) => {
     imageSent => {
       const processImage = async image => {
         try {
+          // Starting performance and analytics monitoring of the ML event
+          const trace = await perf().startTrace('processed_an_image');
           const startTime = new Date().getTime();
           setProcessing(true);
-          // Using the local file, process the image on the cloud image processor
+          // Using the local file, process the image on the device itself
           const {text} = await vision().textRecognizerProcessImage(image);
           setProcessing(false);
           const endTime = new Date().getTime();
           const timeTakenToProcessImage = endTime - startTime;
+          trace.putMetric('time_taken', endTime - startTime);
+          await trace.stop();
           await analytics().logEvent('processed_an_image', {
             timeTakenToProcessImage,
           });
