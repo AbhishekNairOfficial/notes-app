@@ -30,6 +30,7 @@
 		"react-native-simple-toast": "^1.0.0",
 		"react-navigation": "^4.0.10",
 		"react-navigation-stack": "^1.9.1",
+		"simple-crypto-js": "^2.2.0",
 		"use-debounced-effect": "^0.0.3",
 		"use-global-hook": "^0.1.7"
 	},
