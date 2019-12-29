@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, memo, useCallback} from 'react';
 import {
-  View,
+  ScrollView,
   Text,
   Image,
   TouchableOpacity,
@@ -32,6 +32,7 @@ const ImagePage = memo(({navigation}) => {
   }, [darkMode]);
 
   const {
+    contentContainerStyles,
     container,
     imageStyles,
     mainText,
@@ -114,7 +115,10 @@ const ImagePage = memo(({navigation}) => {
   }, []);
 
   return (
-    <View style={container}>
+    <ScrollView
+      contentContainerStyle={contentContainerStyles}
+      style={container}
+    >
       <Image
         resizeMethod="auto"
         resizeMode="center"
@@ -141,7 +145,7 @@ const ImagePage = memo(({navigation}) => {
         cancelButtonIndex={2}
         onPress={onActionSelected}
       />
-    </View>
+    </ScrollView>
   );
 });
 

@@ -3,11 +3,13 @@ import {black, white, secondaryColor, buttonColor} from '../../config';
 
 const useStyle = darkMode =>
   StyleSheet.create({
+    contentContainerStyles: {
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
     container: {
       height: '100%',
       backgroundColor: darkMode ? black : secondaryColor,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
       padding: 20,
     },
     imageStyles: {
@@ -39,6 +41,7 @@ const useStyle = darkMode =>
       backgroundColor: buttonColor,
       color: white,
       borderRadius: 5,
+      marginBottom: 50,
     },
   });
 
