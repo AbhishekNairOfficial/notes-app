@@ -15,12 +15,17 @@ import {firebase} from '@react-native-firebase/auth';
 import {SafeAreaView} from 'react-navigation';
 import {secondaryColor, primaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
+import {trackScreenView} from '../../functions';
 
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [, globalActions] = useGlobal();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
+
+  useEffect(() => {
+    trackScreenView('LoadingPage');
+  }, []);
 
   useEffect(() => {
     GoogleSignin.configure(googleConfig);

@@ -26,7 +26,7 @@ import {
   buttonColor,
 } from '../../config';
 import LogoTitle from '../../components/title';
-import {useDarkMode} from '../../functions';
+import {useDarkMode, trackScreenView} from '../../functions';
 
 const ListItem = React.lazy(() => import('../../components/listItem'));
 
@@ -47,6 +47,10 @@ const NotesListing = memo(props => {
   const {navigation} = props;
   const darkMode = useDarkMode();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+
+  useEffect(() => {
+    trackScreenView('ListingPage');
+  }, []);
 
   useEffect(() => {
     const {logout} = navigation.state.params

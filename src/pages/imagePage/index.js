@@ -14,7 +14,7 @@ import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import {useDarkMode} from '../../functions';
+import {useDarkMode, trackScreenView} from '../../functions';
 import {
   black,
   secondaryColor,
@@ -145,6 +145,10 @@ const ImagePage = memo(({navigation}) => {
   if (wavingImage === null) {
     wavingImage = require('../../../assets/waving_gif.gif');
   }
+
+  useEffect(() => {
+    trackScreenView('ImagesPage');
+  }, []);
 
   return (
     <View style={styles.container}>

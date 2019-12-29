@@ -21,6 +21,7 @@ import {
 import signInImage from '../../../assets/sign_in_background_2.png';
 import {signInBackground, primaryColor} from '../../config';
 import useGlobal from '../../store';
+import {trackScreenView} from '../../functions';
 
 const SignIn = memo(({navigation}) => {
   StatusBar.setBarStyle('dark-content', false);
@@ -30,6 +31,10 @@ const SignIn = memo(({navigation}) => {
 
   // Small function to give me easy await functionality
   const sleep = m => new Promise(r => setTimeout(r, m));
+
+  useEffect(() => {
+    trackScreenView('SignInPage');
+  }, []);
 
   useEffect(() => {
     // Handle user state changes

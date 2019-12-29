@@ -21,7 +21,7 @@ import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
-import {debounce, useDarkMode} from '../../functions';
+import {debounce, useDarkMode, trackScreenView} from '../../functions';
 import useGlobal from '../../store';
 import {
   secondaryColor,
@@ -42,6 +42,10 @@ const NotesPage = memo(props => {
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
   const darkMode = useDarkMode();
+
+  useEffect(() => {
+    trackScreenView('NotesPage');
+  }, []);
 
   // Sending data to header for share
   // Also, sending dark mode

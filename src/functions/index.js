@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import analytics from '@react-native-firebase/analytics';
 // eslint-disable-next-line import/no-cycle
 import useGlobal from '../store';
 
@@ -20,4 +21,9 @@ export const useDarkMode = () => {
   }, [globalState]);
 
   return darkMode;
+};
+
+export const trackScreenView = async screen => {
+  // Set & override the MainActivity screen name
+  await analytics().setCurrentScreen(screen, screen);
 };
