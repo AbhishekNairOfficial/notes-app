@@ -16,8 +16,8 @@ const useStyle = darkMode => {
       borderBottomWidth: 2,
       borderColor: darkMode ? placeHolderColorDark : placeHolderColor,
       backgroundColor: darkMode ? black : secondaryColor,
-      marginLeft: 5,
-      marginRight: 5,
+      marginLeft: 10,
+      marginRight: 10,
     },
     titleStyle: {
       fontFamily: 'Product Sans',
@@ -43,6 +43,13 @@ const useStyle = darkMode => {
       fontFamily: 'Product Sans',
       color: white,
       margin: 10,
+    },
+    dateStyle: {
+      alignSelf: 'flex-end',
+      position: 'absolute',
+      fontSize: 14,
+      marginTop: 8,
+      right: -15,
     },
   });
   return styles;

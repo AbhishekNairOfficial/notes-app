@@ -150,6 +150,7 @@ const NotesListing = memo(props => {
               <ListItem
                 key={item.id}
                 id={item.id}
+                time={item.time}
                 title={item.title}
                 body={item.body}
                 navigation={navigation}

@@ -1,5 +1,11 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import {black, white, placeHolderColorDark, buttonColor} from '../../config';
+import {
+  black,
+  white,
+  secondaryColor,
+  placeHolderColorDark,
+  buttonColor,
+} from '../../config';
 
 const {height, width} = Dimensions.get('screen');
 
@@ -8,10 +14,10 @@ const useStyle = darkMode =>
     safeAreaView: {
       flex: 1,
       position: 'relative',
-      backgroundColor: darkMode ? black : null,
+      backgroundColor: darkMode ? black : secondaryColor,
     },
     scrollViewStyle: {
-      backgroundColor: darkMode ? black : null,
+      backgroundColor: darkMode ? black : secondaryColor,
     },
     emptyContainer: {
       justifyContent: 'flex-start',

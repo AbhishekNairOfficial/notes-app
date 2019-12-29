@@ -106,6 +106,7 @@ const NotesPage = memo(props => {
         id,
         title,
         body,
+        time: new Date().getTime(),
       };
       if (!id) {
         globalActions.addNote(newNote);

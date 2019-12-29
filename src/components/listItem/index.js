@@ -9,7 +9,7 @@ import useStyle from './styles';
 
 const ListItem = memo(props => {
   const [, globalActions] = useGlobal();
-  const {id, title, body, navigation} = props;
+  const {id, title, body, time, navigation} = props;
   const [ref, updateRef] = useState('');
   const darkMode = useDarkMode();
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,6 +20,7 @@ const ListItem = memo(props => {
     description,
     deleteContainer,
     deleteButton,
+    dateStyle,
   } = useStyle(darkMode);
 
   const renderRightActions = () => {
@@ -34,8 +35,46 @@ const ListItem = memo(props => {
     globalActions.deleteNote(id);
     await analytics().logEvent('deleted_a_note');
   };
+
   const cancelPressed = () => {
     setModalVisible(false);
+  };
+
+  const getTimeString = lastEditedTime => {
+    if (!lastEditedTime) {
+      return;
+    }
+    // Time definitions
+    const d = new Date();
+    const timeAtMidnightToday = d.setHours(0, 0, 0, 0);
+    const timeAtMidnightYesterday = d.setDate(
+      new Date(timeAtMidnightToday).getDate() - 1,
+    );
+    const timeOfOneWeekAgo = d.setDate(new Date().getDate() - 7);
+
+    if (lastEditedTime >= timeAtMidnightToday) {
+      // Today
+      return 'Today';
+    }
+    if (lastEditedTime >= timeAtMidnightYesterday) {
+      // Yesterday
+      return 'Yesterday';
+    }
+    if (lastEditedTime >= timeOfOneWeekAgo) {
+      // Within a week
+      const arrayOfDays = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ];
+      return arrayOfDays[new Date(lastEditedTime).getDay()];
+    }
+    // A week or before
+    return new Date(lastEditedTime).toDateString();
   };
 
   return (
@@ -70,7 +109,12 @@ const ListItem = memo(props => {
           }
         >
           <View style={container}>
-            <Text style={titleStyle}>{title}</Text>
+            <View>
+              <Text style={titleStyle}>{title}</Text>
+              <Text style={[description, dateStyle]}>
+                {getTimeString(time)}
+              </Text>
+            </View>
             <Text numberOfLines={2} style={description}>
               {body}
             </Text>

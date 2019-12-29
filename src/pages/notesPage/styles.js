@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {black, white, placeHolderColor, secondaryColor} from '../../config';
+import {black, placeHolderColor, secondaryColor} from '../../config';
 
 const useStyle = darkMode =>
   StyleSheet.create({
@@ -9,7 +9,7 @@ const useStyle = darkMode =>
     safeAreaView: {
       flex: 1,
       position: 'relative',
-      backgroundColor: darkMode ? black : white,
+      backgroundColor: darkMode ? black : secondaryColor,
     },
     container: {
       padding: 15,

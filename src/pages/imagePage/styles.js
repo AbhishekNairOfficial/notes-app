@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {black, white, buttonColor} from '../../config';
+import {black, white, secondaryColor, buttonColor} from '../../config';
 
 const useStyle = darkMode =>
   StyleSheet.create({
     container: {
       height: '100%',
-      backgroundColor: darkMode ? black : null,
+      backgroundColor: darkMode ? black : secondaryColor,
       alignItems: 'center',
       justifyContent: 'flex-start',
       padding: 20,
