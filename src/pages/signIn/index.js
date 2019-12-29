@@ -2,9 +2,7 @@ import React, {useState, useEffect, memo} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Image,
-  Dimensions,
   StatusBar,
   SafeAreaView,
   ActivityIndicator,
@@ -22,12 +20,14 @@ import signInImage from '../../../assets/sign_in_background_2.png';
 import {signInBackground, primaryColor} from '../../config';
 import useGlobal from '../../store';
 import {trackScreenView} from '../../functions';
+import useStyle from './styles';
 
 const SignIn = memo(({navigation}) => {
   StatusBar.setBarStyle('dark-content', false);
   const [, globalActions] = useGlobal();
   const [initilizing, setInitilizing] = useState(true);
   const [statusText, setStatusText] = useState('');
+  const {container, text, googleButton, description, image} = useStyle();
 
   // Small function to give me easy await functionality
   const sleep = m => new Promise(r => setTimeout(r, m));
@@ -111,66 +111,33 @@ const SignIn = memo(({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <StatusBar backgroundColor={signInBackground} barStyle="dark-content" />
       {statusText !== '' && (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={container}>
           <ActivityIndicator size="large" color={primaryColor} />
-          <Text style={styles.text}>{statusText}</Text>
+          <Text style={text}>{statusText}</Text>
         </SafeAreaView>
       )}
-      <Image style={styles.image} source={signInImage} />
-      <Text style={styles.text}>Hi there, Stranger</Text>
-      <Text style={styles.text}>Welcome to NotesApp!</Text>
-      <Text style={styles.description}>
+      <Image style={image} source={signInImage} />
+      <Text style={text}>Hi there, Stranger</Text>
+      <Text style={text}>Welcome to NotesApp!</Text>
+      <Text style={description}>
         Login with one of the options below, and let&apos;s get you started!
       </Text>
       <GoogleSigninButton
-        style={styles.googleButton}
+        style={googleButton}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={onSignIn}
         disabled={false}
       />
-      {/* <Text style={styles.description}>or</Text>
+      {/* <Text style={description}>or</Text>
       <TouchableOpacity onPress={() => signInAnonymously()}>
-        <Text style={styles.anonText}>Sign In anonymously</Text>
+        <Text style={anonText}>Sign In anonymously</Text>
       </TouchableOpacity> */}
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    padding: 20,
-    paddingTop: Dimensions.get('screen').height / 5,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    backgroundColor: signInBackground,
-  },
-  googleButton: {
-    width: 312,
-    height: 48,
-  },
-  text: {
-    fontSize: 28,
-    marginBottom: 10,
-    fontFamily: 'Product Sans',
-  },
-  description: {
-    fontSize: 18,
-    fontFamily: 'Product Sans',
-    margin: 15,
-  },
-  image: {
-    width: Dimensions.get('screen').width / 2,
-    height: Dimensions.get('screen').width / 2,
-  },
-  anonText: {
-    fontSize: 22,
-    fontFamily: 'Product Sans',
-  },
 });
 
 SignIn.navigationOptions = () => {

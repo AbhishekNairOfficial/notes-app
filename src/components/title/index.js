@@ -1,22 +1,14 @@
 import React, {memo} from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import analytics from '@react-native-firebase/analytics';
-import {secondaryColor, black} from '../../config';
+import useStyle from './styles';
 import useGlobal from '../../store';
 import {useDarkMode} from '../../functions';
 
 const LogoTitle = memo(() => {
   const [, globalActions] = useGlobal();
   const darkMode = useDarkMode();
-
-  const styles = StyleSheet.create({
-    title: {
-      fontWeight: '600',
-      color: darkMode ? black : secondaryColor,
-      fontSize: 28,
-      fontFamily: 'Product Sans',
-    },
-  });
+  const {title} = useStyle(darkMode);
 
   return (
     <TouchableOpacity
@@ -28,7 +20,7 @@ const LogoTitle = memo(() => {
         });
       }}
     >
-      <Text style={styles.title}>NotesApp</Text>
+      <Text style={title}>NotesApp</Text>
     </TouchableOpacity>
   );
 });

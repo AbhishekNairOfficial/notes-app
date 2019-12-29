@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -13,15 +12,10 @@ import perf from '@react-native-firebase/perf';
 import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
 import ImagePicker from 'react-native-image-crop-picker';
+import useStyle from './styles';
 
 import {useDarkMode, trackScreenView} from '../../functions';
-import {
-  black,
-  secondaryColor,
-  primaryColor,
-  white,
-  buttonColor,
-} from '../../config';
+import {black, secondaryColor, primaryColor} from '../../config';
 
 let wavingImage = null;
 
@@ -37,45 +31,14 @@ const ImagePage = memo(({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [darkMode]);
 
-  const styles = StyleSheet.create({
-    container: {
-      height: '100%',
-      backgroundColor: darkMode ? black : null,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      padding: 20,
-    },
-    imageStyles: {
-      height: 300,
-    },
-    mainText: {
-      fontSize: 28,
-    },
-    text: {
-      padding: 20,
-      paddingTop: 0,
-      fontFamily: 'Product Sans',
-      color: darkMode ? white : black,
-    },
-    paragraph: {
-      fontSize: 20,
-    },
-    button: {
-      height: 50,
-      marginTop: 20,
-      padding: 25,
-      paddingTop: 15,
-      paddingBottom: 15,
-      fontSize: 18,
-      fontFamily: 'Product Sans',
-      fontWeight: '600',
-      letterSpacing: 0.5,
-      textAlign: 'center',
-      backgroundColor: buttonColor,
-      color: white,
-      borderRadius: 5,
-    },
-  });
+  const {
+    container,
+    imageStyles,
+    mainText,
+    textStyle,
+    paragraph,
+    button,
+  } = useStyle(darkMode);
 
   // My Functions
   // #############################
@@ -151,23 +114,23 @@ const ImagePage = memo(({navigation}) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <Image
         resizeMethod="auto"
         resizeMode="center"
-        style={styles.imageStyles}
+        style={imageStyles}
         source={wavingImage}
       />
-      <Text style={[styles.mainText, styles.text]}>Hey there!</Text>
-      <Text style={[styles.paragraph, styles.text]}>
+      <Text style={[mainText, textStyle]}>Hey there!</Text>
+      <Text style={[paragraph, textStyle]}>
         Welcome to my ML experiment. This is a new experimental feature to test
         out image scanning and text recognition.
       </Text>
-      <Text style={[styles.paragraph, styles.text]}>
+      <Text style={[paragraph, textStyle]}>
         I would really appreciate any feedback you could send my way.
       </Text>
       <TouchableOpacity disabled={processing} onPress={onButtonPress}>
-        {processing || <Text style={styles.button}>Try it out!</Text>}
+        {processing || <Text style={button}>Try it out!</Text>}
         {processing && <ActivityIndicator color={primaryColor} />}
       </TouchableOpacity>
       {/* The action sheet to show up in the bottom */}

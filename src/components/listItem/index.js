@@ -1,32 +1,11 @@
 import React, {memo, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  // Modal,
-  // SafeAreaView,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import analytics from '@react-native-firebase/analytics';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import useGlobal from '../../store';
 import ModalComponent from '../modal';
 import {useDarkMode} from '../../functions';
-import {
-  white,
-  black,
-  secondaryColor,
-  placeHolderColorDark,
-  placeHolderColor,
-} from '../../config';
-
-const renderLeftActions = styles => {
-  return (
-    <View style={styles.deleteContainer}>
-      <Text style={styles.deleteButton}>Delete</Text>
-    </View>
-  );
-};
+import useStyle from './styles';
 
 const ListItem = memo(props => {
   const [, globalActions] = useGlobal();
@@ -35,43 +14,21 @@ const ListItem = memo(props => {
   const darkMode = useDarkMode();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const styles = StyleSheet.create({
-    container: {
-      maxHeight: 120,
-      padding: 15,
-      paddingRight: 30,
-      borderBottomWidth: 2,
-      borderColor: darkMode ? placeHolderColorDark : placeHolderColor,
-      backgroundColor: darkMode ? black : secondaryColor,
-      marginLeft: 5,
-      marginRight: 5,
-    },
-    title: {
-      fontFamily: 'Product Sans',
-      fontSize: 24,
-      fontWeight: '600',
-      marginBottom: 5,
-      color: darkMode ? white : black,
-    },
-    description: {
-      fontFamily: 'Product Sans',
-      fontSize: 18,
-      opacity: 0.8,
-      color: darkMode ? white : black,
-    },
-    deleteContainer: {
-      backgroundColor: 'red',
-      flex: 1,
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-    },
-    deleteButton: {
-      fontSize: 20,
-      fontFamily: 'Product Sans',
-      color: white,
-      margin: 10,
-    },
-  });
+  const {
+    container,
+    titleStyle,
+    description,
+    deleteContainer,
+    deleteButton,
+  } = useStyle(darkMode);
+
+  const renderRightActions = () => {
+    return (
+      <View style={deleteContainer}>
+        <Text style={deleteButton}>Delete</Text>
+      </View>
+    );
+  };
 
   const deletePressed = async () => {
     globalActions.deleteNote(id);
@@ -99,7 +56,7 @@ const ListItem = memo(props => {
           setModalVisible(true);
           ref.close();
         }}
-        renderRightActions={() => renderLeftActions(styles)}
+        renderRightActions={renderRightActions}
       >
         <TouchableOpacity
           activeOpacity={1}
@@ -112,9 +69,9 @@ const ListItem = memo(props => {
             })
           }
         >
-          <View style={styles.container}>
-            <Text style={styles.title}>{title}</Text>
-            <Text numberOfLines={2} style={styles.description}>
+          <View style={container}>
+            <Text style={titleStyle}>{title}</Text>
+            <Text numberOfLines={2} style={description}>
               {body}
             </Text>
           </View>

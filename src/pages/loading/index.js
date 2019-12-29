@@ -1,11 +1,5 @@
 import React, {useState, useEffect, memo} from 'react';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  StatusBar,
-  View,
-  Text,
-} from 'react-native';
+import {ActivityIndicator, StatusBar, View, Text} from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import database from '@react-native-firebase/database';
 import perf from '@react-native-firebase/perf';
@@ -16,12 +10,14 @@ import {SafeAreaView} from 'react-navigation';
 import {secondaryColor, primaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
 import {trackScreenView} from '../../functions';
+import useStyles from './styles';
 
 const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [, globalActions] = useGlobal();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
+  const {container, text} = useStyles();
 
   useEffect(() => {
     trackScreenView('LoadingPage');
@@ -94,29 +90,12 @@ const AuthLoadingScreen = memo(props => {
   return (
     <View>
       <StatusBar backgroundColor={secondaryColor} barStyle="dark-content" />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={container}>
         <ActivityIndicator size="large" color={primaryColor} />
-        <Text style={styles.text}>{statusText}</Text>
+        <Text style={text}>{statusText}</Text>
       </SafeAreaView>
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-    padding: 30,
-    backgroundColor: secondaryColor,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontFamily: 'Product Sans',
-  },
 });
 
 export default AuthLoadingScreen;

@@ -3,8 +3,6 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  Dimensions,
-  StyleSheet,
   View,
   Text,
   SafeAreaView,
@@ -18,15 +16,10 @@ import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
 import ModalComponent from '../../components/modal';
-import {
-  black,
-  white,
-  primaryColor,
-  placeHolderColorDark,
-  buttonColor,
-} from '../../config';
+import {primaryColor, buttonColor} from '../../config';
 import LogoTitle from '../../components/title';
 import {useDarkMode, trackScreenView} from '../../functions';
+import useStyle from './styles';
 
 const ListItem = React.lazy(() => import('../../components/listItem'));
 
@@ -47,6 +40,14 @@ const NotesListing = memo(props => {
   const {navigation} = props;
   const darkMode = useDarkMode();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+  const {
+    safeAreaView,
+    scrollViewStyle,
+    emptyContainer,
+    emptyText,
+    addButtonStyle,
+    loaderContainerStyle,
+  } = useStyle(darkMode);
 
   useEffect(() => {
     trackScreenView('ListingPage');
@@ -93,55 +94,6 @@ const NotesListing = memo(props => {
       logout: false,
     });
   };
-  const {height, width} = Dimensions.get('screen');
-
-  const innerStyles = StyleSheet.create({
-    safeAreaView: {
-      flex: 1,
-      position: 'relative',
-      backgroundColor: darkMode ? black : null,
-    },
-    scrollViewStyle: {
-      backgroundColor: darkMode ? black : null,
-    },
-    emptyContainer: {
-      justifyContent: 'flex-start',
-      backgroundColor: darkMode ? black : white,
-      opacity: darkMode ? 1 : 9.5,
-      alignItems: 'center',
-      flex: 1,
-      height,
-      width,
-    },
-    emptyText: {
-      fontSize: 22,
-      color: darkMode ? white : black,
-    },
-    image: {
-      height: 50,
-      width: 50,
-    },
-
-    buttonHolder: {
-      height: 56,
-      width: 56,
-      backgroundColor: buttonColor,
-      borderRadius: 40,
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'absolute',
-      zIndex: 2,
-      bottom: 20,
-      left: width - 76,
-      shadowOpacity: 0.75,
-      shadowRadius: 5,
-      shadowColor: darkMode ? placeHolderColorDark : black,
-      shadowOffset: {
-        height: 1,
-        width: 1,
-      },
-    },
-  });
 
   const Loader = () => {
     return (
@@ -150,7 +102,7 @@ const NotesListing = memo(props => {
         active
         pRows={4}
         pHeight={10}
-        containerStyles={styles.loaderContainerStyle}
+        containerStyles={loaderContainerStyle}
         pWidth={['100%', '90%', '80%', '70%']}
       />
     );
@@ -177,7 +129,7 @@ const NotesListing = memo(props => {
   }
 
   return (
-    <SafeAreaView style={innerStyles.safeAreaView}>
+    <SafeAreaView style={safeAreaView}>
       <ModalComponent
         darkMode={darkMode}
         leftButton="Logout"
@@ -210,22 +162,20 @@ const NotesListing = memo(props => {
       {globalState.list.length === 0 && (
         <View
           style={{
-            ...innerStyles.scrollViewStyle,
-            ...innerStyles.emptyContainer,
+            ...scrollViewStyle,
+            ...emptyContainer,
           }}
         >
           <TouchableOpacity
             onPress={() => navigation.navigate('Note', {darkMode})}
           >
             <Image
-              style={styles.emptyIcon}
+              style={emptyIcon}
               source={darkMode ? emptyIconDark : emptyIcon}
             />
           </TouchableOpacity>
-          <Text style={innerStyles.emptyText}>No Notes found!</Text>
-          <Text style={innerStyles.emptyText}>
-            Click on the + icon to add a note.
-          </Text>
+          <Text style={emptyText}>No Notes found!</Text>
+          <Text style={emptyText}>Click on the + icon to add a note.</Text>
         </View>
       )}
       {/* The floating action button */}
@@ -233,7 +183,7 @@ const NotesListing = memo(props => {
         active
         renderIcon={() => (
           <Image
-            style={styles.addButton}
+            style={addButtonStyle}
             source={darkMode ? addButtonDark : addButton}
           />
         )}
@@ -253,7 +203,7 @@ const NotesListing = memo(props => {
           }}
         >
           <Image
-            style={styles.addButton}
+            style={addButtonStyle}
             source={darkMode ? cameraIconDark : cameraIcon}
           />
         </Item>
@@ -270,7 +220,7 @@ const NotesListing = memo(props => {
           }}
         >
           <Image
-            style={styles.addButton}
+            style={addButtonStyle}
             source={darkMode ? emptyIcon : emptyIconDark}
           />
         </Item>
@@ -292,6 +242,8 @@ NotesListing.navigationOptions = ({navigation}) => ({
     if (logoutIcon === null) {
       logoutIcon = require('../../../assets/logout_icon_dark.png');
     }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const {logoutIconStyle} = useStyle(darkMode);
     return (
       <TouchableOpacity
         onPress={() => {
@@ -301,39 +253,11 @@ NotesListing.navigationOptions = ({navigation}) => ({
         }}
       >
         <Image
-          style={styles.logoutIcon}
+          style={logoutIconStyle}
           source={darkMode ? logoutIconDark : logoutIcon}
         />
       </TouchableOpacity>
     );
-  },
-});
-
-const styles = StyleSheet.create({
-  icon: {
-    height: 40,
-    width: 40,
-  },
-  contentContainerStyle: {
-    paddingBottom: 20,
-    justifyContent: 'space-between',
-  },
-  logoutIcon: {
-    height: 30,
-    width: 30,
-    marginRight: 10,
-  },
-  emptyIcon: {
-    height: 52,
-    width: 52,
-  },
-  addButton: {
-    height: 36,
-    width: 36,
-  },
-  loaderContainerStyle: {
-    padding: 10,
-    height: 100,
   },
 });
 
