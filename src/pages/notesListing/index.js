@@ -77,11 +77,12 @@ const NotesListing = memo(props => {
     try {
       await GoogleSignin.signOut();
       await auth().signOut();
-      setLogoutModalVisible(false);
       globalActions.logout();
       navigation.navigate('Auth');
+      await analytics().resetAnalyticsData();
     } catch (error) {
       await crashlytics().recordError(new Error(error));
+    } finally {
       setLogoutModalVisible(false);
     }
   };
