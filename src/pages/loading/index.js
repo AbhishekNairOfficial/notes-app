@@ -6,6 +6,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import database from '@react-native-firebase/database';
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -56,6 +57,7 @@ const AuthLoadingScreen = memo(props => {
           navigation.navigate('Auth');
         }
       } catch (error) {
+        await crashlytics().recordError(new Error(error));
         if (error.code === statusCodes.SIGN_IN_REQUIRED) {
           // user has not signed in yet
           setTimeout(() => {

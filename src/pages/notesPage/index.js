@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
 import {debounce, useDarkMode} from '../../functions';
@@ -242,6 +243,7 @@ NotesPage.navigationOptions = ({navigation}) => {
         // dismissed
       }
     } catch (error) {
+      await crashlytics().recordError(new Error(error));
       Alert.alert(error.message);
     }
   };

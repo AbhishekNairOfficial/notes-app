@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
@@ -127,7 +128,7 @@ const ImagePage = memo(({navigation}) => {
             darkMode,
           });
         } catch (error) {
-          console.log(error);
+          await crashlytics().recordError(new Error(error));
         }
       };
       processImage(imageSent);

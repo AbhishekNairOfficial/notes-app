@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   // TouchableOpacity,
 } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {
@@ -91,6 +92,7 @@ const SignIn = memo(({navigation}) => {
           navigation.navigate('App');
         });
     } catch (error) {
+      await crashlytics().recordError(new Error(error));
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {

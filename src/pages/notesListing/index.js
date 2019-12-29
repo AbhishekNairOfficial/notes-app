@@ -11,6 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import ActionButton, {Item} from 'react-native-action-button';
+import crashlytics from '@react-native-firebase/crashlytics';
 import auth from '@react-native-firebase/auth';
 import ContentLoader from 'react-native-easy-content-loader';
 import analytics from '@react-native-firebase/analytics';
@@ -76,7 +77,7 @@ const NotesListing = memo(props => {
       globalActions.logout();
       navigation.navigate('Auth');
     } catch (error) {
-      console.error(error);
+      await crashlytics().recordError(new Error(error));
       setLogoutModalVisible(false);
     }
   };
