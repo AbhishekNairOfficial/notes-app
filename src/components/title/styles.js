@@ -6,7 +6,7 @@ const useStyle = darkMode =>
     title: {
       fontWeight: '600',
       color: darkMode ? black : secondaryColor,
-      fontSize: 28,
+      fontSize: 32,
       fontFamily: 'Product Sans',
     },
   });
