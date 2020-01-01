@@ -1,6 +1,5 @@
 import React, {useState, memo, useEffect} from 'react';
-import {View, Text, Switch} from 'react-native';
-import {SafeAreaView} from 'react-navigation';
+import {View, Text, Switch, SafeAreaView} from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
@@ -18,6 +17,7 @@ const SettingsPage = memo(({navigation}) => {
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const {
     container,
+    safeAreaView,
     paragraphText,
     settingsItemStyle,
     hr,
@@ -73,36 +73,39 @@ const SettingsPage = memo(({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={container}>
-      <Text style={[paragraphText, textStyle]}>
-        Here, you&#39;ll find few options you can tweak to suit your experience.
-      </Text>
-      <View style={hr} />
-      {/* The List of Options */}
-      <SettingsItem
-        title="Dark Mode"
-        callback={toggleDarkMode}
-        value={darkMode}
-      />
-      <SettingsItem
-        title="Biometric Authentication"
-        callback={toggleBiometric}
-        value={globalState.biometric}
-      />
-      {/* <View style={hr} /> */}
-      <View style={logoutContainer}>
-        <TouchableOpacity onPress={() => setLogoutModalVisible(true)}>
-          <Text style={[textStyle, logoutButton]}>Logout</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={[safeAreaView]}>
+      <View style={container}>
+        <Text style={[paragraphText, textStyle]}>
+          Here, you&#39;ll find few options you can tweak to suit your
+          experience.
+        </Text>
+        <View style={hr} />
+        {/* The List of Options */}
+        <SettingsItem
+          title="Dark Mode"
+          callback={toggleDarkMode}
+          value={darkMode}
+        />
+        <SettingsItem
+          title="Biometric Authentication"
+          callback={toggleBiometric}
+          value={globalState.biometric}
+        />
+        {/* <View style={hr} /> */}
+        <View style={logoutContainer}>
+          <TouchableOpacity onPress={() => setLogoutModalVisible(true)}>
+            <Text style={[textStyle, logoutButton]}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+        <ModalComponent
+          darkMode={darkMode}
+          leftButton="Logout"
+          leftAction={signOut}
+          rightAction={cancelSignOut}
+          visible={logoutModalVisible}
+          text="Are you sure you want to logout?"
+        />
       </View>
-      <ModalComponent
-        darkMode={darkMode}
-        leftButton="Logout"
-        leftAction={signOut}
-        rightAction={cancelSignOut}
-        visible={logoutModalVisible}
-        text="Are you sure you want to logout?"
-      />
     </SafeAreaView>
   );
 });

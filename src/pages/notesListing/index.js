@@ -100,7 +100,7 @@ const NotesListing = memo(props => {
         barStyle={darkMode ? 'dark-content' : 'light-content'}
       />
       <FlatList
-        data={globalState.list}
+        data={globalState.list.sort((a, b) => b.time - a.time)}
         renderItem={({item}) => {
           return (
             <React.Suspense fallback={<Loader />}>

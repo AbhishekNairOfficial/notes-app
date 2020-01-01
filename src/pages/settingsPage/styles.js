@@ -9,11 +9,13 @@ import {
 
 const useStyles = darkMode =>
   StyleSheet.create({
+    safeAreaView: {
+      backgroundColor: darkMode ? black : secondaryColor,
+    },
     container: {
       height: '100%',
       padding: 20,
       alignItems: 'center',
-      backgroundColor: darkMode ? black : secondaryColor,
     },
     paragraphText: {
       fontSize: 18,
