@@ -10,16 +10,16 @@ const LogoTitle = memo(() => {
   const darkMode = useDarkMode();
   const {title} = useStyle(darkMode);
 
+  const onLongPress = async () => {
+    globalActions.toggleDarkMode(!darkMode);
+    await analytics().logEvent('toggled_dark_mode', {
+      darkMode,
+      time: new Date().getTime(),
+    });
+  };
+
   return (
-    <TouchableOpacity
-      onLongPress={async () => {
-        globalActions.toggleDarkMode(!darkMode);
-        await analytics().logEvent('toggled_dark_mode', {
-          darkMode,
-          time: new Date().getTime(),
-        });
-      }}
-    >
+    <TouchableOpacity onLongPress={onLongPress}>
       <Text style={title}>NotesApp</Text>
     </TouchableOpacity>
   );
