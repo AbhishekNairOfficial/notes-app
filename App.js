@@ -13,6 +13,7 @@ import SignIn from './src/pages/signIn';
 import NotesListing from './src/pages/notesListing';
 import NotesPage from './src/pages/notesPage';
 import ImagePage from './src/pages/imagePage';
+import SettingsPage from './src/pages/settingsPage';
 import {primaryColor, secondaryColor} from './src/config';
 
 const AuthStack = createStackNavigator({SignIn});
@@ -21,6 +22,7 @@ const AppStack = createStackNavigator(
     Listing: NotesListing,
     Note: NotesPage,
     Image: ImagePage,
+    Settings: SettingsPage,
   },
   {
     initialRouteName: 'Listing',

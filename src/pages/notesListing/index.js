@@ -1,4 +1,4 @@
-import React, {useEffect, useState, memo} from 'react';
+import React, {useEffect, memo} from 'react';
 import {
   StatusBar,
   Image,
@@ -9,13 +9,9 @@ import {
   FlatList,
 } from 'react-native';
 import ActionButton, {Item} from 'react-native-action-button';
-import crashlytics from '@react-native-firebase/crashlytics';
-import auth from '@react-native-firebase/auth';
 import ContentLoader from 'react-native-easy-content-loader';
 import analytics from '@react-native-firebase/analytics';
-import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
-import ModalComponent from '../../components/modal';
 import {primaryColor, buttonColor} from '../../config';
 import LogoTitle from '../../components/title';
 import {useDarkMode, trackScreenView} from '../../functions';
@@ -32,14 +28,13 @@ let emptyIconDark = null;
 let cameraIcon = null;
 let cameraIconDark = null;
 
-let logoutIconDark = null;
-let logoutIcon = null;
+let settingsIconDark = null;
+let settingsIcon = null;
 
 const NotesListing = memo(props => {
-  const [globalState, globalActions] = useGlobal();
+  const [globalState] = useGlobal();
   const {navigation} = props;
   const darkMode = useDarkMode();
-  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const {
     safeAreaView,
     scrollViewStyle,
@@ -54,15 +49,6 @@ const NotesListing = memo(props => {
   }, []);
 
   useEffect(() => {
-    const {logout} = navigation.state.params
-      ? navigation.state.params
-      : {logout: false};
-    if (logout) {
-      setLogoutModalVisible(true);
-    }
-  }, [navigation.state.params]);
-
-  useEffect(() => {
     const firstTimePageIsLoading = !navigation.state.params;
     const itHasNotChanged = firstTimePageIsLoading
       ? true
@@ -73,27 +59,6 @@ const NotesListing = memo(props => {
       });
     }
   }, [globalState.darkMode, navigation]);
-
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      await auth().signOut();
-      globalActions.logout();
-      navigation.navigate('Auth');
-      await analytics().resetAnalyticsData();
-    } catch (error) {
-      await crashlytics().recordError(new Error(error));
-    } finally {
-      setLogoutModalVisible(false);
-    }
-  };
-
-  const cancelSignOut = () => {
-    setLogoutModalVisible(false);
-    navigation.setParams({
-      logout: false,
-    });
-  };
 
   const Loader = () => {
     return (
@@ -130,14 +95,6 @@ const NotesListing = memo(props => {
 
   return (
     <SafeAreaView style={safeAreaView}>
-      <ModalComponent
-        darkMode={darkMode}
-        leftButton="Logout"
-        leftAction={signOut}
-        rightAction={cancelSignOut}
-        visible={logoutModalVisible}
-        text="Are you sure you want to logout?"
-      />
       <StatusBar
         backgroundColor={primaryColor}
         barStyle={darkMode ? 'dark-content' : 'light-content'}
@@ -237,25 +194,23 @@ NotesListing.navigationOptions = ({navigation}) => ({
     const darkMode = navigation.state.params
       ? navigation.state.params.darkMode
       : false;
-    if (logoutIconDark === null) {
-      logoutIconDark = require('../../../assets/logout_icon.png');
+    if (settingsIconDark === null) {
+      settingsIconDark = require('../../../assets/settings_icon_dark.svg');
     }
-    if (logoutIcon === null) {
-      logoutIcon = require('../../../assets/logout_icon_dark.png');
+    if (settingsIcon === null) {
+      settingsIcon = require('../../../assets/settings_icon.svg');
     }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const {logoutIconStyle} = useStyle(darkMode);
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.setParams({
-            logout: true,
-          });
+          navigation.navigate('Settings', {darkMode});
         }}
       >
         <Image
           style={logoutIconStyle}
-          source={darkMode ? logoutIconDark : logoutIcon}
+          source={darkMode ? settingsIconDark : settingsIcon}
         />
       </TouchableOpacity>
     );
