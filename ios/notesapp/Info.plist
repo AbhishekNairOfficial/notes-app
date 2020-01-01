@@ -48,6 +48,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>${PRODUCT_NAME} would like to access your camera, to take pictures and convert them into notes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
