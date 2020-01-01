@@ -2,7 +2,6 @@ import React, {useState, useCallback, useEffect, memo} from 'react';
 import {
   View,
   TextInput,
-  StyleSheet,
   Platform,
   ActivityIndicator,
   Text,
@@ -18,35 +17,42 @@ import {
 } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
-import debounce from '../../functions';
+import {debounce, useDarkMode, trackScreenView} from '../../functions';
 import useGlobal from '../../store';
+import useStyle from './styles';
 import {
   secondaryColor,
   black,
   placeHolderColorDark,
   placeHolderColor,
   primaryColor,
-  white,
 } from '../../config';
 
-const shareIconDark = require('../../../assets/share_icon.svg');
-const shareIcon = require('../../../assets/share_icon_dark.svg');
+let shareIconDark = null;
+let shareIcon = null;
 
 const NotesPage = memo(props => {
-  const [globalState, globalActions] = useGlobal();
+  const [, globalActions] = useGlobal();
   const {navigation} = props;
   const id = navigation.getParam('id');
   const [title, setTitle] = useState(navigation.getParam('title'));
   const [body, setBody] = useState(navigation.getParam('body'));
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const darkMode = useDarkMode();
+  const {
+    flex,
+    safeAreaView,
+    container,
+    scrollView,
+    titleStyle,
+    bodyStyle,
+  } = useStyle(darkMode);
 
   useEffect(() => {
-    if (globalState.darkMode !== darkMode) {
-      setDarkMode(globalState.darkMode);
-    }
-  }, [darkMode, globalState.darkMode]);
+    trackScreenView('NotesPage');
+  }, []);
 
   // Sending data to header for share
   // Also, sending dark mode
@@ -65,41 +71,6 @@ const NotesPage = memo(props => {
     }
     navigation.setParams({title, body, darkMode});
   }, [title, body, navigation, darkMode]);
-
-  const styles = StyleSheet.create({
-    flex: {
-      flex: 1,
-    },
-    safeAreaView: {
-      flex: 1,
-      position: 'relative',
-      backgroundColor: darkMode ? black : white,
-    },
-    container: {
-      padding: 15,
-      backgroundColor: darkMode ? black : secondaryColor,
-      height: '100%',
-    },
-    scrollView: {
-      paddingBottom: 20,
-      justifyContent: 'space-between',
-    },
-    title: {
-      fontFamily: 'Product Sans',
-      fontSize: 28,
-      paddingBottom: 15,
-      marginBottom: 10,
-      borderBottomColor: placeHolderColor,
-      borderBottomWidth: 1,
-      color: darkMode ? placeHolderColor : black,
-    },
-    body: {
-      fontFamily: 'Product Sans',
-      fontSize: 20,
-      height: '100%',
-      color: darkMode ? placeHolderColor : black,
-    },
-  });
 
   // Effect to show loader on header
   useDebouncedEffect(
@@ -135,6 +106,7 @@ const NotesPage = memo(props => {
         id,
         title,
         body,
+        time: new Date().getTime(),
       };
       if (!id) {
         globalActions.addNote(newNote);
@@ -156,23 +128,23 @@ const NotesPage = memo(props => {
   }, [callAddNoteAction]);
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <SafeAreaView style={safeAreaView}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
-        style={styles.flex}
+        style={flex}
       >
         <ScrollView
           onScrollEndDrag={() => Keyboard.dismiss()}
           keyboardDismissMode="on-drag"
-          style={styles.container}
-          contentContainerStyle={styles.scrollView}
+          style={container}
+          contentContainerStyle={scrollView}
         >
           <NavigationEvents onWillBlur={() => callAddNoteAction()} />
           <TextInput
             placeholderTextColor={
               darkMode ? placeHolderColorDark : placeHolderColor
             }
-            style={styles.title}
+            style={titleStyle}
             autoCorrect={false}
             autoCapitalize="sentences"
             maxLength={25}
@@ -190,12 +162,12 @@ const NotesPage = memo(props => {
             autoCapitalize="sentences"
             autoCorrect={false}
             maxLength={1000}
-            style={styles.body}
+            style={bodyStyle}
             onChangeText={value => debounce(setBody(value), 1000)}
             value={body}
             placeholder="Type something Here"
           />
-          <View style={styles.flex} />
+          <View style={flex} />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -206,6 +178,18 @@ NotesPage.navigationOptions = ({navigation}) => {
   const {params = {}} = navigation.state;
   const {saving, darkMode, title, body} = params;
   const firstTime = darkMode === undefined;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {saveHolder, saveText, shareHolder, shareIconStyle} = useStyle(
+    darkMode,
+  );
+
+  // Rendering the icons here when needed
+  if (shareIcon === null) {
+    shareIcon = require('../../../assets/share_icon_dark.svg');
+  }
+  if (shareIconDark === null) {
+    shareIconDark = require('../../../assets/share_icon.svg');
+  }
 
   const headerTintColor = () => {
     if (firstTime) {
@@ -240,46 +224,30 @@ NotesPage.navigationOptions = ({navigation}) => {
         // dismissed
       }
     } catch (error) {
+      await crashlytics().recordError(new Error(error));
       Alert.alert(error.message);
     }
   };
-  const styles = StyleSheet.create({
-    saveHolder: {
-      margin: 15,
-      flexDirection: 'row',
-    },
-    saveText: {
-      marginLeft: 5,
-      color: darkMode ? black : secondaryColor,
-    },
-    shareIcon: {
-      width: 30,
-      height: 30,
-    },
-    shareHolder: {
-      padding: 15,
-      alignItems: 'center',
-    },
-  });
+
   return {
     headerRight: (
       <>
         {saving && (
-          <View style={styles.saveHolder}>
+          <View style={saveHolder}>
             <ActivityIndicator
               size="small"
               animating={saving}
               color={darkMode ? black : secondaryColor}
             />
-            <Text style={styles.saveText}>Saved</Text>
+            <Text style={saveText}>Saved</Text>
           </View>
         )}
         {!saving && (
-          <TouchableOpacity onPress={onShare} style={styles.shareHolder}>
+          <TouchableOpacity onPress={onShare} style={shareHolder}>
             {!firstTime && (
               <Image
                 resizeMode="contain"
-                style={styles.shareIcon}
+                style={shareIconStyle}
                 source={darkMode ? shareIconDark : shareIcon}
               />
             )}

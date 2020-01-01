@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import database from '@react-native-firebase/database';
-import debounce from '../functions';
+import SimpleCrypto from 'simple-crypto-js';
+// eslint-disable-next-line import/no-cycle
+import {debounce} from '../functions';
 
-const updateAsyncStorage = (list, itemName = 'list') => {
+const updateAsyncStorage = async (list, itemName = 'list') => {
   debounce(
-    AsyncStorage.setItem(
+    await AsyncStorage.setItem(
       itemName,
       itemName === 'list' ? JSON.stringify(list) : list,
     ),
@@ -12,11 +14,30 @@ const updateAsyncStorage = (list, itemName = 'list') => {
   );
 };
 
-export const addAllNotes = (store, listFromProps) => {
-  let list = listFromProps;
+export const addAllNotes = async (store, listFromProps) => {
+  const uid = await AsyncStorage.getItem('uid');
+  // let list = listFromProps;
   // Error Condition
-  if (list === null) {
+  let list;
+  if (listFromProps === null) {
     list = [];
+  } else {
+    // Decrpyting the encrypted notes.
+    list = listFromProps.map(item => {
+      if (typeof item === 'string') {
+        const simpleCrypto = new SimpleCrypto(uid);
+        let decryptedNote = {};
+        try {
+          decryptedNote = simpleCrypto.decrypt(item, true);
+          return decryptedNote;
+        } catch (error) {
+          console.log(error);
+          return;
+        }
+      }
+      return item;
+    });
+    list = list.filter(el => !!el);
   }
   store.setState({list});
   updateAsyncStorage(list);
@@ -40,7 +61,10 @@ export const addNote = async (store, note) => {
   store.setState({list});
   updateAsyncStorage(list);
   const updates = {};
-  updates[`/users/${uid}/list/${newNoteKey}`] = newNote;
+  // Encrypting text before sending to DB
+  const simpleCrypto = new SimpleCrypto(uid);
+  const encryptedNote = simpleCrypto.encrypt(newNote);
+  updates[`/users/${uid}/list/${newNoteKey}`] = encryptedNote;
   return database()
     .ref()
     .update(updates);
@@ -55,7 +79,10 @@ export const editNote = async (store, note) => {
   // Updating the post in firebase
   const uid = await AsyncStorage.getItem('uid');
   const updates = {};
-  updates[`/users/${uid}/list/${note.id}`] = note;
+  // Enrypting edited note
+  const simpleCrypto = new SimpleCrypto(uid);
+  const encryptedNote = simpleCrypto.encrypt(note);
+  updates[`/users/${uid}/list/${note.id}`] = encryptedNote;
   return database()
     .ref()
     .update(updates);

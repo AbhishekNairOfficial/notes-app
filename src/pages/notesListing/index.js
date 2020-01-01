@@ -3,52 +3,55 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  Dimensions,
-  StyleSheet,
   View,
   Text,
   SafeAreaView,
   FlatList,
 } from 'react-native';
+import ActionButton, {Item} from 'react-native-action-button';
+import crashlytics from '@react-native-firebase/crashlytics';
 import auth from '@react-native-firebase/auth';
 import ContentLoader from 'react-native-easy-content-loader';
 import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
 import useGlobal from '../../store';
 import ModalComponent from '../../components/modal';
-import {
-  black,
-  white,
-  primaryColor,
-  placeHolderColorDark,
-  buttonColor,
-} from '../../config';
+import {primaryColor, buttonColor} from '../../config';
 import LogoTitle from '../../components/title';
+import {useDarkMode, trackScreenView} from '../../functions';
+import useStyle from './styles';
 
 const ListItem = React.lazy(() => import('../../components/listItem'));
 
-const addButton = require('../../../assets/add_btn.png');
-const addButtonDark = require('../../../assets/add_btn_dark.png');
-const emptyIcon = require('../../../assets/empty_icon.png');
-const emptyIconDark = require('../../../assets/empty_icon_dark.png');
-const logoutIconDark = require('../../../assets/logout_icon.png');
-const logoutIcon = require('../../../assets/logout_icon_dark.png');
+console.disableYellowBox = true;
+
+let addButton = null;
+let addButtonDark = null;
+let emptyIcon = null;
+let emptyIconDark = null;
+let cameraIcon = null;
+let cameraIconDark = null;
+
+let logoutIconDark = null;
+let logoutIcon = null;
 
 const NotesListing = memo(props => {
   const [globalState, globalActions] = useGlobal();
   const {navigation} = props;
-  const [darkMode, setDarkMode] = useState(globalState.darkMode);
+  const darkMode = useDarkMode();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+  const {
+    safeAreaView,
+    scrollViewStyle,
+    emptyContainer,
+    emptyText,
+    addButtonStyle,
+    loaderContainerStyle,
+  } = useStyle(darkMode);
 
   useEffect(() => {
-    setDarkMode(globalState.darkMode);
-    // Changing the Statusbar text to light content on iOS
-    if (globalState.darkMode) {
-      StatusBar.setBarStyle('dark-content', true);
-    } else {
-      StatusBar.setBarStyle('light-content', true);
-    }
-  }, [globalState.darkMode]);
+    trackScreenView('ListingPage');
+  }, []);
 
   useEffect(() => {
     const {logout} = navigation.state.params
@@ -75,11 +78,12 @@ const NotesListing = memo(props => {
     try {
       await GoogleSignin.signOut();
       await auth().signOut();
-      setLogoutModalVisible(false);
       globalActions.logout();
       navigation.navigate('Auth');
+      await analytics().resetAnalyticsData();
     } catch (error) {
-      console.error(error);
+      await crashlytics().recordError(new Error(error));
+    } finally {
       setLogoutModalVisible(false);
     }
   };
@@ -90,55 +94,6 @@ const NotesListing = memo(props => {
       logout: false,
     });
   };
-  const {height, width} = Dimensions.get('screen');
-
-  const innerStyles = StyleSheet.create({
-    safeAreaView: {
-      flex: 1,
-      position: 'relative',
-      backgroundColor: darkMode ? black : null,
-    },
-    scrollViewStyle: {
-      backgroundColor: darkMode ? black : null,
-    },
-    emptyContainer: {
-      justifyContent: 'flex-start',
-      backgroundColor: darkMode ? black : white,
-      opacity: darkMode ? 1 : 9.5,
-      alignItems: 'center',
-      flex: 1,
-      height,
-      width,
-    },
-    emptyText: {
-      fontSize: 22,
-      color: darkMode ? white : black,
-    },
-    image: {
-      height: 50,
-      width: 50,
-    },
-
-    buttonHolder: {
-      height: 56,
-      width: 56,
-      backgroundColor: buttonColor,
-      borderRadius: 40,
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'absolute',
-      zIndex: 2,
-      bottom: 20,
-      left: width - 76,
-      shadowOpacity: 0.75,
-      shadowRadius: 5,
-      shadowColor: darkMode ? placeHolderColorDark : black,
-      shadowOffset: {
-        height: 1,
-        width: 1,
-      },
-    },
-  });
 
   const Loader = () => {
     return (
@@ -147,14 +102,34 @@ const NotesListing = memo(props => {
         active
         pRows={4}
         pHeight={10}
-        containerStyles={styles.loaderContainerStyle}
+        containerStyles={loaderContainerStyle}
         pWidth={['100%', '90%', '80%', '70%']}
       />
     );
   };
 
+  // Rendering icons here
+  if (addButton === null) {
+    addButton = require('../../../assets/add_btn.png');
+  }
+  if (addButtonDark === null) {
+    addButtonDark = require('../../../assets/add_btn_dark.png');
+  }
+  if (emptyIcon === null) {
+    emptyIcon = require('../../../assets/empty_icon.png');
+  }
+  if (emptyIconDark === null) {
+    emptyIconDark = require('../../../assets/empty_icon_dark.png');
+  }
+  if (cameraIcon === null) {
+    cameraIcon = require('../../../assets/camera_icon.svg');
+  }
+  if (cameraIconDark === null) {
+    cameraIconDark = require('../../../assets/camera_icon_dark.svg');
+  }
+
   return (
-    <SafeAreaView style={innerStyles.safeAreaView}>
+    <SafeAreaView style={safeAreaView}>
       <ModalComponent
         darkMode={darkMode}
         leftButton="Logout"
@@ -175,6 +150,7 @@ const NotesListing = memo(props => {
               <ListItem
                 key={item.id}
                 id={item.id}
+                time={item.time}
                 title={item.title}
                 body={item.body}
                 navigation={navigation}
@@ -187,40 +163,69 @@ const NotesListing = memo(props => {
       {globalState.list.length === 0 && (
         <View
           style={{
-            ...innerStyles.scrollViewStyle,
-            ...innerStyles.emptyContainer,
+            ...scrollViewStyle,
+            ...emptyContainer,
           }}
         >
           <TouchableOpacity
             onPress={() => navigation.navigate('Note', {darkMode})}
           >
             <Image
-              style={styles.emptyIcon}
+              style={emptyIcon}
               source={darkMode ? emptyIconDark : emptyIcon}
             />
           </TouchableOpacity>
-          <Text style={innerStyles.emptyText}>No Notes found!</Text>
-          <Text style={innerStyles.emptyText}>
-            Click on the + icon to add a note.
-          </Text>
+          <Text style={emptyText}>No Notes found!</Text>
+          <Text style={emptyText}>Click on the + icon to add a note.</Text>
         </View>
       )}
       {/* The floating action button */}
-      <TouchableOpacity
-        onPress={() => {
-          const onProductView = async () => {
-            await analytics().logEvent('created_a_note');
-          };
-          navigation.navigate('Note', {darkMode});
-          onProductView();
-        }}
-        style={innerStyles.buttonHolder}
+      <ActionButton
+        active
+        renderIcon={() => (
+          <Image
+            style={addButtonStyle}
+            source={darkMode ? addButtonDark : addButton}
+          />
+        )}
+        size={64}
+        buttonColor={buttonColor}
       >
-        <Image
-          style={styles.addButton}
-          source={darkMode ? addButtonDark : addButton}
-        />
-      </TouchableOpacity>
+        <Item
+          size={56}
+          buttonColor={buttonColor}
+          title="Scan Image"
+          onPress={() => {
+            const onProductView = async () => {
+              await analytics().logEvent('scanned_an_image');
+            };
+            navigation.navigate('Image', {darkMode});
+            onProductView();
+          }}
+        >
+          <Image
+            style={addButtonStyle}
+            source={darkMode ? cameraIconDark : cameraIcon}
+          />
+        </Item>
+        <Item
+          size={56}
+          buttonColor={buttonColor}
+          title="New Note"
+          onPress={() => {
+            const onProductView = async () => {
+              await analytics().logEvent('created_a_note');
+            };
+            navigation.navigate('Note', {darkMode});
+            onProductView();
+          }}
+        >
+          <Image
+            style={addButtonStyle}
+            source={darkMode ? emptyIcon : emptyIconDark}
+          />
+        </Item>
+      </ActionButton>
     </SafeAreaView>
   );
 });
@@ -232,6 +237,14 @@ NotesListing.navigationOptions = ({navigation}) => ({
     const darkMode = navigation.state.params
       ? navigation.state.params.darkMode
       : false;
+    if (logoutIconDark === null) {
+      logoutIconDark = require('../../../assets/logout_icon.png');
+    }
+    if (logoutIcon === null) {
+      logoutIcon = require('../../../assets/logout_icon_dark.png');
+    }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const {logoutIconStyle} = useStyle(darkMode);
     return (
       <TouchableOpacity
         onPress={() => {
@@ -241,39 +254,11 @@ NotesListing.navigationOptions = ({navigation}) => ({
         }}
       >
         <Image
-          style={styles.logoutIcon}
+          style={logoutIconStyle}
           source={darkMode ? logoutIconDark : logoutIcon}
         />
       </TouchableOpacity>
     );
-  },
-});
-
-const styles = StyleSheet.create({
-  icon: {
-    height: 40,
-    width: 40,
-  },
-  contentContainerStyle: {
-    paddingBottom: 20,
-    justifyContent: 'space-between',
-  },
-  logoutIcon: {
-    height: 30,
-    width: 30,
-    marginRight: 10,
-  },
-  emptyIcon: {
-    height: 52,
-    width: 52,
-  },
-  addButton: {
-    height: 40,
-    width: 40,
-  },
-  loaderContainerStyle: {
-    padding: 10,
-    height: 100,
   },
 });
 
