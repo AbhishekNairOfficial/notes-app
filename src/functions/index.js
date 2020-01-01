@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
+import {Alert} from 'react-native';
 import analytics from '@react-native-firebase/analytics';
+import TouchID from 'react-native-touch-id';
 // eslint-disable-next-line import/no-cycle
 import useGlobal from '../store';
 
@@ -26,4 +28,27 @@ export const useDarkMode = () => {
 export const trackScreenView = async screen => {
   // Set & override the MainActivity screen name
   await analytics().setCurrentScreen(screen, screen);
+};
+
+export const biometricAuthentication = async () => {
+  const authenticate = () => {
+    return TouchID.authenticate()
+      .then(success => {
+        console.log(success);
+        return true;
+        // Alert.alert('Authenticated Successfully');
+      })
+      .catch(error => {
+        console.log(error);
+        Alert.alert(error.message);
+        return false;
+      });
+  };
+
+  try {
+    const isSupported = await TouchID.isSupported();
+    return isSupported && authenticate();
+  } catch (error) {
+    Alert.alert('TouchID not supported');
+  }
 };
