@@ -11,14 +11,12 @@ Made using [`this`](https://www.github.com/abhisheknairofficial/react-native-boi
 
 Take notes, get notes from images, share them with others, save them to your account with this app. Here are a few screenshots and a gif showing it in action.
 
-<img src="./assets/listing-screenshot.png" alt="Kitten"
-title="A cute kitten" width="300" />
-
-<img src="./assets/images-screenshot.png" alt="Kitten"
-title="A cute kitten" width="300" />
-
-<img src="./assets/image-conversion.gif" alt="Kitten"
-title="A cute kitten" width="300" />
+<img src="./assets/listing-screenshot.png"
+alt="Listing Screenshot" width="300" />
+<img src="./assets/images-screenshot.png"
+alt="Images Screenshot" width="300" />
+<img src="./assets/image-conversion.gif"
+alt="Video of ML" width="300" />
 
 ## Features
 
