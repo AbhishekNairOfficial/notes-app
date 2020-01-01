@@ -14,7 +14,7 @@ import {secondaryColor, black, primaryColor} from '../../config';
 
 const SettingsPage = memo(({navigation}) => {
   const darkMode = useDarkMode();
-  const [, globalActions] = useGlobal();
+  const [globalState, globalActions] = useGlobal();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const {
     container,
@@ -45,6 +45,10 @@ const SettingsPage = memo(({navigation}) => {
 
   const toggleDarkMode = value => {
     globalActions.toggleDarkMode(value);
+  };
+
+  const toggleBiometric = value => {
+    globalActions.toggleBiometric(value);
   };
 
   const signOut = async () => {
@@ -80,7 +84,12 @@ const SettingsPage = memo(({navigation}) => {
         callback={toggleDarkMode}
         value={darkMode}
       />
-      <View style={hr} />
+      <SettingsItem
+        title="Biometric Authentication"
+        callback={toggleBiometric}
+        value={globalState.biometric}
+      />
+      {/* <View style={hr} /> */}
       <View style={logoutContainer}>
         <TouchableOpacity onPress={() => setLogoutModalVisible(true)}>
           <Text style={[textStyle, logoutButton]}>Logout</Text>

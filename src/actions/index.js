@@ -105,12 +105,21 @@ export const deleteNote = async (store, noteId) => {
 
 export const toggleDarkMode = async (store, darkMode) => {
   store.setState({darkMode});
-  AsyncStorage.setItem('darkMode', JSON.stringify(darkMode));
+  await AsyncStorage.setItem('darkMode', JSON.stringify(darkMode));
   const uid = await AsyncStorage.getItem('uid');
   const updates = {};
-  updates[`/users/${uid}/preferences/`] = {
-    darkMode,
-  };
+  updates[`/users/${uid}/preferences/darkMode`] = darkMode;
+  return database()
+    .ref()
+    .update(updates);
+};
+
+export const toggleBiometric = async (store, biometric) => {
+  store.setState({biometric});
+  await AsyncStorage.setItem('biometric', JSON.stringify(biometric));
+  const uid = await AsyncStorage.getItem('uid');
+  const updates = {};
+  updates[`/users/${uid}/preferences/biometric`] = biometric;
   return database()
     .ref()
     .update(updates);

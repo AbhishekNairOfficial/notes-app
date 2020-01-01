@@ -9,7 +9,7 @@ import {firebase} from '@react-native-firebase/auth';
 import {SafeAreaView} from 'react-navigation';
 import {secondaryColor, primaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
-import {trackScreenView} from '../../functions';
+import {trackScreenView, biometricAuthentication} from '../../functions';
 import useStyles from './styles';
 
 const AuthLoadingScreen = memo(props => {
@@ -25,6 +25,17 @@ const AuthLoadingScreen = memo(props => {
 
   useEffect(() => {
     GoogleSignin.configure(googleConfig);
+
+    const goToApp = async biometric => {
+      if (biometric) {
+        const authorized = await biometricAuthentication();
+        if (authorized) {
+          navigation.navigate('App');
+        }
+      } else {
+        navigation.navigate('App');
+      }
+    };
 
     const getCurrentUserInfo = async () => {
       try {
@@ -53,12 +64,13 @@ const AuthLoadingScreen = memo(props => {
           const userProfile = snapshot.val();
           const {list, preferences} = userProfile;
           globalActions.toggleDarkMode(preferences.darkMode);
+          globalActions.toggleBiometric(preferences.biometric);
           // Ending the firebase performance monitoring
           const endTime = new Date().getTime();
           trace.putAttribute('user_id', uid);
           trace.putMetric('time_taken', endTime - startTime);
           await trace.stop();
-          navigation.navigate('App');
+          goToApp(preferences.biometric);
           if (list) {
             await globalActions.addAllNotes(Object.values(list));
           }

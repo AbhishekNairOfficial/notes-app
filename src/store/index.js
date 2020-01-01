@@ -7,6 +7,7 @@ import * as actions from '../actions';
 const initialState = {
   list: [],
   darkMode: false,
+  biometric: false,
 };
 // Notes Structure
 // const note = {
