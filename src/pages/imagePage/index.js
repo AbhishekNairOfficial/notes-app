@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef, memo, useCallback} from 'react';
 import {
   ScrollView,
+  Dimensions,
   Text,
   Image,
   TouchableOpacity,
@@ -52,20 +53,25 @@ const ImagePage = memo(({navigation}) => {
   // On selection of an action sheet item
   const onActionSelected = async index => {
     // Opening camera or gallery based on selection.
+    const {height, width} = Dimensions.get('window');
     if (index === 0) {
       // Camera is selected
       const image = await ImagePicker.openCamera({
-        width: 300,
-        height: 400,
+        mediaType: 'photo',
         cropping: true,
+        width,
+        height,
+        avoidEmptySpaceAroundImage: false,
       });
       ProcessImageCallback(image.path);
     } else if (index === 1) {
       // Gallery is selected
       const image = await ImagePicker.openPicker({
-        width: 300,
-        height: 400,
+        mediaType: 'photo',
         cropping: true,
+        width,
+        height,
+        avoidEmptySpaceAroundImage: false,
       });
       ProcessImageCallback(image.path);
     }
@@ -83,7 +89,6 @@ const ImagePage = memo(({navigation}) => {
           setProcessing(true);
           // Using the local file, process the image on the device itself
           const {text} = await vision().textRecognizerProcessImage(image);
-          setProcessing(false);
           const endTime = new Date().getTime();
           const timeTakenToProcessImage = endTime - startTime;
           trace.putMetric('time_taken', endTime - startTime);
@@ -96,6 +101,7 @@ const ImagePage = memo(({navigation}) => {
             title: '',
             darkMode,
           });
+          setProcessing(false);
         } catch (error) {
           await crashlytics().recordError(new Error(error));
         }

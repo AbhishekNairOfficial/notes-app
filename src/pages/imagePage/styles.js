@@ -14,6 +14,7 @@ const useStyle = darkMode =>
     },
     imageStyles: {
       height: 300,
+      maxWidth: '60%',
     },
     mainText: {
       fontSize: 28,
