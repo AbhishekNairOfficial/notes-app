@@ -15,6 +15,7 @@ import NotesPage from './src/pages/notesPage';
 import ImagePage from './src/pages/imagePage';
 import SettingsPage from './src/pages/settingsPage';
 import {primaryColor, secondaryColor} from './src/config';
+import {elevationShadowStyle} from './src/functions';
 
 const AuthStack = createStackNavigator({SignIn});
 const AppStack = createStackNavigator(
@@ -30,7 +31,9 @@ const AppStack = createStackNavigator(
     headerLayoutPreset: 'center',
     defaultNavigationOptions: {
       headerStyle: {
+        height: 60,
         backgroundColor: primaryColor,
+        ...elevationShadowStyle(3),
       },
       headerTintColor: secondaryColor,
     },

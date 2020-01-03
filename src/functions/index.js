@@ -52,3 +52,15 @@ export const biometricAuthentication = async () => {
     Alert.alert('TouchID not supported');
   }
 };
+
+// Particulrly used for Ios as elevation property is not working in Ios
+
+export const elevationShadowStyle = elevation => {
+  return {
+    elevation,
+    shadowColor: '#333',
+    shadowOffset: {width: elevation, height: 2.4 * elevation},
+    shadowOpacity: 0.1,
+    shadowRadius: 2.4 * elevation,
+  };
+};
