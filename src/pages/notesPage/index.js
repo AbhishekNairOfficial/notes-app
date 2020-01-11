@@ -91,6 +91,7 @@ const NotesPage = memo(props => {
   const callAddNoteAction = useCallback(
     nextAppState => {
       const appIsActive = nextAppState === 'active';
+
       if (appIsActive) {
         // When you return from multi tasking, back to the app.
         // No need to save again.
@@ -99,6 +100,7 @@ const NotesPage = memo(props => {
       const inputValidation = () => {
         return title || body;
       };
+
       if (!inputValidation()) {
         return;
       }
@@ -108,6 +110,7 @@ const NotesPage = memo(props => {
         body,
         time: new Date().getTime(),
       };
+
       if (!id) {
         globalActions.addNote(newNote);
       } else {

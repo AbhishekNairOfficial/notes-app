@@ -71,6 +71,7 @@ const ListItem = memo(props => {
         'Friday',
         'Saturday',
       ];
+
       return arrayOfDays[new Date(lastEditedTime).getDay()];
     }
     // A week or before

@@ -44,6 +44,7 @@ const SignIn = memo(({navigation}) => {
       }
     };
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
     return subscriber; // unsubscribe on unmount
   }, [initilizing]);
 
@@ -53,6 +54,7 @@ const SignIn = memo(({navigation}) => {
     try {
       await GoogleSignin.hasPlayServices();
       const {idToken} = await GoogleSignin.signIn();
+
       setStatusText('Loading your details...');
       const {accessToken} = await GoogleSignin.getTokens();
       const credential = auth.GoogleAuthProvider.credential(
@@ -61,9 +63,11 @@ const SignIn = memo(({navigation}) => {
       );
       const userInfo = await auth().signInWithCredential(credential);
       const {uid, email, displayName} = userInfo.user;
+
       setStatusText('Checking whether you already have used the app before..');
       // Create a reference
       const ref = database().ref(`/users/${uid}`);
+
       globalActions.updateUid(uid);
       // Checking whether the user already has data here
       await database()
@@ -71,6 +75,7 @@ const SignIn = memo(({navigation}) => {
         .once('value')
         .then(async snapshot => {
           const userProfile = snapshot.val();
+
           if (userProfile === null) {
             // User doesn't exist
             // Creating Initial State for user
@@ -87,6 +92,7 @@ const SignIn = memo(({navigation}) => {
             setStatusText('Loading all your notes from Google...');
             await sleep(1000);
             const {list, preferences} = userProfile;
+
             if (list) {
               await globalActions.addAllNotes(Object.values(list));
             }

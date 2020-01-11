@@ -53,6 +53,7 @@ const useStyle = darkMode => {
       right: -15,
     },
   });
+
   return styles;
 };
 

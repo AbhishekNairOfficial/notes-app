@@ -7,8 +7,10 @@ import useGlobal from '../store';
 
 export const debounce = (func, wait) => {
   let timeout;
+
   return (...args) => {
     const context = this;
+
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(context, args), wait);
   };
@@ -47,6 +49,7 @@ export const biometricAuthentication = async () => {
 
   try {
     const isSupported = await TouchID.isSupported();
+
     return isSupported && authenticate();
   } catch (error) {
     Alert.alert('TouchID not supported');

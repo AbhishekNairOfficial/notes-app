@@ -54,6 +54,7 @@ const ImagePage = memo(({navigation}) => {
   const onActionSelected = async index => {
     // Opening camera or gallery based on selection.
     const {height, width} = Dimensions.get('window');
+
     if (index === 0) {
       // Camera is selected
       const image = await ImagePicker.openCamera({
@@ -63,6 +64,7 @@ const ImagePage = memo(({navigation}) => {
         height,
         avoidEmptySpaceAroundImage: false,
       });
+
       ProcessImageCallback(image.path);
     } else if (index === 1) {
       // Gallery is selected
@@ -73,6 +75,7 @@ const ImagePage = memo(({navigation}) => {
         height,
         avoidEmptySpaceAroundImage: false,
       });
+
       ProcessImageCallback(image.path);
     }
   };
@@ -86,11 +89,13 @@ const ImagePage = memo(({navigation}) => {
           // Starting performance and analytics monitoring of the ML event
           const trace = await perf().startTrace('processed_an_image');
           const startTime = new Date().getTime();
+
           setProcessing(true);
           // Using the local file, process the image on the device itself
           const {text} = await vision().textRecognizerProcessImage(image);
           const endTime = new Date().getTime();
           const timeTakenToProcessImage = endTime - startTime;
+
           trace.putMetric('time_taken', endTime - startTime);
           await trace.stop();
           await analytics().logEvent('processed_an_image', {
@@ -106,6 +111,7 @@ const ImagePage = memo(({navigation}) => {
           await crashlytics().recordError(new Error(error));
         }
       };
+
       processImage(imageSent);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

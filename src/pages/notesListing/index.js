@@ -52,12 +52,14 @@ const NotesListing = memo(props => {
     const itHasNotChanged = firstTimePageIsLoading
       ? true
       : navigation.state.params.darkMode === globalState.darkMode;
+
     if (!itHasNotChanged || firstTimePageIsLoading) {
       navigation.setParams({
         darkMode: globalState.darkMode,
       });
     }
-  }, [globalState.darkMode, navigation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [globalState.darkMode]);
 
   const Loader = () => {
     return (
@@ -155,6 +157,7 @@ const NotesListing = memo(props => {
             const onProductView = async () => {
               await analytics().logEvent('scanned_an_image');
             };
+
             navigation.navigate('Image', {darkMode});
             onProductView();
           }}
@@ -172,6 +175,7 @@ const NotesListing = memo(props => {
             const onProductView = async () => {
               await analytics().logEvent('created_a_note');
             };
+
             navigation.navigate('Note', {darkMode});
             onProductView();
           }}
@@ -193,6 +197,7 @@ NotesListing.navigationOptions = ({navigation}) => ({
     const darkMode = navigation.state.params
       ? navigation.state.params.darkMode
       : false;
+
     if (settingsIconDark === null) {
       settingsIconDark = require('../../../assets/settings_icon_dark.svg');
     }
@@ -201,6 +206,7 @@ NotesListing.navigationOptions = ({navigation}) => ({
     }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const {logoutIconStyle} = useStyle(darkMode);
+
     return (
       <TouchableOpacity
         onPress={() => {

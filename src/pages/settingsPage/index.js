@@ -123,6 +123,7 @@ SettingsPage.navigationOptions = ({navigation}) => {
     }
     return secondaryColor;
   };
+
   return {
     title: 'Settings',
     headerTitleStyle: {

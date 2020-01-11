@@ -19,6 +19,7 @@ export const addAllNotes = async (store, listFromProps) => {
   // let list = listFromProps;
   // Error Condition
   let list;
+
   if (listFromProps === null) {
     list = [];
   } else {
@@ -27,6 +28,7 @@ export const addAllNotes = async (store, listFromProps) => {
       if (typeof item === 'string') {
         const simpleCrypto = new SimpleCrypto(uid);
         let decryptedNote = {};
+
         try {
           decryptedNote = simpleCrypto.decrypt(item, true);
           return decryptedNote;
@@ -56,14 +58,17 @@ export const addNote = async (store, note) => {
     .ref()
     .child(`users/${uid}/list/`)
     .push().key;
+
   newNote.id = newNoteKey;
   const list = store.state.list.concat(note);
+
   store.setState({list});
   updateAsyncStorage(list);
   const updates = {};
   // Encrypting text before sending to DB
   const simpleCrypto = new SimpleCrypto(uid);
   const encryptedNote = simpleCrypto.encrypt(newNote);
+
   updates[`/users/${uid}/list/${newNoteKey}`] = encryptedNote;
   return database()
     .ref()
@@ -73,6 +78,7 @@ export const addNote = async (store, note) => {
 export const editNote = async (store, note) => {
   const {list} = store.state;
   const index = list.findIndex(i => i.id === note.id);
+
   list[index] = note;
   store.setState({list});
   updateAsyncStorage(list);
@@ -82,6 +88,7 @@ export const editNote = async (store, note) => {
   // Enrypting edited note
   const simpleCrypto = new SimpleCrypto(uid);
   const encryptedNote = simpleCrypto.encrypt(note);
+
   updates[`/users/${uid}/list/${note.id}`] = encryptedNote;
   return database()
     .ref()
@@ -91,12 +98,14 @@ export const editNote = async (store, note) => {
 export const deleteNote = async (store, noteId) => {
   const {list} = store.state;
   const index = list.findIndex(i => i.id === noteId);
+
   list.splice(index, 1);
   store.setState({list});
   updateAsyncStorage(list);
   // Updating the post in firebase
   const uid = await AsyncStorage.getItem('uid');
   const updates = {};
+
   updates[`/users/${uid}/list/${noteId}`] = null;
   return database()
     .ref()
@@ -108,6 +117,7 @@ export const toggleDarkMode = async (store, darkMode) => {
   await AsyncStorage.setItem('darkMode', JSON.stringify(darkMode));
   const uid = await AsyncStorage.getItem('uid');
   const updates = {};
+
   updates[`/users/${uid}/preferences/darkMode`] = darkMode;
   return database()
     .ref()
@@ -119,13 +129,14 @@ export const toggleBiometric = async (store, biometric) => {
   await AsyncStorage.setItem('biometric', JSON.stringify(biometric));
   const uid = await AsyncStorage.getItem('uid');
   const updates = {};
+
   updates[`/users/${uid}/preferences/biometric`] = biometric;
   return database()
     .ref()
     .update(updates);
 };
 
-export const logout = async store => {
+export const logout = store => {
   store.setState({list: [], darkMode: false});
   updateAsyncStorage([], 'list');
 };
