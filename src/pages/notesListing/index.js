@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
   Text,
-  SafeAreaView,
   FlatList,
 } from 'react-native';
 import ActionButton, {Item} from 'react-native-action-button';
@@ -94,7 +93,7 @@ const NotesListing = memo(props => {
   }
 
   return (
-    <SafeAreaView style={safeAreaView}>
+    <View style={safeAreaView}>
       <StatusBar
         backgroundColor={primaryColor}
         barStyle={darkMode ? 'dark-content' : 'light-content'}
@@ -183,7 +182,7 @@ const NotesListing = memo(props => {
           />
         </Item>
       </ActionButton>
-    </SafeAreaView>
+    </View>
   );
 });
 

@@ -22,6 +22,7 @@ const useStyle = darkMode => {
     titleStyle: {
       fontFamily: 'Product Sans',
       fontSize: 24,
+      minHeight: 24,
       fontWeight: '600',
       marginBottom: 5,
       color: darkMode ? white : black,
