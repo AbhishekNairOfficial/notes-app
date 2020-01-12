@@ -1,5 +1,6 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, PixelRatio} from 'react-native';
 import {signInBackground} from '../../config';
+import {elevationShadowStyle} from '../../functions';
 
 const useStyle = () =>
   StyleSheet.create({
@@ -14,20 +15,27 @@ const useStyle = () =>
     googleButton: {
       width: 312,
       height: 48,
+      ...elevationShadowStyle(3),
     },
     text: {
-      fontSize: 28,
+      fontSize: PixelRatio.get() > 1.5 ? 28 : 24,
       marginBottom: 10,
       fontFamily: 'Product Sans',
     },
     description: {
-      fontSize: 18,
+      fontSize: PixelRatio.get() > 1.5 ? 18 : 26,
       fontFamily: 'Product Sans',
+      textAlign: 'center',
       margin: 15,
     },
     image: {
+      ...elevationShadowStyle(3),
+      marginBottom: 20,
       width: Dimensions.get('screen').width / 2,
       height: Dimensions.get('screen').width / 2,
+    },
+    animationStyle: {
+      height: 300,
     },
   });
 

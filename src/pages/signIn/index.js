@@ -1,14 +1,7 @@
-import React, {useState, useEffect, memo} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StatusBar,
-  SafeAreaView,
-  ActivityIndicator,
-  // TouchableOpacity,
-} from 'react-native';
+import React, {useState, useRef, useEffect, memo} from 'react';
+import {View, Text, StatusBar, SafeAreaView} from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
+import LottieView from 'lottie-react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {
@@ -16,8 +9,8 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from 'react-native-google-signin';
-import signInImage from '../../../assets/sign_in_background_2.png';
-import {signInBackground, primaryColor} from '../../config';
+
+import {signInBackground} from '../../config';
 import useGlobal from '../../store';
 import {trackScreenView} from '../../functions';
 import useStyle from './styles';
@@ -27,7 +20,15 @@ const SignIn = memo(({navigation}) => {
   const [, globalActions] = useGlobal();
   const [initilizing, setInitilizing] = useState(true);
   const [statusText, setStatusText] = useState('');
-  const {container, text, googleButton, description, image} = useStyle();
+  const {
+    container,
+    text,
+    googleButton,
+    description,
+    image,
+    animationStyle,
+  } = useStyle();
+  const animationRef = useRef();
 
   // Small function to give me easy await functionality
   const sleep = m => new Promise(r => setTimeout(r, m));
@@ -56,6 +57,7 @@ const SignIn = memo(({navigation}) => {
       const {idToken} = await GoogleSignin.signIn();
 
       setStatusText('Loading your details...');
+      animationRef.current.play(0, 20);
       const {accessToken} = await GoogleSignin.getTokens();
       const credential = auth.GoogleAuthProvider.credential(
         idToken,
@@ -64,44 +66,46 @@ const SignIn = memo(({navigation}) => {
       const userInfo = await auth().signInWithCredential(credential);
       const {uid, email, displayName} = userInfo.user;
 
+      animationRef.current.play(21, 60);
       setStatusText('Checking whether you already have used the app before..');
       // Create a reference
       const ref = database().ref(`/users/${uid}`);
 
       globalActions.updateUid(uid);
       // Checking whether the user already has data here
-      await database()
+      const snapshot = await database()
         .ref(`/users/${uid}`)
-        .once('value')
-        .then(async snapshot => {
-          const userProfile = snapshot.val();
+        .once('value');
 
-          if (userProfile === null) {
-            // User doesn't exist
-            // Creating Initial State for user
-            setStatusText('Creating a user profile for you...!');
-            await ref.set({
-              uid,
-              name: displayName,
-              email,
-              preferences: {darkMode: false},
-              list: [],
-            });
-          } else {
-            // User has already used the app
-            setStatusText('Loading all your notes from Google...');
-            await sleep(1000);
-            const {list, preferences} = userProfile;
+      const userProfile = snapshot.val();
 
-            if (list) {
-              await globalActions.addAllNotes(Object.values(list));
-            }
-            globalActions.toggleDarkMode(preferences.darkMode);
-          }
-          setStatusText('All Set!');
-          await sleep(1000);
-          navigation.navigate('App');
+      animationRef.current.play(61, 80);
+      if (userProfile === null) {
+        // User doesn't exist
+        // Creating Initial State for user
+        setStatusText('Creating a user profile for you...!');
+        animationRef.current.play(81, 120);
+        await ref.set({
+          uid,
+          name: displayName,
+          email,
+          preferences: {darkMode: false},
+          list: [],
         });
+      } else {
+        // User has already used the app
+        setStatusText('Loading all your notes from Google...');
+        animationRef.current.play(81, 120);
+        const {list, preferences} = userProfile;
+
+        if (list) {
+          await globalActions.addAllNotes(Object.values(list));
+        }
+        globalActions.toggleDarkMode(preferences.darkMode);
+      }
+      setStatusText('All Set!');
+      await sleep(1000);
+      navigation.navigate('App');
     } catch (error) {
       await crashlytics().recordError(new Error(error));
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -121,11 +125,22 @@ const SignIn = memo(({navigation}) => {
       <StatusBar backgroundColor={signInBackground} barStyle="dark-content" />
       {statusText !== '' && (
         <SafeAreaView style={container}>
-          <ActivityIndicator size="large" color={primaryColor} />
           <Text style={text}>{statusText}</Text>
+          <LottieView
+            ref={animationRef}
+            style={animationStyle}
+            source={require('../../../assets/download_animation.json')}
+            loop={false}
+          />
         </SafeAreaView>
       )}
-      <Image style={image} source={signInImage} />
+      <LottieView
+        ref={animationRef}
+        style={image}
+        source={require('../../../assets/welcome_animation.json')}
+        loop
+        autoPlay
+      />
       <Text style={text}>Hi there, Stranger</Text>
       <Text style={text}>Welcome to NotesApp!</Text>
       <Text style={description}>

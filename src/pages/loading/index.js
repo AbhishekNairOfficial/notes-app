@@ -1,5 +1,5 @@
-import React, {useState, useEffect, memo} from 'react';
-import {ActivityIndicator, StatusBar, View, Text} from 'react-native';
+import React, {useState, useRef, useEffect, memo} from 'react';
+import {StatusBar, View, Text} from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import database from '@react-native-firebase/database';
 import perf from '@react-native-firebase/perf';
@@ -7,7 +7,8 @@ import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import {firebase} from '@react-native-firebase/auth';
 import {SafeAreaView} from 'react-navigation';
-import {secondaryColor, primaryColor, googleConfig} from '../../config';
+import LottieView from 'lottie-react-native';
+import {secondaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
 import {trackScreenView, biometricAuthentication} from '../../functions';
 import useStyles from './styles';
@@ -17,7 +18,8 @@ const AuthLoadingScreen = memo(props => {
   const [, globalActions] = useGlobal();
   const [statusText, setStatusText] = useState('Loading..');
   const [userName, setUsername] = useState('');
-  const {container, text} = useStyles();
+  const {container, text, animationStyle} = useStyles();
+  const animationRef = useRef();
 
   useEffect(() => {
     trackScreenView('LoadingPage');
@@ -41,12 +43,15 @@ const AuthLoadingScreen = memo(props => {
     const getCurrentUserInfo = async () => {
       try {
         // Trying to Sign in Silently
+        animationRef.current.play(0, 20);
+
         if (userName) {
           setStatusText(`Welcome back, ${userName}!`);
         }
         const userInfo = await firebase.auth().currentUser;
 
         if (userInfo) {
+          animationRef.current.play(20, 40);
           // Using Firebase Performance plugin to measure time taken to sign in silently
           const trace = await perf().startTrace('silent_sign_in');
           const startTime = new Date().getTime();
@@ -56,6 +61,7 @@ const AuthLoadingScreen = memo(props => {
           setUsername(_user.displayName);
 
           setStatusText(`Getting your data ready!`);
+          animationRef.current.play(41, 60);
           const listFromStorage = await AsyncStorage.getItem('list');
 
           globalActions.addAllNotes(JSON.parse(listFromStorage));
@@ -68,6 +74,8 @@ const AuthLoadingScreen = memo(props => {
           const userProfile = snapshot.val();
           const {list, preferences} = userProfile;
 
+          animationRef.current.play(61, 90);
+
           globalActions.toggleDarkMode(preferences.darkMode);
           globalActions.toggleBiometric(preferences.biometric);
           // Ending the firebase performance monitoring
@@ -75,8 +83,9 @@ const AuthLoadingScreen = memo(props => {
 
           trace.putAttribute('user_id', uid);
           trace.putMetric('time_taken', endTime - startTime);
+          animationRef.current.play(81, 120);
           await trace.stop();
-          goToApp(preferences.biometric);
+          await goToApp(preferences.biometric);
           if (list) {
             await globalActions.addAllNotes(Object.values(list));
           }
@@ -109,8 +118,13 @@ const AuthLoadingScreen = memo(props => {
     <View>
       <StatusBar backgroundColor={secondaryColor} barStyle="dark-content" />
       <SafeAreaView style={container}>
-        <ActivityIndicator size="large" color={primaryColor} />
         <Text style={text}>{statusText}</Text>
+        <LottieView
+          ref={animationRef}
+          style={animationStyle}
+          source={require('../../../assets/download_animation.json')}
+          loop={false}
+        />
       </SafeAreaView>
     </View>
   );
