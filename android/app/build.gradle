@@ -83,6 +83,7 @@ crashlytics {
 
 project.ext.react = [
     entryFile: "index.js",
+    bundleCommand: "ram-bundle",
     enableHermes: false,  // clean and rebuild if changing
 ]
 
@@ -144,7 +145,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         versionCode 1
         multiDexEnabled true
-        versionName '1.2.9'
+        versionName '1.3.0'
     }
     splits {
         abi {
