@@ -1,7 +1,9 @@
 import React, {memo} from 'react';
 import {Text} from 'react-native';
-import useStyle from './styles';
+
 import {useDarkMode} from '../../functions';
+
+import useStyle from './styles';
 
 const LogoTitle = memo(() => {
   const darkMode = useDarkMode();

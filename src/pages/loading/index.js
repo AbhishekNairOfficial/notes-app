@@ -1,16 +1,20 @@
 import React, {useState, useRef, useEffect, memo} from 'react';
 import {StatusBar, View, Text} from 'react-native';
+import {GoogleSignin, statusCodes} from 'react-native-google-signin';
+import {SafeAreaView} from 'react-navigation';
+import LottieView from 'lottie-react-native';
+
 import crashlytics from '@react-native-firebase/crashlytics';
 import database from '@react-native-firebase/database';
 import perf from '@react-native-firebase/perf';
-import {GoogleSignin, statusCodes} from 'react-native-google-signin';
-import AsyncStorage from '@react-native-community/async-storage';
 import {firebase} from '@react-native-firebase/auth';
-import {SafeAreaView} from 'react-navigation';
-import LottieView from 'lottie-react-native';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {secondaryColor, googleConfig} from '../../config';
 import useGlobal from '../../store';
 import {trackScreenView, biometricAuthentication} from '../../functions';
+
 import useStyles from './styles';
 
 const AuthLoadingScreen = memo(props => {

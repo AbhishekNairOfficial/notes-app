@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
+
 import {placeHolderColorDark} from '../../config';
+
 import useStyle from './styles';
 
 const ModalComponent = props => {

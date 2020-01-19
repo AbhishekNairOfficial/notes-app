@@ -1,10 +1,13 @@
 import React, {memo, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import analytics from '@react-native-firebase/analytics';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+
+import analytics from '@react-native-firebase/analytics';
+
 import useGlobal from '../../store';
 import ModalComponent from '../modal';
 import {useDarkMode} from '../../functions';
+
 import useStyle from './styles';
 
 const ListItem = memo(props => {

@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions, PixelRatio} from 'react-native';
+
 import {signInBackground} from '../../config';
 import {elevationShadowStyle} from '../../functions';
 

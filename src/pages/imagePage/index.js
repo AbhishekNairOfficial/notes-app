@@ -7,16 +7,18 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import ActionSheet from 'react-native-actionsheet';
+import ImagePicker from 'react-native-image-crop-picker';
+
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import perf from '@react-native-firebase/perf';
-import ActionSheet from 'react-native-actionsheet';
 import vision from '@react-native-firebase/ml-vision';
-import ImagePicker from 'react-native-image-crop-picker';
-import useStyle from './styles';
 
 import {useDarkMode, trackScreenView} from '../../functions';
 import {black, secondaryColor, primaryColor} from '../../config';
+
+import useStyle from './styles';
 
 let wavingImage = null;
 

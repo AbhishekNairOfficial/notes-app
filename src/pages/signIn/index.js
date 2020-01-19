@@ -1,18 +1,20 @@
 import React, {useState, useRef, useEffect, memo} from 'react';
 import {View, Text, StatusBar, SafeAreaView} from 'react-native';
-import crashlytics from '@react-native-firebase/crashlytics';
 import LottieView from 'lottie-react-native';
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from 'react-native-google-signin';
 
+import crashlytics from '@react-native-firebase/crashlytics';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+
 import {signInBackground} from '../../config';
 import useGlobal from '../../store';
 import {trackScreenView} from '../../functions';
+
 import useStyle from './styles';
 
 const SignIn = memo(({navigation}) => {

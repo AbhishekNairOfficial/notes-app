@@ -1,6 +1,9 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import database from '@react-native-firebase/database';
 import SimpleCrypto from 'simple-crypto-js';
+
+import database from '@react-native-firebase/database';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 // eslint-disable-next-line import/no-cycle
 import {debounce} from '../functions';
 

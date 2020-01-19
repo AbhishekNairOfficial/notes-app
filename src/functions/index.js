@@ -1,7 +1,9 @@
 import {useState, useEffect} from 'react';
 import {Alert} from 'react-native';
-import analytics from '@react-native-firebase/analytics';
 import TouchID from 'react-native-touch-id';
+
+import analytics from '@react-native-firebase/analytics';
+
 // eslint-disable-next-line import/no-cycle
 import useGlobal from '../store';
 

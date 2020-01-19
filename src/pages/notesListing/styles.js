@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+
 import {
   black,
   white,

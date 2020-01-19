@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+
 import {black, white, secondaryColor, buttonColor} from '../../config';
 
 const useStyle = darkMode =>

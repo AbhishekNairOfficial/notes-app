@@ -1,15 +1,18 @@
 import React, {useState, memo, useEffect} from 'react';
 import {View, Text, Switch, SafeAreaView} from 'react-native';
-import crashlytics from '@react-native-firebase/crashlytics';
-import auth from '@react-native-firebase/auth';
-import analytics from '@react-native-firebase/analytics';
 import {GoogleSignin} from 'react-native-google-signin';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+
+import auth from '@react-native-firebase/auth';
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 import ModalComponent from '../../components/modal';
-import useStyles from './styles';
 import useGlobal from '../../store';
 import {useDarkMode, trackScreenView} from '../../functions';
 import {secondaryColor, black, primaryColor} from '../../config';
+
+import useStyles from './styles';
 
 const SettingsPage = memo(({navigation}) => {
   const darkMode = useDarkMode();

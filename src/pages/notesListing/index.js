@@ -9,11 +9,14 @@ import {
 } from 'react-native';
 import ActionButton, {Item} from 'react-native-action-button';
 import ContentLoader from 'react-native-easy-content-loader';
+
 import analytics from '@react-native-firebase/analytics';
+
 import useGlobal from '../../store';
 import {primaryColor, buttonColor} from '../../config';
 import LogoTitle from '../../components/title';
 import {useDarkMode, trackScreenView} from '../../functions';
+
 import useStyle from './styles';
 
 const ListItem = React.lazy(() => import('../../components/listItem'));

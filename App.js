@@ -8,6 +8,7 @@
 
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+
 import AuthLoadingScreen from './src/pages/loading';
 import SignIn from './src/pages/signIn';
 import NotesListing from './src/pages/notesListing';
