@@ -19,8 +19,9 @@ const useStyle = () =>
       ...elevationShadowStyle(3),
     },
     text: {
-      fontSize: PixelRatio.get() > 1.5 ? 28 : 24,
+      fontSize: PixelRatio.get() > 1.5 ? 24 : 22,
       marginBottom: 10,
+      lineHeight: PixelRatio.get() > 1.5 ? 28 : 24,
       fontFamily: 'Product Sans',
     },
     description: {
