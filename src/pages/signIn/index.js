@@ -53,6 +53,23 @@ const SignIn = memo(({navigation}) => {
 
   if (initilizing) return null;
 
+  const animation = () => {
+    const randomNumber = Math.floor(Math.random() * 4);
+
+    if (randomNumber === 0) {
+      return require('../../../assets/welcome_animation.json');
+    }
+    if (randomNumber === 1) {
+      return require('../../../assets/dog_avatar_animation.json');
+    }
+    if (randomNumber === 2) {
+      return require('../../../assets/happy_dog_animation.json');
+    }
+    if (randomNumber === 3) {
+      return require('../../../assets/welcome_pigeon_animation.json');
+    }
+  };
+
   const onSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -139,7 +156,7 @@ const SignIn = memo(({navigation}) => {
       <LottieView
         ref={animationRef}
         style={image}
-        source={require('../../../assets/welcome_animation.json')}
+        source={animation()}
         loop
         autoPlay
       />
