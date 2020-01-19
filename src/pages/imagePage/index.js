@@ -20,8 +20,6 @@ import {black, secondaryColor, primaryColor} from '../../config';
 
 import useStyle from './styles';
 
-let wavingImage = null;
-
 const ImagePage = memo(({navigation}) => {
   const darkMode = useDarkMode();
   const [processing, setProcessing] = useState(false);
@@ -119,10 +117,6 @@ const ImagePage = memo(({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [darkMode],
   );
-
-  if (wavingImage === null) {
-    wavingImage = require('../../../assets/waving_gif.gif');
-  }
 
   useEffect(() => {
     trackScreenView('ImagesPage');
