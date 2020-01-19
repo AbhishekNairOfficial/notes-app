@@ -13,13 +13,15 @@ const useStyles = () =>
       justifyContent: 'center',
     },
     text: {
-      fontSize: 28,
+      fontSize: 24,
+      lineHeight: 28,
       fontWeight: 'bold',
       textAlign: 'center',
       fontFamily: 'Product Sans',
     },
     animationStyle: {
-      height: 300,
+      height: 200,
+      marginVertical: 20,
     },
   });
 

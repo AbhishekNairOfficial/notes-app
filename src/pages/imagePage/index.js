@@ -3,10 +3,10 @@ import {
   ScrollView,
   Dimensions,
   Text,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 import ActionSheet from 'react-native-actionsheet';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -133,11 +133,11 @@ const ImagePage = memo(({navigation}) => {
       contentContainerStyle={contentContainerStyles}
       style={container}
     >
-      <Image
-        resizeMethod="auto"
-        resizeMode="center"
+      <LottieView
+        loop
+        autoPlay
         style={imageStyles}
-        source={wavingImage}
+        source={require('../../../assets/animations/welcome_pigeon_animation.json')}
       />
       <Text style={[mainText, textStyle]}>Hey there!</Text>
       <Text style={[paragraph, textStyle]}>

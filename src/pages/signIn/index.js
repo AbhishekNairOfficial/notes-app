@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {View, Text, StatusBar, SafeAreaView} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {
@@ -30,7 +30,6 @@ const SignIn = memo(({navigation}) => {
     image,
     animationStyle,
   } = useStyle();
-  const animationRef = useRef();
 
   // Small function to give me easy await functionality
   const sleep = m => new Promise(r => setTimeout(r, m));
@@ -57,16 +56,16 @@ const SignIn = memo(({navigation}) => {
     const randomNumber = Math.floor(Math.random() * 4);
 
     if (randomNumber === 0) {
-      return require('../../../assets/welcome_animation.json');
+      return require('../../../assets/animations/welcome_animation.json');
     }
     if (randomNumber === 1) {
-      return require('../../../assets/dog_avatar_animation.json');
+      return require('../../../assets/animations/dog_avatar_animation.json');
     }
     if (randomNumber === 2) {
-      return require('../../../assets/happy_dog_animation.json');
+      return require('../../../assets/animations/happy_dog_animation.json');
     }
     if (randomNumber === 3) {
-      return require('../../../assets/welcome_pigeon_animation.json');
+      return require('../../../assets/animations/welcome_pigeon_animation.json');
     }
   };
 
@@ -76,7 +75,6 @@ const SignIn = memo(({navigation}) => {
       const {idToken} = await GoogleSignin.signIn();
 
       setStatusText('Loading your details...');
-      animationRef.current.play(0, 20);
       const {accessToken} = await GoogleSignin.getTokens();
       const credential = auth.GoogleAuthProvider.credential(
         idToken,
@@ -85,7 +83,6 @@ const SignIn = memo(({navigation}) => {
       const userInfo = await auth().signInWithCredential(credential);
       const {uid, email, displayName} = userInfo.user;
 
-      animationRef.current.play(21, 60);
       setStatusText('Checking whether you already have used the app before..');
       // Create a reference
       const ref = database().ref(`/users/${uid}`);
@@ -98,12 +95,11 @@ const SignIn = memo(({navigation}) => {
 
       const userProfile = snapshot.val();
 
-      animationRef.current.play(61, 80);
       if (userProfile === null) {
         // User doesn't exist
         // Creating Initial State for user
         setStatusText('Creating a user profile for you...!');
-        animationRef.current.play(81, 120);
+
         await ref.set({
           uid,
           name: displayName,
@@ -114,7 +110,6 @@ const SignIn = memo(({navigation}) => {
       } else {
         // User has already used the app
         setStatusText('Loading all your notes from Google...');
-        animationRef.current.play(81, 120);
         const {list, preferences} = userProfile;
 
         if (list) {
@@ -146,20 +141,14 @@ const SignIn = memo(({navigation}) => {
         <SafeAreaView style={container}>
           <Text style={text}>{statusText}</Text>
           <LottieView
-            ref={animationRef}
             style={animationStyle}
-            source={require('../../../assets/download_animation.json')}
-            loop={false}
+            source={require('../../../assets/animations/rolling_pencil_animation.json')}
+            loop
+            autoPlay
           />
         </SafeAreaView>
       )}
-      <LottieView
-        ref={animationRef}
-        style={image}
-        source={animation()}
-        loop
-        autoPlay
-      />
+      <LottieView style={image} source={animation()} loop autoPlay />
       <Text style={text}>Hi there, Stranger</Text>
       <Text style={text}>Welcome to NotesApp!</Text>
       <Text style={description}>

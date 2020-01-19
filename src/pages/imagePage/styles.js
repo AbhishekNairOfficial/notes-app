@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 import {black, white, secondaryColor, buttonColor} from '../../config';
 
@@ -14,8 +14,7 @@ const useStyle = darkMode =>
       padding: 20,
     },
     imageStyles: {
-      height: 300,
-      maxWidth: '60%',
+      height: Dimensions.get('window').height / 3,
     },
     mainText: {
       fontSize: 28,

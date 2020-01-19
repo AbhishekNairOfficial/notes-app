@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, memo} from 'react';
+import React, {useState, useEffect, memo} from 'react';
 import {StatusBar, View, Text} from 'react-native';
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import {SafeAreaView} from 'react-navigation';
@@ -21,9 +21,7 @@ const AuthLoadingScreen = memo(props => {
   const {navigation} = props;
   const [, globalActions] = useGlobal();
   const [statusText, setStatusText] = useState('Loading..');
-  const [userName, setUsername] = useState('');
   const {container, text, animationStyle} = useStyles();
-  const animationRef = useRef();
 
   useEffect(() => {
     trackScreenView('LoadingPage');
@@ -47,25 +45,18 @@ const AuthLoadingScreen = memo(props => {
     const getCurrentUserInfo = async () => {
       try {
         // Trying to Sign in Silently
-        animationRef.current.play(0, 20);
 
-        if (userName) {
-          setStatusText(`Welcome back, ${userName}!`);
-        }
         const userInfo = await firebase.auth().currentUser;
 
         if (userInfo) {
-          animationRef.current.play(20, 40);
           // Using Firebase Performance plugin to measure time taken to sign in silently
           const trace = await perf().startTrace('silent_sign_in');
           const startTime = new Date().getTime();
           // User is signed in.
           const {_user} = userInfo;
 
-          setUsername(_user.displayName);
+          setStatusText(`Welcome back, ${_user.displayName.split(' ')[0]}!`);
 
-          setStatusText(`Getting your data ready!`);
-          animationRef.current.play(41, 60);
           const listFromStorage = await AsyncStorage.getItem('list');
 
           globalActions.addAllNotes(JSON.parse(listFromStorage));
@@ -78,8 +69,6 @@ const AuthLoadingScreen = memo(props => {
           const userProfile = snapshot.val();
           const {list, preferences} = userProfile;
 
-          animationRef.current.play(61, 90);
-
           globalActions.toggleDarkMode(preferences.darkMode);
           globalActions.toggleBiometric(preferences.biometric);
           // Ending the firebase performance monitoring
@@ -87,8 +76,8 @@ const AuthLoadingScreen = memo(props => {
 
           trace.putAttribute('user_id', uid);
           trace.putMetric('time_taken', endTime - startTime);
-          animationRef.current.play(81, 120);
           await trace.stop();
+          setStatusText(`Getting your data ready!`);
           await goToApp(preferences.biometric);
           if (list) {
             await globalActions.addAllNotes(Object.values(list));
@@ -124,10 +113,10 @@ const AuthLoadingScreen = memo(props => {
       <SafeAreaView style={container}>
         <Text style={text}>{statusText}</Text>
         <LottieView
-          ref={animationRef}
+          loop
+          autoPlay
           style={animationStyle}
-          source={require('../../../assets/download_animation.json')}
-          loop={false}
+          source={require('../../../assets/animations/writing_pencil_animation.json')}
         />
       </SafeAreaView>
     </View>
