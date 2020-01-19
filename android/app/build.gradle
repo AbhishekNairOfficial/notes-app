@@ -2,6 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'io.fabric'
 
+import groovy.json.JsonSlurper
 import com.android.build.OutputFile
 
 /**
@@ -126,6 +127,16 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+// Create an easy to use function
+def getVersionFromNpm() {
+    //  Read and parse package.json file from project root
+    def inputFile = new File("$rootDir/../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+
+    // Return the version, you can get any value this way
+    return packageJson["version"]
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -145,7 +156,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         versionCode 1
         multiDexEnabled true
-        versionName '1.3.0'
+        versionName getVersionFromNpm()
     }
     splits {
         abi {
