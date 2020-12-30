@@ -51,6 +51,7 @@ const ListItem = memo(props => {
       new Date(timeAtMidnightToday).getDate() - 1,
     );
     const timeOfOneWeekAgo = d.setDate(new Date().getDate() - 7);
+    const timeOfOneYearAgo = d.setFullYear(new Date().getFullYear() - 1);
 
     if (lastEditedTime >= timeAtMidnightToday) {
       // Today
@@ -74,7 +75,25 @@ const ListItem = memo(props => {
       return arrayOfDays[new Date(lastEditedTime).getDay()];
     }
     // A week or before
-    return new Date(lastEditedTime).toDateString();
+    if (lastEditedTime >= timeOfOneYearAgo) {
+      const arrayOfMonths = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+      return arrayOfMonths[new Date(lastEditedTime).getMonth()];
+    }
+    // A year or before
+    return new Date(lastEditedTime).getFullYear();
   };
 
   return (
