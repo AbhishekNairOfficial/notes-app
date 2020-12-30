@@ -16,13 +16,14 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Toast from 'react-native-simple-toast';
-import analytics from '@react-native-firebase/analytics';
-import crashlytics from '@react-native-firebase/crashlytics';
 import useDebouncedEffect from 'use-debounced-effect';
 import {NavigationEvents} from 'react-navigation';
+
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 import {debounce, useDarkMode, trackScreenView} from '../../functions';
 import useGlobal from '../../store';
-import useStyle from './styles';
 import {
   secondaryColor,
   black,
@@ -30,6 +31,8 @@ import {
   placeHolderColor,
   primaryColor,
 } from '../../config';
+
+import useStyle from './styles';
 
 let shareIconDark = null;
 let shareIcon = null;
@@ -91,6 +94,7 @@ const NotesPage = memo(props => {
   const callAddNoteAction = useCallback(
     nextAppState => {
       const appIsActive = nextAppState === 'active';
+
       if (appIsActive) {
         // When you return from multi tasking, back to the app.
         // No need to save again.
@@ -99,6 +103,7 @@ const NotesPage = memo(props => {
       const inputValidation = () => {
         return title || body;
       };
+
       if (!inputValidation()) {
         return;
       }
@@ -108,6 +113,7 @@ const NotesPage = memo(props => {
         body,
         time: new Date().getTime(),
       };
+
       if (!id) {
         globalActions.addNote(newNote);
       } else {

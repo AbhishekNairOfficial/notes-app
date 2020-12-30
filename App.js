@@ -8,12 +8,15 @@
 
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+
 import AuthLoadingScreen from './src/pages/loading';
 import SignIn from './src/pages/signIn';
 import NotesListing from './src/pages/notesListing';
 import NotesPage from './src/pages/notesPage';
 import ImagePage from './src/pages/imagePage';
+import SettingsPage from './src/pages/settingsPage';
 import {primaryColor, secondaryColor} from './src/config';
+import {elevationShadowStyle} from './src/functions';
 
 const AuthStack = createStackNavigator({SignIn});
 const AppStack = createStackNavigator(
@@ -21,6 +24,7 @@ const AppStack = createStackNavigator(
     Listing: NotesListing,
     Note: NotesPage,
     Image: ImagePage,
+    Settings: SettingsPage,
   },
   {
     initialRouteName: 'Listing',
@@ -28,7 +32,9 @@ const AppStack = createStackNavigator(
     headerLayoutPreset: 'center',
     defaultNavigationOptions: {
       headerStyle: {
+        height: 60,
         backgroundColor: primaryColor,
+        ...elevationShadowStyle(3),
       },
       headerTintColor: secondaryColor,
     },

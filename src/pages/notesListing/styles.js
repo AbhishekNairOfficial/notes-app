@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+
 import {
   black,
   white,
@@ -21,7 +22,7 @@ const useStyle = darkMode =>
     },
     emptyContainer: {
       justifyContent: 'flex-start',
-      backgroundColor: darkMode ? black : white,
+      backgroundColor: darkMode ? black : secondaryColor,
       opacity: darkMode ? 1 : 9.5,
       alignItems: 'center',
       flex: 1,

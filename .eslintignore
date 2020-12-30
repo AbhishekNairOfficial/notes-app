@@ -1,2 +1,4 @@
 fixAndroid/*.js
 node_modules
+android
+ios

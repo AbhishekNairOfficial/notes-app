@@ -1,7 +1,9 @@
 import 'react-native';
 import React from 'react';
 import renderer from 'react-test-renderer';
+
 import AsyncStorage from '@react-native-community/async-storage';
+
 import SignIn from '.';
 
 it('renders SignIn correctly', () => {

@@ -25,6 +25,7 @@
 		87A0C51DC316452EABF47519 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CA88248682554A4FBF37C5AA /* add_btn.png */; };
 		8E42886423114BA20003ABFC /* Product Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C357706D8E124DE88223247F /* Product Sans.ttf */; };
 		8E4D90702365A0BC00E0A1F7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		8E72C62D23CAFA2500869E4F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E72C62C23CAFA2500869E4F /* File.swift */; };
 		8E9C3CB2235C3A10009A6B26 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C3CB1235C3A0F009A6B26 /* GoogleService-Info.plist */; };
 		94C828C921F446D4B35F6520 /* sign_in_background_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D2B611F844010956E02EB /* sign_in_background_2.png */; };
 		9DAA87E9EF5E4B99B0E176F0 /* share_icon.svg in Resources */ = {isa = PBXBuildFile; fileRef = B72B7FEE2EF94182B6CB51CF /* share_icon.svg */; };
@@ -79,6 +80,8 @@
 		7F55C5219BD04FC6A1100B1E /* listing_page_background.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = listing_page_background.jpg; path = ../assets/listing_page_background.jpg; sourceTree = "<group>"; };
 		853C487830A34EDD582438AC /* libPods-notesapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A85B4C344640D87B7417834 /* Pods-notesapp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOS/Pods-notesapp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		8E72C62B23CAFA2400869E4F /* notesapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "notesapp-Bridging-Header.h"; sourceTree = "<group>"; };
+		8E72C62C23CAFA2500869E4F /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		8E9C3CB1235C3A0F009A6B26 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "notesapp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		91529FC06F1B381F266C2071 /* Pods-notesapp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesapp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-notesapp-tvOSTests/Pods-notesapp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		91E9ACFE89DD4192BCB9DE00 /* add_btn_dark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = add_btn_dark.png; path = ../assets/add_btn_dark.png; sourceTree = "<group>"; };
@@ -207,6 +210,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8E72C62C23CAFA2500869E4F /* File.swift */,
 				8E9C3CB1235C3A0F009A6B26 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* notesapp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -215,6 +219,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				8F7EE9FF3C68638CC35AEDB1 /* Pods */,
 				00E264BCE38343E99037861C /* Resources */,
+				8E72C62B23CAFA2400869E4F /* notesapp-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 6DB2L525PC;
+						LastSwiftMigration = 1130;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -442,7 +448,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\nif [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n export SKIP_BUNDLING=true\nfi\n";
 		};
 		052EF91223C0A7FCF4468EC3 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -661,6 +667,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				8E72C62D23CAFA2500869E4F /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -714,6 +721,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC5945605DB7CB5C93C3CF95 /* Pods-notesappTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -737,6 +745,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7F2B955AADEDA0D018C1E89 /* Pods-notesappTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = notesappTests/Info.plist;
@@ -758,12 +767,75 @@
 			baseConfigurationReference = 1AB62FC44BC98AF909F9ECD3 /* Pods-notesapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.8;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AppAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseABTesting\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseDatabase\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstanceID\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseRemoteConfig\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMAppAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleAPIClientForREST\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransportCCTSupport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Protobuf\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBAnalytics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBApp\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBCrashlytics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBDatabase\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBMLVision\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBPerf\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNGestureHandler\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNGoogleSignin\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RSKImageCropper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTActionSheet\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Toast\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TouchID\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-simple-toast\"",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				MARKETING_VERSION = 1.3.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -771,6 +843,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.notesapp;
 				PRODUCT_NAME = notesapp;
+				SWIFT_OBJC_BRIDGING_HEADER = "notesapp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -780,11 +855,74 @@
 			baseConfigurationReference = 6E70EB42984E7B5A0670E5EB /* Pods-notesapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6DB2L525PC;
 				INFOPLIST_FILE = notesapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.8;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AppAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseABTesting\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseDatabase\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstanceID\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseRemoteConfig\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMAppAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleAPIClientForREST\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransportCCTSupport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Protobuf\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBAnalytics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBApp\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBCrashlytics\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBDatabase\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBMLVision\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFBPerf\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNGestureHandler\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNGoogleSignin\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RSKImageCropper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTActionSheet\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Toast\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TouchID\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-simple-toast\"",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				MARKETING_VERSION = 1.3.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -792,6 +930,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.notesapp;
 				PRODUCT_NAME = notesapp;
+				SWIFT_OBJC_BRIDGING_HEADER = "notesapp-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
